@@ -500,6 +500,10 @@ Namespace CompuMaster.Data.Outlook
             Return New FolderPathRepresentation(Me, store, folder)
         End Function
 
+        Public Function Stores() As Stores
+            Return Me.NamespaceMapi.Stores
+        End Function
+
         Private _DirectorySeparatorChar As Char = "\"c
         ''' <summary>
         ''' The directory separator char which shall be used in all method calls to this class with parameters specifying a directory structure

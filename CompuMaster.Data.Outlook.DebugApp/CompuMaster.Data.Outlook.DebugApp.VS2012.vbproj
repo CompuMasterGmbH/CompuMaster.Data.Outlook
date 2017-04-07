@@ -135,12 +135,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompuMaster.Data.Exchange\CompuMaster.Data.Outlook.VS2012.vbproj">
-      <Project>{113A18B1-00A0-4ADB-8D3D-2DDD338966A1}</Project>
-      <Name>CompuMaster.Data.Outlook.VS2012</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -156,6 +150,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook.VS2012.vbproj">
+      <Project>{115518b1-00a0-4adb-8d3d-2ddd338966a1}</Project>
+      <Name>CompuMaster.Data.Outlook.VS2012</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

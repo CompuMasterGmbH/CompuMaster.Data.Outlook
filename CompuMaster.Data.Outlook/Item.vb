@@ -8,32 +8,39 @@ Namespace CompuMaster.Data.Outlook
 
     Public Class Item
         Private _parentDirectory As Directory
-        Private _exchangeItem As NetOffice.OutlookApi.StorageItem 'Microsoft.Exchange.WebServices.Data.Item
-        Private _service As OutlookApp
-        Public Sub New(service As OutlookApp, item As NetOffice.OutlookApi.StorageItem) 'Microsoft.Exchange.WebServices.Data.Item)
-            _exchangeItem = item
-            _service = service
+        Private _outlookItem As NetOffice.OutlookApi.StorageItem 'Microsoft.Exchange.WebServices.Data.Item
+        Private _outlookApplication As OutlookApp
+        Public Sub New(outlookApplication As OutlookApp, item As NetOffice.OutlookApi.StorageItem) 'Microsoft.Exchange.WebServices.Data.Item)
+            _outlookItem = item
+            _outlookApplication = outlookApplication
         End Sub
-        Public Sub New(service As OutlookApp, item As NetOffice.OutlookApi.StorageItem, parentDirectory As Directory)
+        Public Sub New(outlookApplication As OutlookApp, item As NetOffice.OutlookApi.StorageItem, parentDirectory As Directory)
             _parentDirectory = parentDirectory
-            _exchangeItem = item
-            _service = service
+            _outlookItem = item
+            _outlookApplication = outlookApplication
         End Sub
+
+        Public ReadOnly Property ParentFolderID As String
+            Get
+                Return CType(_outlookItem.Parent, NetOffice.OutlookApi.MAPIFolder).EntryID
+            End Get
+        End Property
 
         Public ReadOnly Property ParentDirectory As Directory
             Get
-                If CType(_exchangeItem.Parent, NetOffice.OutlookApi.MAPIFolder).EntryID = _parentDirectory.ID Then
-                    'pointer to parent directory is really the parent directory
-                    Return _parentDirectory
+                Dim RootDir As Directory
+                If _parentDirectory IsNot Nothing Then
+                    RootDir = _parentDirectory.InitialRootDirectory
                 Else
-                    'pointer to parent directory is not the real directory, but the requested directory might be a child directory of it
-                    For MyCounter As Integer = 0 To _parentDirectory.SubFoldersOfSeveralHierachyLevels.Count - 1
-                        If CType(_exchangeItem.Parent, NetOffice.OutlookApi.MAPIFolder).EntryID = _parentDirectory.SubFoldersOfSeveralHierachyLevels(MyCounter).ID Then
-                            Return _parentDirectory.SubFoldersOfSeveralHierachyLevels(MyCounter)
-                        End If
-                    Next
+                    Throw New NotImplementedException
+                    '_outlookApplication.LookupRootFolder()
+                End If
+                Dim Result As Directory = RootDir.LookupSubDirectory(Me.ParentFolderID)
+                If Result Is Nothing Then
                     'pointer to parent directory is not the real directory, and no matching child directory found
                     Throw New InvalidOperationException("item's parent directory information doesn't match to the referenced parent directory")
+                Else
+                    Return Result
                 End If
             End Get
         End Property
@@ -103,7 +110,7 @@ Namespace CompuMaster.Data.Outlook
         Public ReadOnly Property IsAppointment As Boolean
             Get
                 Try
-                    If _exchangeItem.Class = NetOffice.OutlookApi.Enums.OlObjectClass.olAppointment Then
+                    If _outlookItem.Class = NetOffice.OutlookApi.Enums.OlObjectClass.olAppointment Then
                         Return True
                     Else
                         Return False

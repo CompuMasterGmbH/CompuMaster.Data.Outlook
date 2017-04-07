@@ -3,7 +3,6 @@ Option Strict On
 
 Imports CompuMaster.Data.Outlook
 Imports CompuMaster.Data.Outlook.OutlookApp
-'Imports Microsoft.Exchange.WebServices.Data
 
 Module Module1
 
@@ -84,7 +83,7 @@ Module Module1
             'Dim foldersBelowRoot As Directory() = dirRoot.SubFolders
             Dim testSubFolder As Directory = dirRoot
             Console.WriteLine("TEST SUBS FOR: " & testSubFolder.DisplayName)
-            Console.WriteLine("TEST SUBS FOR: " & testSubFolder.ID)
+            Console.WriteLine("TEST SUBS FOR: " & testSubFolder.FolderID)
             Console.WriteLine("TEST SUBS FOR: " & testSubFolder.SubFolderCount)
             'Console.WriteLine("TEST SUBS FOR: " & testSubFolder.SubFolderCoun)
             'foldersBelowRoot = e2007.ListSubFolders(New FolderPathRepresentation(testSubFolder.ExchangeFolder.))

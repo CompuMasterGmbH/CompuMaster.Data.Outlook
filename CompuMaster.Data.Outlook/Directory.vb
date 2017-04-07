@@ -15,7 +15,6 @@ Namespace CompuMaster.Data.Outlook
 
         Private _outlookWrapper As OutlookApp
         Private _IsRootElementForSubFolderQuery As Boolean = False
-        Private _SubFoldersAlreadyPutIntoHierarchy As Boolean = False
         Private _folder As MAPIFolder
         Private _parentDirectory As Directory
         Private _parentFolder As MAPIFolder
@@ -299,28 +298,23 @@ Namespace CompuMaster.Data.Outlook
         ''' <remarks></remarks>
         Public ReadOnly Property ParentFolderID() As String
             Get
-                Return Me.ParentDirectory.OutlookFolder.EntryID
-                'Throw New NotImplementedException
-                'If _ParentFolderID Is Nothing Then
-                '    _ParentFolderID = CType(_folder.Parent, Object).UniqueId
-                'End If
-                'Return _ParentFolderID
+                Return Me.ParentDirectory.FolderID
             End Get
         End Property
 
-        Private _ID As String
+        Private _FolderID As String
         ''' <summary>
         ''' The unique ID of the folder
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property ID() As String
+        Public ReadOnly Property FolderID() As String
             Get
-                If _ID Is Nothing Then
-                    _ID = _folder.EntryID '.Id.UniqueId
+                If _FolderID Is Nothing Then
+                    _FolderID = _folder.EntryID '.Id.UniqueId
                 End If
-                Return _ID
+                Return _FolderID
             End Get
         End Property
 
@@ -389,9 +383,6 @@ Namespace CompuMaster.Data.Outlook
         ''' <remarks>Parent folder structure can't be looked up till root folder, that's why it's only up to your initial top directory</remarks>
         Public ReadOnly Property ParentDirectory As Directory
             Get
-                If InitialRootDirectory._SubFoldersAlreadyPutIntoHierarchy = False Then
-                    InitialRootDirectory.PutSubFoldersIntoHierarchy()
-                End If
                 If _parentDirectory Is Nothing AndAlso _parentFolder IsNot Nothing Then
                     _parentDirectory = New Directory(_outlookWrapper, _parentFolder)
                 ElseIf _parentDirectory Is Nothing AndAlso _parentFolder Is Nothing Then
@@ -400,16 +391,6 @@ Namespace CompuMaster.Data.Outlook
                 Return _parentDirectory
             End Get
         End Property
-
-        ''' <summary>
-        ''' Sorting required in advance before an item of a directory (e.g. in \AllItems but pointing to {MsgFolderRoot}\Inbox) looks up its parent directory
-        ''' </summary>
-        Private Sub PutSubFoldersIntoHierarchy()
-            For Each subDir As Directory In Me.SubFolders
-                subDir.PutSubFoldersIntoHierarchy()
-            Next
-            _SubFoldersAlreadyPutIntoHierarchy = True
-        End Sub
 
         '''' <summary>
         '''' The default view for folders
@@ -434,98 +415,39 @@ Namespace CompuMaster.Data.Outlook
         '    Return New PropertySet(BasePropertySet.FirstClassProperties, AdditionalProperties.ToArray)
         'End Function
 
-        ''' <summary>
-        ''' Query the sub directories of this directory - deep traversal
-        ''' </summary>
-        Private Function QuerySubFoldersOfSeveralHierachyLevels() As List(Of Directory)
-            'Dim folderTraversal As FolderTraversal = folderTraversal.Deep
-            Dim FoundFolders As New List(Of NetOffice.OutlookApi.MAPIFolder)
-            'Dim MoreResultsAvailable As Boolean = True
-
-            'Repeatedly query all partly results and combine them
-            'Do While MoreResultsAvailable
-            'Dim folders As FindFoldersResults = Me.OutlookFolder.FindFolders(DefaultFolderView(folderTraversal, FoundFolders.Count))
-            'For Each folder As MAPIFolder In Me.OutlookFolder.Folders
-            '    FoundFolders.Add(folder)
-            'Next
-            QuerySubFoldersOfSeveralHierachyLevels(Me.OutlookFolder.Folders, FoundFolders)
-            'MoreResultsAvailable = folders.MoreAvailable
-            'Loop
-
-            Return SubFolders2DirectoryHierarchy(FoundFolders, Me)
-        End Function
-
-        Private Sub QuerySubFoldersOfSeveralHierachyLevels(folders As _Folders, foundFolders As List(Of NetOffice.OutlookApi.MAPIFolder))
-            For Each folder As MAPIFolder In folders
-                foundFolders.Add(folder)
-                QuerySubFoldersOfSeveralHierachyLevels(folder.Folders, foundFolders)
-            Next
-        End Sub
-
-        Private Function SubFolders2DirectoryHierarchy(folders As List(Of NetOffice.OutlookApi.MAPIFolder), parentDirectory As Directory) As List(Of Directory)
-            If parentDirectory Is Nothing Then Throw New ArgumentNullException("parentDirectory")
-            'hierarchy tree -> folder results might be (sub-)grand-children
-            Dim FoundDirectories As New List(Of Directory)
-            For Each folder As MAPIFolder In folders
-                FoundDirectories.Add(New Directory(_outlookWrapper, folder, parentDirectory))
-            Next
-
-            Return FoundDirectories
-        End Function
-
-        'Private Function FindSubFoldersInDataOfSeveralHierachyLevels(uniqueFolderID As String) As List(Of Directory)
-        '    If _SubFoldersOfSeveralHierachyLevels Is Nothing Then
-
-        '    End If
-        'End Function
-
-        Private _SubFoldersOfSeveralHierachyLevels As List(Of Directory)
-        Friend ReadOnly Property SubFoldersOfSeveralHierachyLevels As List(Of Directory)
-            Get
-                If _SubFoldersOfSeveralHierachyLevels IsNot Nothing Then
-                    'return cached list
-                    Return _SubFoldersOfSeveralHierachyLevels
-                ElseIf Me._IsRootElementForSubFolderQuery = True Then
-                    'query list
-                    _SubFoldersOfSeveralHierachyLevels = QuerySubFoldersOfSeveralHierachyLevels()
-                    Return _SubFoldersOfSeveralHierachyLevels
-                ElseIf Me._parentDirectory IsNot Nothing Then
-                    'use parent's list
-                    Return Me._parentDirectory.SubFoldersOfSeveralHierachyLevels
-                Else
-                    'no list avaible and this is no root dir and there is no other parent - should not happen !?!
-                    Throw New InvalidOperationException("no list avaible and this is no root dir and there is no other parent")
-                End If
-            End Get
-        End Property
-
         Private _SubFolders As List(Of Directory)
         Public ReadOnly Property SubFolders As Directory()
             Get
                 If _SubFolders Is Nothing Then
-                    If Me.SubFoldersOfSeveralHierachyLevels IsNot Nothing Then
-                        'fill from hierarchy list
-                        _SubFolders = New List(Of Directory)
-                        For MyCounter As Integer = 0 To Me.SubFoldersOfSeveralHierachyLevels.Count - 1
-                            Dim childDir As Directory = Me.SubFoldersOfSeveralHierachyLevels(MyCounter)
-                            If childDir.ParentFolderID = Me.ID Then
-                                'found a child folder
-                                childDir._Internal_SetParentDirectory(Me)
-                                _SubFolders.Add(childDir)
-                            End If
-                        Next
-                    Else
-                        Throw New InvalidOperationException("No folder hierarchy structure available")
-                    End If
+                    'fill from hierarchy list
+                    _SubFolders = New List(Of Directory)
+                    For Each folder As MAPIFolder In Me.OutlookFolder.Folders
+                        Dim childDir As New Directory(_outlookWrapper, folder)
+                        childDir._Internal_SetParentDirectory(Me)
+                        _SubFolders.Add(childDir)
+                    Next
                 End If
                 Return _SubFolders.ToArray
             End Get
         End Property
 
+        Public Function LookupSubDirectory(searchedFolderID As String) As Directory
+            For Each SubFolder As Directory In Me.SubFolders
+                If searchedFolderID = SubFolder.FolderID Then Return SubFolder
+                If SubFolder.SubFolderCount > 0 Then
+                    Dim FoundResult As Directory = SubFolder.LookupSubDirectory(searchedFolderID)
+                    If FoundResult IsNot Nothing Then
+                        Return FoundResult
+                    End If
+                End If
+            Next
+            Return Nothing
+        End Function
+
         Private Sub _Internal_SetParentDirectory(parentDirectory As Directory)
             Me._parentDirectory = parentDirectory
             Me._parentFolder = parentDirectory.OutlookFolder
-            Me._ParentFolderID = parentDirectory.OutlookFolder.EntryID '.Id.UniqueId
+            Me._ParentFolderID = parentDirectory.FolderID
         End Sub
 
         Public ReadOnly Property InitialRootDirectory As Directory
@@ -574,10 +496,14 @@ Namespace CompuMaster.Data.Outlook
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>For performance reasons, SubFolderCount doesn't load the full subfolder data in case it hasn't been loaded yet</remarks>
         Public ReadOnly Property SubFolderCount() As Integer
             Get
-                Return _folder.Folders.Count '.ChildFolderCount
+                If _SubFolders Is Nothing Then
+                    Return _folder.Folders.Count
+                Else
+                    Return _SubFolders.Count
+                End If
             End Get
         End Property
 
