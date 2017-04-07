@@ -1,0 +1,8 @@
+/CompuMaster.Data.Outlook/obj
+/CompuMaster.Data.Outlook/bin
+/CompuMaster.Data.Outlook.DebugApp/obj
+/CompuMaster.Data.Outlook.DebugApp/bin
+/packages
+*.user
+/.vs
+/CompuMaster.Data.Outlook/New-NuGetPackages

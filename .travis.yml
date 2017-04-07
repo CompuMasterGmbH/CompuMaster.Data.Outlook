@@ -1,0 +1,8 @@
+language: csharp
+solution: CompuMaster.Data.Outlook.VS2012.sln
+mono:
+  - latest
+install:
+  - nuget restore CompuMaster.Data.Outlook.VS2012.sln
+script:
+  - xbuild /p:Configuration=Release CompuMaster.Data.Outlook.VS2012.sln
