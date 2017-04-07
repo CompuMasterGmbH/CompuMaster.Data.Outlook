@@ -89,6 +89,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItemTools.vb" />
     <Compile Include="OutlookApp.vb" />
     <Compile Include="AssemblyInfo.vb" />
     <Compile Include="Directory.vb" />

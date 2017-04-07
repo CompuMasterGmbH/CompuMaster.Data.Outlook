@@ -8,13 +8,13 @@ Namespace CompuMaster.Data.Outlook
 
     Public Class Item
         Private _parentDirectory As Directory
-        Private _outlookItem As NetOffice.OutlookApi.StorageItem 'Microsoft.Exchange.WebServices.Data.Item
+        Private _outlookItem As NetOffice.COMObject 'Microsoft.Exchange.WebServices.Data.Item
         Private _outlookApplication As OutlookApp
-        Public Sub New(outlookApplication As OutlookApp, item As NetOffice.OutlookApi.StorageItem) 'Microsoft.Exchange.WebServices.Data.Item)
+        Public Sub New(outlookApplication As OutlookApp, item As NetOffice.COMObject) 'Microsoft.Exchange.WebServices.Data.Item)
             _outlookItem = item
             _outlookApplication = outlookApplication
         End Sub
-        Public Sub New(outlookApplication As OutlookApp, item As NetOffice.OutlookApi.StorageItem, parentDirectory As Directory)
+        Public Sub New(outlookApplication As OutlookApp, item As NetOffice.COMObject, parentDirectory As Directory)
             _parentDirectory = parentDirectory
             _outlookItem = item
             _outlookApplication = outlookApplication
@@ -22,7 +22,9 @@ Namespace CompuMaster.Data.Outlook
 
         Public ReadOnly Property ParentFolderID As String
             Get
-                Return CType(_outlookItem.Parent, NetOffice.OutlookApi.MAPIFolder).EntryID
+                Dim Result As String
+                Result = ItemTools.ParentFolder(_outlookItem).EntryID
+                Return Result
             End Get
         End Property
 
@@ -53,9 +55,20 @@ Namespace CompuMaster.Data.Outlook
 
         Public ReadOnly Property Subject As String
             Get
-                'Return _exchangeItem.Subject
+                Return ItemTools.Subject(_outlookItem)
             End Get
         End Property
+
+        Public ReadOnly Property ObjectClass As NetOffice.OutlookApi.Enums.OlObjectClass
+            Get
+                Return ItemTools.ObjectClass(_outlookItem)
+            End Get
+        End Property
+
+        Public Function ObjectClassName() As String
+            Return GetType(NetOffice.OutlookApi.Enums.OlObjectClass).GetEnumName(Me.ObjectClass)
+        End Function
+
 
         '    'Public ReadOnly Property DateTimeSent As DateTime
         '    '    Get
@@ -109,15 +122,11 @@ Namespace CompuMaster.Data.Outlook
         '    End Property
         Public ReadOnly Property IsAppointment As Boolean
             Get
-                Try
-                    If _outlookItem.Class = NetOffice.OutlookApi.Enums.OlObjectClass.olAppointment Then
-                        Return True
-                    Else
-                        Return False
-                    End If
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                If Me.ObjectClass = NetOffice.OutlookApi.Enums.OlObjectClass.olAppointment Then
+                    Return True
+                Else
                     Return False
-                End Try
+                    End If
             End Get
         End Property
         '    'Public ReadOnly Property IsDraft As Boolean

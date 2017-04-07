@@ -64,21 +64,25 @@ Module Module1
             'Dim dirRoot As Directory = folderRoot.Directory.SelectSubFolder("Inbox", False, e2007.DirectorySeparatorChar)
 
             'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, e2007.DirectorySeparatorChar)
-            Dim dirInbox As Directory = dirRoot
-            ShowItems(dirRoot, oApp)
+            Console.WriteLine()
+            Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang\Heinrich-Haus", True, "\"c)
+            Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
+            ShowItems(dirInbox, oApp)
             'ShowItems(Convert2Items(dirRoot, e2007, New Microsoft.Exchange.WebServices.Data.Item() {dirInbox.ItemsAsExchangeItem()(0)}))
-            'ShowItems(New Item() {dirInbox.Items()(0)})
+            'ShowItems(New Item() {dirInbox.Items()(0)}) 
 
             'ShowItems(New Item() {dirInbox.MailboxItems(SearchDefault, ItemViewDefault)(0)})
 
-            Console.WriteLine("Calendar appointments:")
+            'Console.WriteLine()
+            'Console.WriteLine("Calendar appointments:")
             'ShowItems(New Item() {dirRoot.MailboxItems(SearchCalendar, ItemViewDefault)(0)})
             'ShowItems(New Item() {dirRoot.MailboxItems(SearchCalendar, ItemViewCalendarDefault)(0)})
             'ShowItems(dirRoot.MailboxItems(SearchCalendar, ItemViewDefault))
             'ShowItems(dirRoot.MailboxItems(SearchCalendar, ItemViewCalendarDefault))
             'ShowItems(dirRoot.MailboxItems(SearchInclCalendarEntries, ItemViewCalendarDefault))
 
-            'Dim foldersBelowRoot As Directory() = e2007.ListFolderItems(folderRoot)
+            Console.WriteLine()
+            'Dim foldersBelowRoot As Directory() = oApp.ListFolderItems(folderRoot)
             'Dim foldersBelowRoot As Directory() = e2007.ListSubFoldersRecursively(folderRoot)
             'Dim foldersBelowRoot As Directory() = dirRoot.SubFolders
             Dim testSubFolder As Directory = dirRoot
@@ -187,17 +191,19 @@ Module Module1
     'End Function
 
     Private Sub ShowItems(dir As Directory, e2007 As OutlookApp)
-
-        '    Dim items As List(Of Microsoft.Exchange.WebServices.Data.Item) = dir.ItemsAsExchangeItem(SearchDefault, ItemViewDefault)
-        '    ShowItems(Convert2Items(dir, e2007, items))
+        Dim items As NetOffice.OutlookApi._Items = dir.OutlookFolder.Items
+        ShowItems(Convert2Items(dir, e2007, items))
     End Sub
 
-    Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As NetOffice.OutlookApi.Items) As Item()
-        '    Dim Result As New List(Of Item)
-        '    For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Length) - 1
-        '        Result.Add(New Item(e2007, items(MyItemCounter), dir))
-        '    Next
-        '    Return Result.ToArray
+    Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As NetOffice.OutlookApi._Items) As Item()
+        Dim Result As New List(Of Item)
+        For Each item As Object In items
+            Result.Add(New Item(e2007, CType(item, NetOffice.COMObject), dir))
+        Next
+        'For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
+        '    Result.Add(New Item(e2007, CType(items(MyItemCounter), NetOffice.COMObject), dir))
+        'Next
+        Return Result.ToArray
     End Function
     'Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As List(Of Microsoft.Exchange.WebServices.Data.Item)) As Item()
     '    '    Dim Result As New List(Of Item)
@@ -210,7 +216,7 @@ Module Module1
     Private Sub ShowItems(items As Item())
 
         Console.WriteLine("    ---")
-        For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Length) - 1
+        For MyItemCounter As Integer = 0 To System.Math.Min(3, items.Length) - 1
             Dim entryItem As Item = items(MyItemCounter)
             Console.WriteLine("    " & entryItem.Subject) '& " / DC:" & entryItem.DateTimeCreated '& " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
             'Console.WriteLine("    TYPE:" & entryItem.ExchangeItem.ItemClass)
@@ -225,6 +231,7 @@ Module Module1
             'Console.WriteLine("    To: " & entryItem.DisplayTo)
             'Console.WriteLine("    Cc: " & entryItem.DisplayCc)
             Console.WriteLine("    Pa: " & entryItem.ParentDirectory.DisplayPath)
+            Console.WriteLine("    Cl: " & entryItem.ObjectClassName)
             Console.WriteLine("    ---")
         Next
     End Sub
@@ -234,6 +241,7 @@ Module Module1
         For Each dirItem As Directory In dir.SubFolders
             Console.Write(dirItem.ToString)
             'Console.WriteLine(" (F:" & dirItem.SubFolderCount & " / U:" & dirItem.ItemUnreadCount & " / T:" & dirItem.ItemCount & ")")
+            'Console.WriteLine(" (F:" & dirItem.SubFolderCount & " / T:" & dirItem.ItemCount & ")")
             Console.WriteLine()
 
             'Dim itemView As New Microsoft.Exchange.WebServices.Data.ItemView(Integer.MaxValue, 0, Microsoft.Exchange.WebServices.Data.OffsetBasePoint.Beginning)

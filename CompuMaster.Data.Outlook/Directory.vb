@@ -479,7 +479,6 @@ Namespace CompuMaster.Data.Outlook
                     If mySubfolder.DisplayName = nextSubFolder OrElse (searchCaseInsensitive AndAlso mySubfolder.DisplayName.ToLowerInvariant = nextSubFolder.ToLowerInvariant) Then
                         If subfoldersSplitted.Length > 1 Then
                             'recursive call required
-
                             Return mySubfolder.SelectSubFolder(String.Join(directorySeparatorChar, subfoldersSplitted, 1, subfoldersSplitted.Length - 1), searchCaseInsensitive, directorySeparatorChar)
                         Else
                             'this is the last recursion - just return our current path item
