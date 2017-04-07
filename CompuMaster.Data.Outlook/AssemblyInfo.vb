@@ -2,14 +2,14 @@
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
-<Assembly: AssemblyTitle("CompuMaster.Data.Exchange2007 - MIT license edition")>
+<Assembly: AssemblyTitle("CompuMaster.Data.Outlook - MIT license edition")>
 <Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("CompuMaster GmbH")> 
-<Assembly: AssemblyProduct("CompuMaster.Data.Exchange2007")>
-<Assembly: AssemblyCopyright("2008-2014,2016 CompuMaster GmbH")>
+<Assembly: AssemblyCompany("CompuMaster GmbH")>
+<Assembly: AssemblyProduct("CompuMaster.Data.Outlook")>
+<Assembly: AssemblyCopyright("2017 CompuMaster GmbH")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(True)> 
 <Assembly: Guid("9b16fd1c-a4c3-410f-ba6c-230cceee31b5")>
 
-<Assembly: AssemblyVersion("2016.09.07.100")>
+<Assembly: AssemblyVersion("2017.04.07.100")>

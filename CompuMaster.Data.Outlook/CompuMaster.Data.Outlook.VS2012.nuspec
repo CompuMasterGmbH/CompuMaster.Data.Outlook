@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://raw.githubusercontent.com/CompuMasterGmbH/CompuMaster.Data.Outlook/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/CompuMasterGmbH/CompuMaster.Data.Outlook</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/CompuMasterGmbH/CompuMaster.Data.Outlook/master/logo_64x64.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>.NET library with common methods for quick and performant access to Microsoft Outlook .pst file using NetOffice.OutlookApi</description>
+    <releaseNotes></releaseNotes>
+    <copyright>2017 CompuMaster GmbH</copyright>
+    <tags>CompuMaster Common Utils Data OutlookApi Outlook Microsoft NetOffice</tags>
+  </metadata>
+</package>

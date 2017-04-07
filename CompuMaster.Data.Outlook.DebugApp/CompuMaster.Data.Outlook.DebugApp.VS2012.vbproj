@@ -7,9 +7,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7E55F4E4-7B60-4DD3-B686-0DDDCF52B69F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>CompuMaster.Data.Exchange2007DebugApp.Module1</StartupObject>
-    <RootNamespace>CompuMaster.Data.Exchange2007DebugApp</RootNamespace>
-    <AssemblyName>CompuMaster.Data.Exchange2007.DebugApp</AssemblyName>
+    <StartupObject>CompuMaster.Data.OutlookDebugApp.Module1</StartupObject>
+    <RootNamespace>CompuMaster.Data.OutlookDebugApp</RootNamespace>
+    <AssemblyName>CompuMaster.Data.Outlook.DebugApp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -45,7 +45,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\net_3_5\</OutputPath>
-    <DocumentationFile>CompuMaster.Data.Exchange2007.DebugApp.xml</DocumentationFile>
+    <DocumentationFile>CompuMaster.Data.Outlook.DebugApp.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -55,7 +55,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>CompuMaster.Data.Exchange2007.DebugApp.xml</DocumentationFile>
+    <DocumentationFile>CompuMaster.Data.Outlook.DebugApp.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -95,9 +95,8 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HlsMsExchangeDataAccess.vb" />
     <Compile Include="Module1.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
