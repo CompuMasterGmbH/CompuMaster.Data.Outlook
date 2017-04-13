@@ -13,7 +13,16 @@ Namespace CompuMaster.Data.Outlook
     ''' <remarks></remarks>
     Public Class OutlookApp
 
+        Public Shared Function CreateFactory(minRequiredMajorVersion As Integer) As OutlookApp
+            Return New OutlookApp(minRequiredMajorVersion)
+        End Function
+
         Protected _app As New NetOffice.OutlookApi.Application
+        Public ReadOnly Property Application As NetOffice.OutlookApi.Application
+            Get
+                Return _app
+            End Get
+        End Property
 
         Friend ReadOnly Property OutlookVersion As Version
             Get

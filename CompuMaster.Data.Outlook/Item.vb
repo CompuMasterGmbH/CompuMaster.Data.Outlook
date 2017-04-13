@@ -70,37 +70,220 @@ Namespace CompuMaster.Data.Outlook
         End Function
 
 
-        '    'Public ReadOnly Property DateTimeSent As DateTime
-        '    '    Get
-        '    '        If Me.IsDraft Then
-        '    '            Return Nothing
-        '    '        Else
-        '    '            Try
-        '    '                Return _exchangeItem.DateTimeSent
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
-        '    '                Return Nothing
-        '    '            End Try
-        '    '        End If
-        '    '    End Get
-        '    'End Property
-        '    'Public ReadOnly Property DateTimeReceived As DateTime
-        '    '    Get
-        '    '        Try
-        '    '            Return _exchangeItem.DateTimeReceived
-        '    '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
-        '    '            Return Nothing
-        '    '        End Try
-        '    '    End Get
-        '    'End Property
-        '    Public ReadOnly Property DateTimeCreated As DateTime
-        '        Get
-        '            Try
-        '                Return _exchangeItem.CreationTime
-        '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
-        '                Return Nothing
-        '            End Try
-        '        End Get
-        '    End Property
+        Public ReadOnly Property SentOn As DateTime
+            Get
+                Try
+                    Return ItemTools.SentOn(Me._outlookItem)
+                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property ReceivedTime As DateTime
+            Get
+                Try
+                    Return ItemTools.ReceivedTime(Me._outlookItem)
+                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property LastModificationTime As DateTime
+            Get
+                Try
+                    Return ItemTools.LastModificationTime(Me._outlookItem)
+                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property UnRead As Boolean
+            Get
+                Try
+                    Return ItemTools.UnRead(Me._outlookItem)
+                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property ReceivedByName As String
+            Get
+                Try
+                    Return ItemTools.ReceivedByName(Me._outlookItem)
+                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property BodyFormat As Enums.OlBodyFormat
+            Get
+                Try
+                    Return ItemTools.BodyFormat(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property HTMLBody As String
+            Get
+                Try
+                    Return ItemTools.HTMLBody(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property Body As String
+            Get
+                Try
+                    Return ItemTools.Body(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property CC As String
+            Get
+                Try
+                    Return ItemTools.CC(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property BCC As String
+            Get
+                Try
+                    Return ItemTools.BCC(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property [To] As String
+            Get
+                Try
+                    Return ItemTools.To(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property TaskSubject As String
+            Get
+                Try
+                    Return ItemTools.TaskSubject(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property SenderEmailAddress As String
+            Get
+                Try
+                    Return ItemTools.SenderEmailAddress(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property SenderName As String
+            Get
+                Try
+                    Return ItemTools.SenderName(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property SenderEmailType As String
+            Get
+                Try
+                    Return ItemTools.SenderEmailType(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property EntryID As String
+            Get
+                Try
+                    Return ItemTools.EntryID(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property Importance As Enums.OlImportance
+            Get
+                Try
+                    Return ItemTools.Importance(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property Sensitivity As Enums.OlSensitivity
+            Get
+                Try
+                    Return ItemTools.Sensitivity(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property Recipients As Recipients
+            Get
+                Try
+                    Return ItemTools.Recipients(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property ItemProperties As ItemProperties
+            Get
+                Try
+                    Return ItemTools.ItemProperties(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property RTFBody As Object
+            Get
+                Try
+                    Return ItemTools.RTFBody(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public ReadOnly Property ReceivedByEntryID As String
+            Get
+                Try
+                    Return ItemTools.ReceivedByEntryID(Me._outlookItem)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+        Public Sub Move(destinationFolder As MAPIFolder)
+            ItemTools.Move(Me._outlookItem, destinationFolder)
+        End Sub
+
+        Public ReadOnly Property CreationTime As DateTime
+            Get
+                Try
+                    Return ItemTools.CreationTime(Me._outlookItem)
+                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
 
         '    Public ReadOnly Property CalendarEntryBegin As DateTime
         '        Get
@@ -131,7 +314,7 @@ Namespace CompuMaster.Data.Outlook
         End Property
         '    'Public ReadOnly Property IsDraft As Boolean
         '    '    Get
-        '    '        Return _exchangeItem.IsDraft
+        '    '        Return ItemTools.IsDraft
         '    '    End Get
         '    'End Property
 
@@ -147,7 +330,7 @@ Namespace CompuMaster.Data.Outlook
         '    'Public ReadOnly Property BodyType As String
         '    '    Get
         '    '        Try
-        '    '            Return _exchangeItem.Body.BodyType.ToString
+        '    '            Return ItemTools.Body.BodyType.ToString
         '    '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
         '    '            Return Nothing
         '    '        End Try
@@ -156,7 +339,7 @@ Namespace CompuMaster.Data.Outlook
         '    'Public ReadOnly Property Body As String
         '    '    Get
         '    '        Try
-        '    '            Return _exchangeItem.Body
+        '    '            Return ItemTools.Body
         '    '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
         '    '            Return Nothing
         '    '        End Try

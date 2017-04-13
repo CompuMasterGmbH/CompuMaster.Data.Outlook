@@ -465,9 +465,30 @@ Namespace CompuMaster.Data.Outlook
         ''' </summary>
         ''' <param name="subfolder">A string containing the relative folder path, e.g. &quot;Inbox\Done&quot;</param>
         ''' <param name="searchCaseInsensitive">Ignore upper/lower case differences</param>
+        ''' <returns></returns>
+        Public Function SelectSubFolder(subFolder As String, ByVal searchCaseInsensitive As Boolean) As Directory
+            Return Me.SelectSubFolder(subFolder, searchCaseInsensitive, False, Me._outlookWrapper.DirectorySeparatorChar)
+        End Function
+
+        ''' <summary>
+        ''' Lookup a directory based on its directory structure
+        ''' </summary>
+        ''' <param name="subfolder">A string containing the relative folder path, e.g. &quot;Inbox\Done&quot;</param>
+        ''' <param name="searchCaseInsensitive">Ignore upper/lower case differences</param>
+        ''' <param name="autoCreateFolder">Create folder if not yet existing</param>
+        ''' <returns></returns>
+        Public Function SelectSubFolder(subFolder As String, ByVal searchCaseInsensitive As Boolean, autoCreateFolder As Boolean) As Directory
+            Return Me.SelectSubFolder(subFolder, searchCaseInsensitive, autoCreateFolder, Me._outlookWrapper.DirectorySeparatorChar)
+        End Function
+
+        ''' <summary>
+        ''' Lookup a directory based on its directory structure
+        ''' </summary>
+        ''' <param name="subfolder">A string containing the relative folder path, e.g. &quot;Inbox\Done&quot;</param>
+        ''' <param name="searchCaseInsensitive">Ignore upper/lower case differences</param>
         ''' <param name="directorySeparatorChar"></param>
         ''' <returns></returns>
-        Public Function SelectSubFolder(subFolder As String, ByVal searchCaseInsensitive As Boolean, directorySeparatorChar As Char) As Directory
+        Private Function SelectSubFolder(subFolder As String, ByVal searchCaseInsensitive As Boolean, autoCreateFolder As Boolean, directorySeparatorChar As Char) As Directory
             If subFolder = Nothing Then
                 Return Me
             ElseIf subFolder.StartsWith(directorySeparatorChar) Then
@@ -479,16 +500,38 @@ Namespace CompuMaster.Data.Outlook
                     If mySubfolder.DisplayName = nextSubFolder OrElse (searchCaseInsensitive AndAlso mySubfolder.DisplayName.ToLowerInvariant = nextSubFolder.ToLowerInvariant) Then
                         If subfoldersSplitted.Length > 1 Then
                             'recursive call required
-                            Return mySubfolder.SelectSubFolder(String.Join(directorySeparatorChar, subfoldersSplitted, 1, subfoldersSplitted.Length - 1), searchCaseInsensitive, directorySeparatorChar)
+                            Return mySubfolder.SelectSubFolder(String.Join(directorySeparatorChar, subfoldersSplitted, 1, subfoldersSplitted.Length - 1), searchCaseInsensitive, autoCreateFolder, directorySeparatorChar)
                         Else
                             'this is the last recursion - just return our current path item
                             Return mySubfolder
                         End If
                     End If
                 Next
-                Throw New System.Exception("Folder """ & subFolder & """ hasn't been found in " & Me.DisplayPath)
+                If autoCreateFolder = True Then
+                    Dim NewFolderName As String = subfoldersSplitted(0)
+                    Me.CreateSubFolder(NewFolderName)
+                    For Each mySubfolder As Directory In Me.SubFolders
+                        If mySubfolder.DisplayName = nextSubFolder OrElse (searchCaseInsensitive AndAlso mySubfolder.DisplayName.ToLowerInvariant = nextSubFolder.ToLowerInvariant) Then
+                            If subfoldersSplitted.Length > 1 Then
+                                'recursive call required
+                                Return mySubfolder.SelectSubFolder(String.Join(directorySeparatorChar, subfoldersSplitted, 1, subfoldersSplitted.Length - 1), searchCaseInsensitive, autoCreateFolder, directorySeparatorChar)
+                            Else
+                                'this is the last recursion - just return our current path item
+                                Return mySubfolder
+                            End If
+                        End If
+                    Next
+                    Throw New System.Exception("Folder """ & NewFolderName & """ couldn't be created in " & Me.DisplayPath)
+                Else
+                    Throw New System.Exception("Folder """ & subFolder & """ hasn't been found in " & Me.DisplayPath)
+                End If
             End If
         End Function
+
+        Public Sub CreateSubFolder(newFolderName As String)
+            Me.OutlookFolder.Folders.Add(newFolderName)
+            _SubFolders = Nothing 'reset subfolders cache
+        End Sub
 
         ''' <summary>
         ''' The number of child folders
