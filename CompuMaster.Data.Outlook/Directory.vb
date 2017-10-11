@@ -55,6 +55,44 @@ Namespace CompuMaster.Data.Outlook
             End Get
         End Property
 
+        Public Function Item(index As Integer) As CompuMaster.Data.Outlook.Item
+            Return New CompuMaster.Data.Outlook.Item(Me._outlookWrapper, CType(Me.OutlookFolder.Items()(index), NetOffice.COMObject), Me)
+        End Function
+
+        Public Function ItemsRange(startIndex As Integer, length As Integer) As CompuMaster.Data.Outlook.Item()
+            Dim Results As New List(Of NetOffice.COMObject)
+            Dim MyCounter As Integer = 0
+            For Each item As Object In Me.OutlookFolder.Items
+                If MyCounter >= startIndex And MyCounter <= startIndex + length Then
+                    Results.Add(CType(item, NetOffice.COMObject))
+                End If
+                MyCounter += 1
+            Next
+            Return Convert2Items(Me, Me._outlookWrapper, Results)
+        End Function
+
+        Public Function ItemsAll() As CompuMaster.Data.Outlook.Item()
+            Return Convert2Items(Me, Me._outlookWrapper, Me.OutlookFolder.Items)
+        End Function
+
+        Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As NetOffice.OutlookApi._Items) As Item()
+            Dim Result As New List(Of Item)
+            For Each item As Object In items
+                Result.Add(New Item(e2007, CType(item, NetOffice.COMObject), dir))
+            Next
+            'For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
+            '    Result.Add(New Item(e2007, CType(items(MyItemCounter), NetOffice.COMObject), dir))
+            'Next
+            Return Result.ToArray
+        End Function
+        Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As List(Of NetOffice.COMObject)) As Item()
+            Dim Result As New List(Of Item)
+            For Each item As NetOffice.COMObject In items
+                Result.Add(New Item(e2007, item, dir))
+            Next
+            Return Result.ToArray
+        End Function
+
         Private Shared Sub ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(ByVal value As String, ByVal row As DataRow, ByVal columnName As String)
             If row.Table.Columns.Contains(columnName) = False Then
                 row.Table.Columns.Add(columnName, GetType(String))
