@@ -30,6 +30,18 @@ Module Module1
         '    Console.WriteLine(ex.ToString)
         'End Try
 
+        Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
+        Dim SourceRootFolderPath = OutlookApp.LookupRootFolder("C:\Temp\Mailbox.pst")
+        Dim SourceRootDir As CompuMaster.Data.Outlook.Directory = SourceRootFolderPath.Directory
+        Dim DestinationRootFolderPath = OutlookApp.LookupRootFolder("C:\Temp\TargetMailbox.pst")
+        Dim DestinationRootDir As CompuMaster.Data.Outlook.Directory = DestinationRootFolderPath.Directory
+
+        Console.WriteLine(SourceRootDir.DisplayPath)
+        Console.WriteLine(DestinationRootDir.DisplayPath)
+        Console.WriteLine(SourceRootDir.SelectSubFolder("Entwürfe", True).DisplayPath)
+        Console.WriteLine(DestinationRootDir.SelectSubFolder("Entwürfe", True, True).DisplayPath)
+
+
         Try
             Console.WriteLine()
             Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & " Execute TestSuite 'TestExchange2007' (Y/N)?")
@@ -50,7 +62,7 @@ Module Module1
 
             'Dim folderInbox As CompuMaster.Data.Outlook.FolderPathRepresentation = oApp.LookupFolder(WellKnownFolderName.Inbox)
 
-            Dim folderRoot As CompuMaster.Data.Outlook.FolderPathRepresentation = oApp.LookupRootFolder("R:\Private\Jähnke\Outlook\Archive.pst")
+            Dim folderRoot As CompuMaster.Data.Outlook.FolderPathRepresentation = oApp.LookupRootFolder("C:\Temp\Mailbox.pst")
             Dim dirRoot As Directory = folderRoot.Directory ' folderRoot.Directory.SelectSubFolder("AllItems", False, oApp.DirectorySeparatorChar)
 
             'ShowItems(dirRoot, e2007)
@@ -65,7 +77,7 @@ Module Module1
 
             'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, e2007.DirectorySeparatorChar)
             Console.WriteLine()
-            Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang\Heinrich-Haus", True, "\"c)
+            Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang", True)
             Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
             ShowItems(dirInbox, oApp)
             'ShowItems(Convert2Items(dirRoot, e2007, New Microsoft.Exchange.WebServices.Data.Item() {dirInbox.ItemsAsExchangeItem()(0)}))
@@ -110,7 +122,7 @@ Module Module1
             'e2007.EmptyFolder(e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv\Test", False), DeleteMode.MoveToDeletedItems, False)
             'e2007.DeleteFolder(e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv\Test", False), DeleteMode.MoveToDeletedItems)
             'Dim MyFolder As FolderPathRepresentation = e2007.LookupFolder(WellKnownFolderName.PublicFoldersRoot, "Company Contacts", False)
-            Dim MyFolder As Directory = dirRoot.SelectSubFolder("Inbox", False, oApp.DirectorySeparatorChar)
+            Dim MyFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
             'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(e2007.ListFolderItems(MyFolder)))
             Dim dt As DataTable
             'dt = Directory.ItemsAsDataTable(MyFolder.Items)
@@ -223,13 +235,13 @@ Module Module1
             'Console.WriteLine("    CalBeg:" & entryItem.CalendarEntryBegin)
             'Console.WriteLine("    CalEnd:" & entryItem.CalendarEntryEnd)
             'Console.WriteLine("    Co:" & entryItem.MimeContent)
-            'Console.WriteLine("    BT: " & entryItem.BodyType)
-            'Console.WriteLine("    BC: " & entryItem.Body)
+            Console.WriteLine("    BT: " & entryItem.BodyFormat.ToString)
+            Console.WriteLine("    BC: " & entryItem.Body)
             'Console.WriteLine("    Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
 
             'Console.WriteLine("    Fr: " & entryItem.FromExchangeSender)
-            'Console.WriteLine("    To: " & entryItem.DisplayTo)
-            'Console.WriteLine("    Cc: " & entryItem.DisplayCc)
+            Console.WriteLine("    To: " & entryItem.To)
+            Console.WriteLine("    Cc: " & entryItem.CC)
             Console.WriteLine("    Pa: " & entryItem.ParentDirectory.DisplayPath)
             Console.WriteLine("    Cl: " & entryItem.ObjectClassName)
             Console.WriteLine("    ---")
