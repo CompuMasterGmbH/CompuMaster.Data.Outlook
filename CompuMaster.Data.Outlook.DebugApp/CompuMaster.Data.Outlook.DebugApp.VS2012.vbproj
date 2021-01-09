@@ -60,11 +60,11 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CompuMaster.Calendar, Version=2016.9.7.100, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CompuMaster.Calendar.2016.9.7.100\lib\net20\CompuMaster.Calendar.dll</HintPath>
+    <Reference Include="CompuMaster.Calendar, Version=2020.11.24.101, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CompuMaster.Calendar.2020.11.24.101\lib\net20\CompuMaster.Calendar.dll</HintPath>
     </Reference>
-    <Reference Include="CompuMaster.Data, Version=2.8.2016.824, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CompuMaster.Data.2.8.2016.824\lib\net20\CompuMaster.Data.dll</HintPath>
+    <Reference Include="CompuMaster.Data, Version=2.8.2020.625, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CompuMaster.Data.2.8.2020.625\lib\net20\CompuMaster.Data.dll</HintPath>
     </Reference>
     <Reference Include="NetOffice, Version=1.7.3.0, Culture=neutral, PublicKeyToken=297f57b43ae7c1de, processorArchitecture=MSIL">
       <HintPath>..\packages\NetOffice.Core.Net40.1.7.3.0\lib\net40\NetOffice.dll</HintPath>
@@ -132,6 +132,9 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <Content Include="SampleData\Mailbox.pst">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

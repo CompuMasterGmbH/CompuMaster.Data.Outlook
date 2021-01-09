@@ -55,6 +55,12 @@ Namespace CompuMaster.Data.Outlook
             End Get
         End Property
 
+        Public ReadOnly Property OutlookApp As OutlookApp
+            Get
+                Return _outlookWrapper
+            End Get
+        End Property
+
         Public Function Item(index As Integer) As CompuMaster.Data.Outlook.Item
             Return New CompuMaster.Data.Outlook.Item(Me._outlookWrapper, CType(Me.OutlookFolder.Items()(index), NetOffice.COMObject), Me)
         End Function

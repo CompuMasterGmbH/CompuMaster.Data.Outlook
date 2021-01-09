@@ -7,6 +7,37 @@ Imports CompuMaster.Data.Outlook.OutlookApp
 Module Module1
 
     Sub Main()
+        Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
+        Dim PstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
+
+        Console.WriteLine("## Folder list of PST")
+        Dim dirRoot As Directory = PstRootFolderPath.Directory
+
+        ForDirectoryAndEachSubDirectory(dirRoot, OutlookApp, Sub(dir As Directory, outlook As OutlookApp)
+                                                                 Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)
+                                                                 'Console.Write(" [" & dir..FolderClass & "]")
+                                                                 Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
+                                                                 'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
+                                                                 Console.WriteLine()
+                                                                 ShowItems(dir, outlook)
+                                                             End Sub)
+        Console.WriteLine()
+
+        'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, e2007.DirectorySeparatorChar)
+        'Console.WriteLine()
+        'Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang", True)
+        'Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
+        'ShowItems(dirInbox, oApp)
+
+        Console.WriteLine("## Item list of Inbox")
+        Dim InboxFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
+        Dim InboxItems As DataTable = Directory.ItemsAsDataTable(InboxFolder.ItemsAll)
+        Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(InboxItems))
+        Console.WriteLine()
+
+    End Sub
+
+    Sub MainDev()
         'Try
         '    Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & " Execute TestSuite 'MsExchangeActivities 2016-03 (partly)' (Y/N)?")
         '    If Console.ReadKey().KeyChar.ToString.ToLowerInvariant = "y" Then
@@ -31,135 +62,121 @@ Module Module1
         'End Try
 
         Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
-        Dim SourceRootFolderPath = OutlookApp.LookupRootFolder("C:\Temp\Mailbox.pst")
+        Dim SourceRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
         Dim SourceRootDir As CompuMaster.Data.Outlook.Directory = SourceRootFolderPath.Directory
-        Dim DestinationRootFolderPath = OutlookApp.LookupRootFolder("C:\Temp\TargetMailbox.pst")
-        Dim DestinationRootDir As CompuMaster.Data.Outlook.Directory = DestinationRootFolderPath.Directory
+        'Dim DestinationRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "TargetMailbox.pst"))
+        'Dim DestinationRootDir As CompuMaster.Data.Outlook.Directory = DestinationRootFolderPath.Directory
 
         Console.WriteLine(SourceRootDir.DisplayPath)
-        Console.WriteLine(DestinationRootDir.DisplayPath)
-        Console.WriteLine(SourceRootDir.SelectSubFolder("Entwürfe", True).DisplayPath)
-        Console.WriteLine(DestinationRootDir.SelectSubFolder("Entwürfe", True, True).DisplayPath)
+        'Console.WriteLine(DestinationRootDir.DisplayPath)
+        Console.WriteLine(SourceRootDir.SelectSubFolder("Inbox", True).DisplayPath)
+        'Console.WriteLine(DestinationRootDir.SelectSubFolder("Inbox", True, True).DisplayPath)
 
 
-        Try
-            Console.WriteLine()
-            Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & " Execute TestSuite 'TestExchange2007' (Y/N)?")
-            If Console.ReadKey().KeyChar.ToString.ToLowerInvariant = "y" Then
-                TestExchange2007()
-            End If
-        Catch ex As Exception
-            Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & " AppError")
-            Console.WriteLine(ex.ToString)
-        End Try
+        'Try
+        '    Console.WriteLine()
+        '    Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & " Execute TestSuite 'TestExchange2007' (Y/N)?")
+        '    If Console.ReadKey().KeyChar.ToString.ToLowerInvariant = "y" Then
+        '        TestExchange2007()
+        '    End If
+        'Catch ex As Exception
+        '    Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & " AppError")
+        '    Console.WriteLine(ex.ToString)
+        'End Try
     End Sub
 
 
+    'Sub TestExchange2007()
+    '    Try
+    '        Dim oApp As New CompuMaster.Data.Outlook.OutlookApp(12)
+    '        Dim folderRoot As CompuMaster.Data.Outlook.FolderPathRepresentation = oApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
+    '        Dim dirRoot As Directory = folderRoot.Directory ' folderRoot.Directory.SelectSubFolder("AllItems", False, oApp.DirectorySeparatorChar)
 
-    Sub TestExchange2007()
-        Try
-            Dim oApp As New CompuMaster.Data.Outlook.OutlookApp(12)
+    '        'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, e2007.DirectorySeparatorChar)
+    '        Console.WriteLine()
+    '        Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang", True)
+    '        Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
+    '        ShowItems(dirInbox, oApp)
+    '        'ShowItems(Convert2Items(dirRoot, e2007, New Microsoft.Exchange.WebServices.Data.Item() {dirInbox.ItemsAsExchangeItem()(0)}))
+    '        'ShowItems(New Item() {dirInbox.Items()(0)}) 
 
-            'Dim folderInbox As CompuMaster.Data.Outlook.FolderPathRepresentation = oApp.LookupFolder(WellKnownFolderName.Inbox)
+    '        'ShowItems(New Item() {dirInbox.MailboxItems(SearchDefault, ItemViewDefault)(0)})
 
-            Dim folderRoot As CompuMaster.Data.Outlook.FolderPathRepresentation = oApp.LookupRootFolder("C:\Temp\Mailbox.pst")
-            Dim dirRoot As Directory = folderRoot.Directory ' folderRoot.Directory.SelectSubFolder("AllItems", False, oApp.DirectorySeparatorChar)
+    '        'Console.WriteLine()
+    '        'Console.WriteLine("Calendar appointments:")
+    '        'ShowItems(New Item() {dirRoot.MailboxItems(SearchCalendar, ItemViewDefault)(0)})
+    '        'ShowItems(New Item() {dirRoot.MailboxItems(SearchCalendar, ItemViewCalendarDefault)(0)})
+    '        'ShowItems(dirRoot.MailboxItems(SearchCalendar, ItemViewDefault))
+    '        'ShowItems(dirRoot.MailboxItems(SearchCalendar, ItemViewCalendarDefault))
+    '        'ShowItems(dirRoot.MailboxItems(SearchInclCalendarEntries, ItemViewCalendarDefault))
 
-            'ShowItems(dirRoot, e2007)
+    '        Console.WriteLine()
+    '        'Dim foldersBelowRoot As Directory() = oApp.ListFolderItems(folderRoot)
+    '        'Dim foldersBelowRoot As Directory() = e2007.ListSubFoldersRecursively(folderRoot)
+    '        'Dim foldersBelowRoot As Directory() = dirRoot.SubFolders
+    '        Dim testSubFolder As Directory = dirRoot
+    '        Console.WriteLine("TEST SUBS FOR: " & testSubFolder.DisplayName)
+    '        Console.WriteLine("TEST SUBS FOR: " & testSubFolder.FolderID)
+    '        Console.WriteLine("TEST SUBS FOR: " & testSubFolder.SubFolderCount)
+    '        'Console.WriteLine("TEST SUBS FOR: " & testSubFolder.SubFolderCoun)
+    '        'foldersBelowRoot = e2007.ListSubFolders(New FolderPathRepresentation(testSubFolder.ExchangeFolder.))
 
-            Console.WriteLine(dirRoot.DisplayPath)
-            ForEachSubDirectory(dirRoot.InitialRootDirectory, oApp)
-            Console.WriteLine("Total count of subfolders for " & dirRoot.DisplayPath & ": " & folderRoot.Directory.SubFolderCount)
-            Console.WriteLine("Total count of queried subfolders for " & dirRoot.DisplayPath & ": " & folderRoot.Directory.SubFolders.Length)
-
-            'Dim folderRoot As CompuMaster.Data.MsExchange.FolderPathRepresentation = e2007.LookupFolder(WellKnownFolderName.MsgFolderRoot)
-            'Dim dirRoot As Directory = folderRoot.Directory.SelectSubFolder("Inbox", False, e2007.DirectorySeparatorChar)
-
-            'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, e2007.DirectorySeparatorChar)
-            Console.WriteLine()
-            Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang", True)
-            Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
-            ShowItems(dirInbox, oApp)
-            'ShowItems(Convert2Items(dirRoot, e2007, New Microsoft.Exchange.WebServices.Data.Item() {dirInbox.ItemsAsExchangeItem()(0)}))
-            'ShowItems(New Item() {dirInbox.Items()(0)}) 
-
-            'ShowItems(New Item() {dirInbox.MailboxItems(SearchDefault, ItemViewDefault)(0)})
-
-            'Console.WriteLine()
-            'Console.WriteLine("Calendar appointments:")
-            'ShowItems(New Item() {dirRoot.MailboxItems(SearchCalendar, ItemViewDefault)(0)})
-            'ShowItems(New Item() {dirRoot.MailboxItems(SearchCalendar, ItemViewCalendarDefault)(0)})
-            'ShowItems(dirRoot.MailboxItems(SearchCalendar, ItemViewDefault))
-            'ShowItems(dirRoot.MailboxItems(SearchCalendar, ItemViewCalendarDefault))
-            'ShowItems(dirRoot.MailboxItems(SearchInclCalendarEntries, ItemViewCalendarDefault))
-
-            Console.WriteLine()
-            'Dim foldersBelowRoot As Directory() = oApp.ListFolderItems(folderRoot)
-            'Dim foldersBelowRoot As Directory() = e2007.ListSubFoldersRecursively(folderRoot)
-            'Dim foldersBelowRoot As Directory() = dirRoot.SubFolders
-            Dim testSubFolder As Directory = dirRoot
-            Console.WriteLine("TEST SUBS FOR: " & testSubFolder.DisplayName)
-            Console.WriteLine("TEST SUBS FOR: " & testSubFolder.FolderID)
-            Console.WriteLine("TEST SUBS FOR: " & testSubFolder.SubFolderCount)
-            'Console.WriteLine("TEST SUBS FOR: " & testSubFolder.SubFolderCoun)
-            'foldersBelowRoot = e2007.ListSubFolders(New FolderPathRepresentation(testSubFolder.ExchangeFolder.))
-
-            'Dim itemView As New Microsoft.Exchange.WebServices.Data.ItemView(Integer.MaxValue, 0, Microsoft.Exchange.WebServices.Data.OffsetBasePoint.Beginning)
-            'Dim searchFilter As New Microsoft.Exchange.WebServices.Data.SearchFilter.IsEqualTo(Microsoft.Exchange.WebServices.Data.ItemSchema.DateTimeCreated, New DateTime(2016 - 03 - 18))
-            'Items = folderRoot.ExchangeFolder.FindItems(searchFilter, itemView)
+    '        'Dim itemView As New Microsoft.Exchange.WebServices.Data.ItemView(Integer.MaxValue, 0, Microsoft.Exchange.WebServices.Data.OffsetBasePoint.Beginning)
+    '        'Dim searchFilter As New Microsoft.Exchange.WebServices.Data.SearchFilter.IsEqualTo(Microsoft.Exchange.WebServices.Data.ItemSchema.DateTimeCreated, New DateTime(2016 - 03 - 18))
+    '        'Items = folderRoot.ExchangeFolder.FindItems(searchFilter, itemView)
 
 
 
-            End
+    '        End
 
-            'Dim u As Uri = e2007.SaveMailAsDraft("test", "test <b>plain</b>", "", Nothing, Nothing, Nothing)
-            'e2007.SaveMailAsDraft("test", "", "text <b>html</b>", Nothing, Nothing, Nothing)
-            'Console.WriteLine(u.ToString)
-            End
-            'e2007.ResolveMailboxOrContactNames("jochen")
-            'e2007.CreateFolder("Test", e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv", False))
-            'e2007.CreateFolder("CS\Sub\!Archiv\Test\Sub-Test", e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "", False))
-            'e2007.EmptyFolder(e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv\Test", False), DeleteMode.MoveToDeletedItems, False)
-            'e2007.DeleteFolder(e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv\Test", False), DeleteMode.MoveToDeletedItems)
-            'Dim MyFolder As FolderPathRepresentation = e2007.LookupFolder(WellKnownFolderName.PublicFoldersRoot, "Company Contacts", False)
-            Dim MyFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
-            'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(e2007.ListFolderItems(MyFolder)))
-            Dim dt As DataTable
-            'dt = Directory.ItemsAsDataTable(MyFolder.Items)
-            'dt = CompuMaster.Data.DataTables.CreateDataTableClone(e2007.ListFolderItems(MyFolder), "subject like '*sürüm*' or subject like '*rund um berlin*'", "", 3)
-            'dt = CompuMaster.Data.DataTables.CreateDataTableClone(e2007.ListFolderItems(MyFolder), "subject='Michael Pöfler' or subject = 'Elena Lamberti'", "", 3)
-            'CompuMaster.Data.Csv.WriteDataTableToCsvFile("g:\cc.csv", dt)
-            Dim ht As Hashtable = CompuMaster.Data.DataTables.FindDuplicates(dt.Columns("ID"))
+    '        'Dim u As Uri = e2007.SaveMailAsDraft("test", "test <b>plain</b>", "", Nothing, Nothing, Nothing)
+    '        'e2007.SaveMailAsDraft("test", "", "text <b>html</b>", Nothing, Nothing, Nothing)
+    '        'Console.WriteLine(u.ToString)
+    '        End
+    '        'e2007.ResolveMailboxOrContactNames("jochen")
+    '        'e2007.CreateFolder("Test", e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv", False))
+    '        'e2007.CreateFolder("CS\Sub\!Archiv\Test\Sub-Test", e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "", False))
+    '        'e2007.EmptyFolder(e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv\Test", False), DeleteMode.MoveToDeletedItems, False)
+    '        'e2007.DeleteFolder(e2007.LookupFolder(Microsoft.Exchange.WebServices.Data.WellKnownFolderName.Inbox, "CS\Sub\!Archiv\Test", False), DeleteMode.MoveToDeletedItems)
+    '        'Dim MyFolder As FolderPathRepresentation = e2007.LookupFolder(WellKnownFolderName.PublicFoldersRoot, "Company Contacts", False)
+    '        Dim MyFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
+    '        'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(e2007.ListFolderItems(MyFolder)))
+    '        Dim dt As DataTable
+    '        'dt = Directory.ItemsAsDataTable(MyFolder.Items)
+    '        'dt = CompuMaster.Data.DataTables.CreateDataTableClone(e2007.ListFolderItems(MyFolder), "subject like '*sürüm*' or subject like '*rund um berlin*'", "", 3)
+    '        'dt = CompuMaster.Data.DataTables.CreateDataTableClone(e2007.ListFolderItems(MyFolder), "subject='Michael Pöfler' or subject = 'Elena Lamberti'", "", 3)
+    '        'CompuMaster.Data.Csv.WriteDataTableToCsvFile("g:\cc.csv", dt)
+    '        Dim ht As Hashtable = CompuMaster.Data.DataTables.FindDuplicates(dt.Columns("ID"))
 
-            'dt.Rows.Add(dt.NewRow)
-            'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(dt))
-            'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(dt.Clone))
-            Console.WriteLine(vbNewLine & "Data Rows: 2 first exemplary IDs:")
-            Console.WriteLine(dt.Rows(0)("ID"))
-            Console.WriteLine(dt.Rows(1)("ID"))
-            Dim IDsAreEqual As Boolean = (dt.Rows(0)("ID").ToString = dt.Rows(1)("ID").ToString)
-            If IDsAreEqual = False Then Console.WriteLine(Space(FirstDifferentChar(dt.Rows(0)("ID").ToString, dt.Rows(1)("ID").ToString)) & "^")
-            Console.WriteLine("IDs are equal=" & IDsAreEqual.ToString.ToUpper)
+    '        'dt.Rows.Add(dt.NewRow)
+    '        'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(dt))
+    '        'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTable(dt.Clone))
+    '        Console.WriteLine(vbNewLine & "Data Rows: 2 first exemplary IDs:")
+    '        Console.WriteLine(dt.Rows(0)("ID"))
+    '        Console.WriteLine(dt.Rows(1)("ID"))
+    '        Dim IDsAreEqual As Boolean = (dt.Rows(0)("ID").ToString = dt.Rows(1)("ID").ToString)
+    '        If IDsAreEqual = False Then Console.WriteLine(Space(FirstDifferentChar(dt.Rows(0)("ID").ToString, dt.Rows(1)("ID").ToString)) & "^")
+    '        Console.WriteLine("IDs are equal=" & IDsAreEqual.ToString.ToUpper)
 
-            Console.WriteLine(vbNewLine & "DUPS:")
-            For Each key As Object In ht.Keys
-                Console.WriteLine(key.ToString & "=" & ht(key).ToString)
-            Next
-            'e2007.VerifyUniqueItemIDs(dt)
+    '        Console.WriteLine(vbNewLine & "DUPS:")
+    '        For Each key As Object In ht.Keys
+    '            Console.WriteLine(key.ToString & "=" & ht(key).ToString)
+    '        Next
+    '        'e2007.VerifyUniqueItemIDs(dt)
 
-            'Console.WriteLine(vbnewline & "Re-Loading ID")
-            'Dim c As Microsoft.Exchange.WebServices.Data.Contact = e2007.LoadContactData(Utils.NoDBNull(dt.Rows(0)("ID").ToString, ""))
-            'Console.WriteLine(c.Subject)
-            'c.Update(Microsoft.Exchange.WebServices.Data.ConflictResolutionMode.AutoResolve)
+    '        'Console.WriteLine(vbnewline & "Re-Loading ID")
+    '        'Dim c As Microsoft.Exchange.WebServices.Data.Contact = e2007.LoadContactData(Utils.NoDBNull(dt.Rows(0)("ID").ToString, ""))
+    '        'Console.WriteLine(c.Subject)
+    '        'c.Update(Microsoft.Exchange.WebServices.Data.ConflictResolutionMode.AutoResolve)
 
-            End
-            'e2007.SendMail("Test", "from CompuMaster.Data.Exchange2007SP1OrHigher" & vbNewLine & "on " & Now.ToString, New Recipient() {New Recipient("jwezel@compumaster.de")}, Nothing, Nothing)
-            'e2007.CreateAppointment("Test-Appointment", "nowhere", "from CompuMaster.Data.Exchange2007SP1OrHigher" & vbNewLine & "on " & Now.ToString, Now.AddMinutes(5), New TimeSpan(0, 30, 0))
-            'e2007.CreateMeetingAppointment("Test-Meeting", "nowhere", "from CompuMaster.Data.Exchange2007SP1OrHigher" & vbNewLine & "on " & Now.ToString, Now.AddMinutes(5), New TimeSpan(0, 30, 0), New Recipient() {New Recipient("jwezel@compumaster.de")}, Nothing, Nothing)
-        Catch ex As Exception
-            Console.WriteLine("Error: " + ex.ToString)
-        End Try
-    End Sub
+    '        End
+    '        'e2007.SendMail("Test", "from CompuMaster.Data.Exchange2007SP1OrHigher" & vbNewLine & "on " & Now.ToString, New Recipient() {New Recipient("jwezel@compumaster.de")}, Nothing, Nothing)
+    '        'e2007.CreateAppointment("Test-Appointment", "nowhere", "from CompuMaster.Data.Exchange2007SP1OrHigher" & vbNewLine & "on " & Now.ToString, Now.AddMinutes(5), New TimeSpan(0, 30, 0))
+    '        'e2007.CreateMeetingAppointment("Test-Meeting", "nowhere", "from CompuMaster.Data.Exchange2007SP1OrHigher" & vbNewLine & "on " & Now.ToString, Now.AddMinutes(5), New TimeSpan(0, 30, 0), New Recipient() {New Recipient("jwezel@compumaster.de")}, Nothing, Nothing)
+    '    Catch ex As Exception
+    '        Console.WriteLine("Error: " + ex.ToString)
+    '    End Try
+    'End Sub
 
     'Private Function SearchDefault() As Microsoft.Exchange.WebServices.Data.SearchFilter
     '    Dim searchFilterCollection As New Microsoft.Exchange.WebServices.Data.SearchFilter.SearchFilterCollection(Microsoft.Exchange.WebServices.Data.LogicalOperator.And)
@@ -217,6 +234,7 @@ Module Module1
         'Next
         Return Result.ToArray
     End Function
+
     'Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As List(Of Microsoft.Exchange.WebServices.Data.Item)) As Item()
     '    '    Dim Result As New List(Of Item)
     '    '    For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
@@ -248,93 +266,110 @@ Module Module1
         Next
     End Sub
 
-    Private Sub ForEachSubDirectory(dir As Directory, e2007 As OutlookApp)
+    Private Delegate Sub DirectoryAction(dir As Directory, outlook As OutlookApp)
 
+    Private Sub ForDirectoryAndEachSubDirectory(dir As Directory, outlook As OutlookApp, actions As DirectoryAction)
+        actions(dir, outlook)
         For Each dirItem As Directory In dir.SubFolders
-            Console.Write(dirItem.ToString)
-            'Console.WriteLine(" (F:" & dirItem.SubFolderCount & " / U:" & dirItem.ItemUnreadCount & " / T:" & dirItem.ItemCount & ")")
-            'Console.WriteLine(" (F:" & dirItem.SubFolderCount & " / T:" & dirItem.ItemCount & ")")
-            Console.WriteLine()
-
-            'Dim itemView As New Microsoft.Exchange.WebServices.Data.ItemView(Integer.MaxValue, 0, Microsoft.Exchange.WebServices.Data.OffsetBasePoint.Beginning)
-            'Dim searchFilterCollection As New Microsoft.Exchange.WebServices.Data.SearchFilter.SearchFilterCollection(Microsoft.Exchange.WebServices.Data.LogicalOperator.And)
-            'Dim searchFilterEarlierDate As New Microsoft.Exchange.WebServices.Data.SearchFilter.IsGreaterThanOrEqualTo(Microsoft.Exchange.WebServices.Data.ItemSchema.DateTimeCreated, New DateTime(2016, 03, 18, 14, 00, 0))
-            'Dim searchFilterLaterDate As New Microsoft.Exchange.WebServices.Data.SearchFilter.IsLessThanOrEqualTo(Microsoft.Exchange.WebServices.Data.ItemSchema.DateTimeCreated, New DateTime(2016, 03, 18, 14, 59, 59))
-            'searchFilterCollection.Add(searchFilterEarlierDate)
-            'searchFilterCollection.Add(searchFilterLaterDate)
-
-            ''Dim itemsEApi As Microsoft.Exchange.WebServices.Data.FindItemsResults(Of Microsoft.Exchange.WebServices.Data.Item) = dirItem.ExchangeFolder.FindItems(searchFilterCollection, itemView)
-            'Dim items As ObjectModel.Collection(Of Microsoft.Exchange.WebServices.Data.Item) = dirItem.Items(searchFilterCollection, itemView)
-            ''Dim items As ObjectModel.Collection(Of Microsoft.Exchange.WebServices.Data.Item) = dirItem.Items()
-            ''If itemsEApi.Items.Count <> items.Count Or items.Count <> e2007.ListFolderItemsAsExchangeItems(dirItem).Length Then
-            ''    Console.WriteLine("!!" & dirItem.ToString & " (" & e2007.ListFolderItemsAsExchangeItems(dirItem).Length & " of " & dirItem.ItemCount & ")")
-            ''End If
-            ''Console.WriteLine("    FType: " & dirItem.FolderClass)
-
-            'Dim EndCounter As Integer
-            'EndCounter += 1
-
-            ''For Each editem As Generic.KeyValuePair(Of String, Object) In dirItem.ExtendedData
-            ''    If editem.Value Is Nothing Then
-            ''        Console.WriteLine("         " & editem.Key & "={NULL}")
-            ''    Else
-            ''        Console.WriteLine("         " & editem.Key & "=" & editem.Value.ToString)
-            ''    End If
-            ''Next
-            ''If EndCounter >= 10 Then End
-
-            'If False AndAlso True OrElse dirItem.DisplayPath.Contains("Inbox") Then
-
-            '    For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
-            '        Dim entryItem As Item
-            '        entryItem = New Item(e2007, items.Item(MyItemCounter), dirItem)
-            '        Console.WriteLine("    " & entryItem.Subject & " / DC:" & entryItem.DateTimeCreated & " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
-            '        'Console.WriteLine("    Co:" & entryItem.MimeContent)
-            '        'Console.WriteLine("    BT: " & entryItem.BodyType)
-            '        'Console.WriteLine("    BC: " & entryItem.Body)
-            '        'Console.WriteLine("    Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
-
-            '        Console.WriteLine("    Fr: " & entryItem.FromExchangeSender)
-            '        Console.WriteLine("    To: " & entryItem.DisplayTo)
-            '        Console.WriteLine("    Cc: " & entryItem.DisplayCc)
-            '        Console.WriteLine("    Fr: " & entryItem.ParentDirectory.DisplayPath)
-            '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientTo
-            '        '    Console.WriteLine("    TO: " & addr.ToString)
-            '        'Next
-            '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientCc
-            '        '    Console.WriteLine("    CC: " & addr.ToString)
-            '        'Next
-            '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientBcc
-            '        '    Console.WriteLine("    BCC: " & addr.ToString)
-            '        'Next
-            '        'For Each addr As System.Net.Mail.MailAddress In entryItem.ReplyTo
-            '        '    Console.WriteLine("    Repl: " & addr.ToString)
-            '        'Next
-
-            '        ''Console.WriteLine("T: " & entryItem.BodyText)
-            '        ''Console.WriteLine("H: " & entryItem.BodyHtml)
-            '        'For Each editem As Generic.KeyValuePair(Of String, Object) In entryItem.ExtendedData
-            '        '    If editem.Value Is Nothing Then
-            '        '        Console.WriteLine("         " & editem.Key & "={NULL}")
-            '        '    Else
-            '        '        Console.WriteLine("         " & editem.Key & "=" & editem.Value.ToString)
-            '        '    End If
-            '        'Next
-
-            '    Next
-
-            'End If
-
-            ForEachSubDirectory(dirItem, e2007)
-
-            'If dirItem.DisplayPath.Contains("Technik") Then
-            '    ForEachSubDirectory(dirItem, e2007)
-            'Else
-            '    ForEachSubDirectory(dirItem, e2007)
-            'End If
+            ForDirectoryAndEachSubDirectory(dirItem, outlook, actions)
         Next
-
     End Sub
+
+    Private Sub ForEachSubDirectory(dir As Directory, outlook As OutlookApp, actions As DirectoryAction)
+        For Each dirItem As Directory In dir.SubFolders
+            actions(dir, outlook)
+            ForEachSubDirectory(dirItem, outlook, actions)
+        Next
+    End Sub
+
+    'Private Sub ForEachSubDirectory(dir As Directory, e2007 As OutlookApp)
+
+    '    For Each dirItem As Directory In dir.SubFolders
+    '        Console.Write(dirItem.ToString)
+    '        Console.Write(" (SubFolders:" & dirItem.SubFolderCount & " / UnReadItems:" & dirItem.ItemUnreadCount & " / TotalItems:" & dirItem.ItemCount & ")")
+    '        'Console.Write(" (SubFolders:" & dirItem.SubFolderCount & " / TotalItems:" & dirItem.ItemCount & ")")
+    '        Console.WriteLine()
+
+    '        'Dim itemView As New Microsoft.Exchange.WebServices.Data.ItemView(Integer.MaxValue, 0, Microsoft.Exchange.WebServices.Data.OffsetBasePoint.Beginning)
+    '        'Dim searchFilterCollection As New Microsoft.Exchange.WebServices.Data.SearchFilter.SearchFilterCollection(Microsoft.Exchange.WebServices.Data.LogicalOperator.And)
+    '        'Dim searchFilterEarlierDate As New Microsoft.Exchange.WebServices.Data.SearchFilter.IsGreaterThanOrEqualTo(Microsoft.Exchange.WebServices.Data.ItemSchema.DateTimeCreated, New DateTime(2016, 03, 18, 14, 00, 0))
+    '        'Dim searchFilterLaterDate As New Microsoft.Exchange.WebServices.Data.SearchFilter.IsLessThanOrEqualTo(Microsoft.Exchange.WebServices.Data.ItemSchema.DateTimeCreated, New DateTime(2016, 03, 18, 14, 59, 59))
+    '        'searchFilterCollection.Add(searchFilterEarlierDate)
+    '        'searchFilterCollection.Add(searchFilterLaterDate)
+
+    '        ''Dim itemsEApi As Microsoft.Exchange.WebServices.Data.FindItemsResults(Of Microsoft.Exchange.WebServices.Data.Item) = dirItem.ExchangeFolder.FindItems(searchFilterCollection, itemView)
+    '        'Dim items As ObjectModel.Collection(Of Microsoft.Exchange.WebServices.Data.Item) = dirItem.Items(searchFilterCollection, itemView)
+    '        ''Dim items As ObjectModel.Collection(Of Microsoft.Exchange.WebServices.Data.Item) = dirItem.Items()
+    '        ''If itemsEApi.Items.Count <> items.Count Or items.Count <> e2007.ListFolderItemsAsExchangeItems(dirItem).Length Then
+    '        ''    Console.WriteLine("!!" & dirItem.ToString & " (" & e2007.ListFolderItemsAsExchangeItems(dirItem).Length & " of " & dirItem.ItemCount & ")")
+    '        ''End If
+    '        ''Console.WriteLine("    FType: " & dirItem.FolderClass)
+
+    '        'Dim EndCounter As Integer
+    '        'EndCounter += 1
+
+    '        ''For Each editem As Generic.KeyValuePair(Of String, Object) In dirItem.ExtendedData
+    '        ''    If editem.Value Is Nothing Then
+    '        ''        Console.WriteLine("         " & editem.Key & "={NULL}")
+    '        ''    Else
+    '        ''        Console.WriteLine("         " & editem.Key & "=" & editem.Value.ToString)
+    '        ''    End If
+    '        ''Next
+    '        ''If EndCounter >= 10 Then End
+
+    '        'If False AndAlso True OrElse dirItem.DisplayPath.Contains("Inbox") Then
+
+    '        '    For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
+    '        '        Dim entryItem As Item
+    '        '        entryItem = New Item(e2007, items.Item(MyItemCounter), dirItem)
+    '        '        Console.WriteLine("    " & entryItem.Subject & " / DC:" & entryItem.DateTimeCreated & " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
+    '        '        'Console.WriteLine("    Co:" & entryItem.MimeContent)
+    '        '        'Console.WriteLine("    BT: " & entryItem.BodyType)
+    '        '        'Console.WriteLine("    BC: " & entryItem.Body)
+    '        '        'Console.WriteLine("    Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
+
+    '        '        Console.WriteLine("    Fr: " & entryItem.FromExchangeSender)
+    '        '        Console.WriteLine("    To: " & entryItem.DisplayTo)
+    '        '        Console.WriteLine("    Cc: " & entryItem.DisplayCc)
+    '        '        Console.WriteLine("    Fr: " & entryItem.ParentDirectory.DisplayPath)
+    '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientTo
+    '        '        '    Console.WriteLine("    TO: " & addr.ToString)
+    '        '        'Next
+    '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientCc
+    '        '        '    Console.WriteLine("    CC: " & addr.ToString)
+    '        '        'Next
+    '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientBcc
+    '        '        '    Console.WriteLine("    BCC: " & addr.ToString)
+    '        '        'Next
+    '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.ReplyTo
+    '        '        '    Console.WriteLine("    Repl: " & addr.ToString)
+    '        '        'Next
+
+    '        '        ''Console.WriteLine("T: " & entryItem.BodyText)
+    '        '        ''Console.WriteLine("H: " & entryItem.BodyHtml)
+    '        '        'For Each editem As Generic.KeyValuePair(Of String, Object) In entryItem.ExtendedData
+    '        '        '    If editem.Value Is Nothing Then
+    '        '        '        Console.WriteLine("         " & editem.Key & "={NULL}")
+    '        '        '    Else
+    '        '        '        Console.WriteLine("         " & editem.Key & "=" & editem.Value.ToString)
+    '        '        '    End If
+    '        '        'Next
+
+    '        '    Next
+
+    '        'End If
+
+    '        'Execute recursvely
+    '        ForEachSubDirectory(dirItem, e2007)
+
+    '        'If dirItem.DisplayPath.Contains("Technik") Then
+    '        '    ForEachSubDirectory(dirItem, e2007)
+    '        'Else
+    '        '    ForEachSubDirectory(dirItem, e2007)
+    '        'End If
+    '    Next
+
+    'End Sub
 
     Public Function FirstDifferentChar(ByVal value1 As String, ByVal value2 As String) As Integer
         Dim charCounter As Integer
