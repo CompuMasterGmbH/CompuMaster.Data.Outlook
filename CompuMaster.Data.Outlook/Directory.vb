@@ -74,27 +74,27 @@ Namespace CompuMaster.Data.Outlook
                 End If
                 MyCounter += 1
             Next
-            Return Convert2Items(Me, Me._outlookWrapper, Results)
+            Return Convert2Items(Me, Results)
         End Function
 
         Public Function ItemsAll() As CompuMaster.Data.Outlook.Item()
-            Return Convert2Items(Me, Me._outlookWrapper, Me.OutlookFolder.Items)
+            Return Convert2Items(Me, Me.OutlookFolder.Items)
         End Function
 
-        Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As NetOffice.OutlookApi._Items) As Item()
+        Private Function Convert2Items(dir As Directory, items As NetOffice.OutlookApi._Items) As Item()
             Dim Result As New List(Of Item)
             For Each item As Object In items
-                Result.Add(New Item(e2007, CType(item, NetOffice.COMObject), dir))
+                Result.Add(New Item(dir.OutlookApp, CType(item, NetOffice.COMObject), dir))
             Next
             'For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
-            '    Result.Add(New Item(e2007, CType(items(MyItemCounter), NetOffice.COMObject), dir))
+            '    Result.Add(New Item(dir.OutlookApp, CType(items(MyItemCounter), NetOffice.COMObject), dir))
             'Next
             Return Result.ToArray
         End Function
-        Private Function Convert2Items(dir As Directory, e2007 As OutlookApp, items As List(Of NetOffice.COMObject)) As Item()
+        Private Function Convert2Items(dir As Directory, items As List(Of NetOffice.COMObject)) As Item()
             Dim Result As New List(Of Item)
             For Each item As NetOffice.COMObject In items
-                Result.Add(New Item(e2007, item, dir))
+                Result.Add(New Item(dir.OutlookApp, item, dir))
             Next
             Return Result.ToArray
         End Function
