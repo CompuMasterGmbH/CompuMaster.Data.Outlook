@@ -1,6 +1,7 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports CompuMaster
 Imports CompuMaster.Data.Outlook
 Imports CompuMaster.Data.Outlook.OutlookApp
 
@@ -21,7 +22,13 @@ Module Module1
                 Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
                 'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
                 Console.WriteLine()
-                ShowItems(dir)
+                CompuMaster.Console.CurrentIndentationLevel += 1
+                'ShowItems(dir)
+                Dim FolderItems As DataTable = Directory.ItemsAsDataTable(dir.ItemsAll)
+                CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"Body", "HTMLBody", "RTFBody"}) 'Do not show multi-line field "body" in following steps
+                CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"ParentFolderID", "EntryID", "RTFBody"}) 'Do not show multi-line field "body" in following steps
+                Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(FolderItems))
+                CompuMaster.Console.CurrentIndentationLevel -= 1
             End Sub)
         Console.WriteLine()
 
@@ -31,11 +38,12 @@ Module Module1
         'Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
         'ShowItems(dirInbox, oApp)
 
-        Console.WriteLine("## Item list of Inbox")
-        Dim InboxFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
-        Dim InboxItems As DataTable = Directory.ItemsAsDataTable(InboxFolder.ItemsAll)
-        Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(InboxItems))
-        Console.WriteLine()
+        'Console.WriteLine("## Item list of Inbox")
+        'Dim InboxFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
+        'Dim InboxItems As DataTable = Directory.ItemsAsDataTable(InboxFolder.ItemsAll)
+        'CompuMaster.Data.DataTables.RemoveColumns(InboxItems, New String() {"Body"}) 'Do not show multi-line field "body" in following steps
+        'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(InboxItems))
+        'Console.WriteLine()
 
     End Sub
 
@@ -247,24 +255,24 @@ Module Module1
 
     Private Sub ShowItems(items As Item())
 
-        Console.WriteLine("    ---")
+        Console.WriteLine("---")
         For MyItemCounter As Integer = 0 To System.Math.Min(3, items.Length) - 1
             Dim entryItem As Item = items(MyItemCounter)
-            Console.WriteLine("    " & entryItem.Subject) '& " / DC:" & entryItem.DateTimeCreated '& " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
-            'Console.WriteLine("    TYPE:" & entryItem.ExchangeItem.ItemClass)
-            'Console.WriteLine("    CalBeg:" & entryItem.CalendarEntryBegin)
-            'Console.WriteLine("    CalEnd:" & entryItem.CalendarEntryEnd)
-            'Console.WriteLine("    Co:" & entryItem.MimeContent)
-            Console.WriteLine("    BT: " & entryItem.BodyFormat.ToString)
-            Console.WriteLine("    BC: " & entryItem.Body)
-            'Console.WriteLine("    Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
+            Console.WriteLine("" & entryItem.Subject) '& " / DC:" & entryItem.DateTimeCreated '& " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
+            'Console.WriteLine("TYPE:" & entryItem.ExchangeItem.ItemClass)
+            'Console.WriteLine("CalBeg:" & entryItem.CalendarEntryBegin)
+            'Console.WriteLine("CalEnd:" & entryItem.CalendarEntryEnd)
+            'Console.WriteLine("Co:" & entryItem.MimeContent)
+            Console.WriteLine("BT: " & entryItem.BodyFormat.ToString)
+            Console.WriteLine("BC: " & entryItem.Body)
+            'Console.WriteLine("Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
 
-            'Console.WriteLine("    Fr: " & entryItem.FromExchangeSender)
-            Console.WriteLine("    To: " & entryItem.To)
-            Console.WriteLine("    Cc: " & entryItem.CC)
-            Console.WriteLine("    Pa: " & entryItem.ParentDirectory.DisplayPath)
-            Console.WriteLine("    Cl: " & entryItem.ObjectClassName)
-            Console.WriteLine("    ---")
+            'Console.WriteLine("Fr: " & entryItem.FromExchangeSender)
+            Console.WriteLine("To: " & entryItem.To)
+            Console.WriteLine("Cc: " & entryItem.CC)
+            Console.WriteLine("Pa: " & entryItem.ParentDirectory.DisplayPath)
+            Console.WriteLine("Cl: " & entryItem.ObjectClassName)
+            Console.WriteLine("---")
         Next
     End Sub
 
@@ -305,16 +313,16 @@ Module Module1
     '        ''If itemsEApi.Items.Count <> items.Count Or items.Count <> dir.OutlookApp.ListFolderItemsAsExchangeItems(dirItem).Length Then
     '        ''    Console.WriteLine("!!" & dirItem.ToString & " (" & dir.OutlookApp.ListFolderItemsAsExchangeItems(dirItem).Length & " of " & dirItem.ItemCount & ")")
     '        ''End If
-    '        ''Console.WriteLine("    FType: " & dirItem.FolderClass)
+    '        ''Console.WriteLine("FType: " & dirItem.FolderClass)
 
     '        'Dim EndCounter As Integer
     '        'EndCounter += 1
 
     '        ''For Each editem As Generic.KeyValuePair(Of String, Object) In dirItem.ExtendedData
     '        ''    If editem.Value Is Nothing Then
-    '        ''        Console.WriteLine("         " & editem.Key & "={NULL}")
+    '        ''        Console.WriteLine("     " & editem.Key & "={NULL}")
     '        ''    Else
-    '        ''        Console.WriteLine("         " & editem.Key & "=" & editem.Value.ToString)
+    '        ''        Console.WriteLine("     " & editem.Key & "=" & editem.Value.ToString)
     '        ''    End If
     '        ''Next
     '        ''If EndCounter >= 10 Then End
@@ -324,36 +332,36 @@ Module Module1
     '        '    For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
     '        '        Dim entryItem As Item
     '        '        entryItem = New Item(dir.OutlookApp, items.Item(MyItemCounter), dirItem)
-    '        '        Console.WriteLine("    " & entryItem.Subject & " / DC:" & entryItem.DateTimeCreated & " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
-    '        '        'Console.WriteLine("    Co:" & entryItem.MimeContent)
-    '        '        'Console.WriteLine("    BT: " & entryItem.BodyType)
-    '        '        'Console.WriteLine("    BC: " & entryItem.Body)
-    '        '        'Console.WriteLine("    Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
+    '        '        Console.WriteLine("" & entryItem.Subject & " / DC:" & entryItem.DateTimeCreated & " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
+    '        '        'Console.WriteLine("Co:" & entryItem.MimeContent)
+    '        '        'Console.WriteLine("BT: " & entryItem.BodyType)
+    '        '        'Console.WriteLine("BC: " & entryItem.Body)
+    '        '        'Console.WriteLine("Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
 
-    '        '        Console.WriteLine("    Fr: " & entryItem.FromExchangeSender)
-    '        '        Console.WriteLine("    To: " & entryItem.DisplayTo)
-    '        '        Console.WriteLine("    Cc: " & entryItem.DisplayCc)
-    '        '        Console.WriteLine("    Fr: " & entryItem.ParentDirectory.DisplayPath)
+    '        '        Console.WriteLine("Fr: " & entryItem.FromExchangeSender)
+    '        '        Console.WriteLine("To: " & entryItem.DisplayTo)
+    '        '        Console.WriteLine("Cc: " & entryItem.DisplayCc)
+    '        '        Console.WriteLine("Fr: " & entryItem.ParentDirectory.DisplayPath)
     '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientTo
-    '        '        '    Console.WriteLine("    TO: " & addr.ToString)
+    '        '        '    Console.WriteLine("TO: " & addr.ToString)
     '        '        'Next
     '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientCc
-    '        '        '    Console.WriteLine("    CC: " & addr.ToString)
+    '        '        '    Console.WriteLine("CC: " & addr.ToString)
     '        '        'Next
     '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.RecipientBcc
-    '        '        '    Console.WriteLine("    BCC: " & addr.ToString)
+    '        '        '    Console.WriteLine("BCC: " & addr.ToString)
     '        '        'Next
     '        '        'For Each addr As System.Net.Mail.MailAddress In entryItem.ReplyTo
-    '        '        '    Console.WriteLine("    Repl: " & addr.ToString)
+    '        '        '    Console.WriteLine("Repl: " & addr.ToString)
     '        '        'Next
 
     '        '        ''Console.WriteLine("T: " & entryItem.BodyText)
     '        '        ''Console.WriteLine("H: " & entryItem.BodyHtml)
     '        '        'For Each editem As Generic.KeyValuePair(Of String, Object) In entryItem.ExtendedData
     '        '        '    If editem.Value Is Nothing Then
-    '        '        '        Console.WriteLine("         " & editem.Key & "={NULL}")
+    '        '        '        Console.WriteLine("     " & editem.Key & "={NULL}")
     '        '        '    Else
-    '        '        '        Console.WriteLine("         " & editem.Key & "=" & editem.Value.ToString)
+    '        '        '        Console.WriteLine("     " & editem.Key & "=" & editem.Value.ToString)
     '        '        '    End If
     '        '        'Next
 

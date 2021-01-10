@@ -112,125 +112,197 @@ Namespace CompuMaster.Data.Outlook
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function ItemsAsDataTable(items As Item()) As System.Data.DataTable
-            Throw New NotImplementedException
-            'Dim Result As New DataTable("items")
-            'Dim ProcessedSchemas As New ArrayList
-            'Dim Columns As New Hashtable
-            ''Add all items into the result table with all of their properties as complete as possible
-            'For Each MyItem As Item In items
-            '    'Add required additional columns if not yet done
-            '    If ProcessedSchemas.Contains(MyItem.ExchangeItem.Schema) = False Then
-            '        For Each prop As NetOffice.OutlookApi.PropertyAccessor In MyItem.ExchangeItem.Schema
-            '            Dim ColName As String = prop.Name
-            '            If prop.Version <> 0 Then ColName &= "_V" & prop.Version
-            '            If Not Result.Columns.Contains(ColName) Then
-            '                If prop.Type.ToString.StartsWith("System.Nullable") Then
-            '                    'Dataset doesn't support System.Nullable --> use System.Object
-            '                    Columns.Add(ColName, New FolderItemPropertyToColumn(prop, Result.Columns.Add(ColName, GetType(Object))))
-            '                Else
-            '                    'Use the property type as regular
-            '                    Columns.Add(ColName, New FolderItemPropertyToColumn(prop, Result.Columns.Add(ColName, prop.Type)))
-            '                End If
-            '            End If
-            '        Next
-            '    End If
-            '    'Add item as new data row
-            '    Dim row As System.Data.DataRow = Result.NewRow
-            '    For Each key As Object In Columns.Keys
-            '        Dim MyColumn As FolderItemPropertyToColumn = CType(Columns(key), FolderItemPropertyToColumn)
-            '        If Not MyColumn.SchemaProperty Is Nothing Then
-            '            Try
-            '                If MyItem.ExchangeItem.Item(MyColumn.SchemaProperty) Is Nothing Then
-            '                    row(MyColumn.Column) = DBNull.Value
-            '                Else
-            '                    Select Case MyItem.ExchangeItem.Item(MyColumn.SchemaProperty).GetType.ToString
-            '                        Case GetType(Microsoft.Exchange.WebServices.Data.ExtendedPropertyCollection).ToString
-            '                            Dim value As Microsoft.Exchange.WebServices.Data.ExtendedPropertyCollection
-            '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.ExtendedPropertyCollection)
-            '                            'Dim comp As String = MyItem.Item(CType(Columns("Subject"), FolderItemPropertyToColumn).SchemaProperty).ToString
-            '                            'If comp.IndexOf("Wezel") > -1 Then
-            '                            '    Debug.Print(value.ToString)
-            '                            'End If
-            '                            'For Each valueKey As ExtendedProperty In value
-            '                            '    Debug.Print(valueKey.PropertyDefinition.Name & "=" & valueKey.Value.ToString)
-            '                            'Next
-            '                        Case GetType(Microsoft.Exchange.WebServices.Data.CompleteName).ToString
-            '                            Dim value As Microsoft.Exchange.WebServices.Data.CompleteName
-            '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.CompleteName)
-            '                            ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value.Title, row, MyColumn.Column.ColumnName & "_Title")
-            '                        Case GetType(Microsoft.Exchange.WebServices.Data.EmailAddressDictionary).ToString
-            '                            Dim value As Microsoft.Exchange.WebServices.Data.EmailAddressDictionary
-            '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.EmailAddressDictionary)
-            '                            If value.Contains(EmailAddressKey.EmailAddress1) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(EmailAddressKey.EmailAddress1).Address, row, MyColumn.Column.ColumnName & "_Email1")
-            '                            If value.Contains(EmailAddressKey.EmailAddress2) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(EmailAddressKey.EmailAddress2).Address, row, MyColumn.Column.ColumnName & "_Email2")
-            '                            If value.Contains(EmailAddressKey.EmailAddress3) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(EmailAddressKey.EmailAddress3).Address, row, MyColumn.Column.ColumnName & "_Email3")
-            '                        Case GetType(Microsoft.Exchange.WebServices.Data.PhysicalAddressDictionary).ToString
-            '                            Dim value As Microsoft.Exchange.WebServices.Data.PhysicalAddressDictionary
-            '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.PhysicalAddressDictionary)
-            '                            If value.Contains(PhysicalAddressKey.Business) Then
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).Street, row, MyColumn.Column.ColumnName & "_Business_Street")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).PostalCode, row, MyColumn.Column.ColumnName & "_Business_PostalCode")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).City, row, MyColumn.Column.ColumnName & "_Business_City")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).State, row, MyColumn.Column.ColumnName & "_Business_State")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).CountryOrRegion, row, MyColumn.Column.ColumnName & "_Business_CountryOrRegion")
-            '                            End If
-            '                            If value.Contains(PhysicalAddressKey.Home) Then
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).Street, row, MyColumn.Column.ColumnName & "_Home_Street")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).PostalCode, row, MyColumn.Column.ColumnName & "_Home_PostalCode")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).City, row, MyColumn.Column.ColumnName & "_Home_City")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).State, row, MyColumn.Column.ColumnName & "_Home_State")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).CountryOrRegion, row, MyColumn.Column.ColumnName & "_Home_CountryOrRegion")
-            '                            End If
-            '                            If value.Contains(PhysicalAddressKey.Other) Then
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).Street, row, MyColumn.Column.ColumnName & "_Other_Street")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).PostalCode, row, MyColumn.Column.ColumnName & "_Other_PostalCode")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).City, row, MyColumn.Column.ColumnName & "_Other_City")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).State, row, MyColumn.Column.ColumnName & "_Other_State")
-            '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).CountryOrRegion, row, MyColumn.Column.ColumnName & "_Other_CountryOrRegion")
-            '                            End If
-            '                        Case GetType(Microsoft.Exchange.WebServices.Data.PhoneNumberDictionary).ToString
-            '                            Dim value As Microsoft.Exchange.WebServices.Data.PhoneNumberDictionary
-            '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.PhoneNumberDictionary)
-            '                            If value.Contains(PhoneNumberKey.BusinessPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.BusinessPhone), row, MyColumn.Column.ColumnName & "_BusinessPhone")
-            '                            If value.Contains(PhoneNumberKey.BusinessPhone2) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.BusinessPhone2), row, MyColumn.Column.ColumnName & "_BusinessPhone2")
-            '                            If value.Contains(PhoneNumberKey.BusinessFax) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.BusinessFax), row, MyColumn.Column.ColumnName & "_BusinessFax")
-            '                            If value.Contains(PhoneNumberKey.CompanyMainPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.CompanyMainPhone), row, MyColumn.Column.ColumnName & "_CompanyMainPhone")
-            '                            If value.Contains(PhoneNumberKey.CarPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.CarPhone), row, MyColumn.Column.ColumnName & "_CarPhone")
-            '                            If value.Contains(PhoneNumberKey.Callback) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.Callback), row, MyColumn.Column.ColumnName & "_Callback")
-            '                            If value.Contains(PhoneNumberKey.AssistantPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.AssistantPhone), row, MyColumn.Column.ColumnName & "_AssistantPhone")
-            '                            If value.Contains(PhoneNumberKey.HomeFax) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.HomeFax), row, MyColumn.Column.ColumnName & "_HomeFax")
-            '                            If value.Contains(PhoneNumberKey.HomePhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.HomePhone), row, MyColumn.Column.ColumnName & "_HomePhone")
-            '                            If value.Contains(PhoneNumberKey.HomePhone2) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.HomePhone2), row, MyColumn.Column.ColumnName & "_HomePhone2")
-            '                            If value.Contains(PhoneNumberKey.MobilePhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.MobilePhone), row, MyColumn.Column.ColumnName & "_MobilePhone")
-            '                            If value.Contains(PhoneNumberKey.OtherFax) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.OtherFax), row, MyColumn.Column.ColumnName & "_OtherFax")
-            '                            If value.Contains(PhoneNumberKey.OtherTelephone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.OtherTelephone), row, MyColumn.Column.ColumnName & "_OtherTelephone")
-            '                            If value.Contains(PhoneNumberKey.PrimaryPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.PrimaryPhone), row, MyColumn.Column.ColumnName & "_PrimaryPhone")
-            '                            If value.Contains(PhoneNumberKey.RadioPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.RadioPhone), row, MyColumn.Column.ColumnName & "_RadioPhone")
-            '                        Case Else
-            '                            row(MyColumn.Column) = MyItem.ExchangeItem.Item(MyColumn.SchemaProperty)
-            '                    End Select
-            '                End If
-            '            Catch ex As Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
-            '                'Mark this column to be killed at the end because it only contains non-sense
-            '                MyColumn.SchemaProperty = Nothing
-            '            Catch ex As Microsoft.Exchange.WebServices.Data.ServiceVersionException
-            '                'Mark this column to be killed at the end because it only contains non-sense
-            '                MyColumn.SchemaProperty = Nothing
-            '            End Try
-            '        End If
-            '    Next
-            '    Result.Rows.Add(row)
-            'Next
-            ''Remove all columns which are marked to be deleted
-            'For Each key As Object In Columns.Keys
-            '    If CType(Columns(key), FolderItemPropertyToColumn).SchemaProperty Is Nothing Then
-            '        'Missing data indicates a column to be deleted
-            '        Result.Columns.Remove(CType(Columns(key), FolderItemPropertyToColumn).Column)
-            '    End If
-            'Next
-            'Result.Columns("ID").Unique = True
-            'Return Result
+            Dim Result As New System.Data.DataTable("Items")
+
+            'Prepare table structure
+            Result.Columns.Add("BCC", GetType(String))
+            Result.Columns.Add("Body", GetType(String))
+            Result.Columns.Add("BodyFormat", GetType(Enums.OlBodyFormat))
+            Result.Columns.Add("CC", GetType(String))
+            Result.Columns.Add("CreationTime", GetType(Date))
+            Result.Columns.Add("EntryID", GetType(String))
+            Result.Columns.Add("HTMLBody", GetType(String))
+            Result.Columns.Add("Importance", GetType(Enums.OlImportance))
+            Result.Columns.Add("IsAppointment", GetType(Boolean))
+            Result.Columns.Add("LastModificationTime", GetType(Date))
+            Result.Columns.Add("ObjectClassName", GetType(String))
+            Result.Columns.Add("ParentFolderID", GetType(String))
+            Result.Columns.Add("ReceivedByEntryID", GetType(String))
+            Result.Columns.Add("ReceivedByName", GetType(String))
+            Result.Columns.Add("ReceivedTime", GetType(Date))
+            Result.Columns.Add("RTFBody", GetType(Object))
+            Result.Columns.Add("SenderEmailAddress", GetType(String))
+            Result.Columns.Add("SenderEmailType", GetType(String))
+            Result.Columns.Add("SenderName", GetType(String))
+            Result.Columns.Add("Sensitivity", GetType(Enums.OlSensitivity))
+            Result.Columns.Add("SentOn", GetType(Date))
+            Result.Columns.Add("Subject", GetType(String))
+            Result.Columns.Add("TaskSubject", GetType(String))
+            Result.Columns.Add("To", GetType(String))
+            Result.Columns.Add("UnRead", GetType(Boolean))
+            'Result.Columns.Add("Recipients", GetType(String))
+            'Result.Columns.Add("ItemProperties", GetType(String))
+
+            'Fill items into table
+            For ItemCounter As Integer = 0 To items.Length - 1
+                Dim NewRow As System.Data.DataRow = Result.NewRow
+                NewRow("BCC") = items(ItemCounter).BCC
+                NewRow("Body") = items(ItemCounter).Body
+                NewRow("BodyFormat") = items(ItemCounter).BodyFormat
+                NewRow("CC") = items(ItemCounter).CC
+                NewRow("CreationTime") = items(ItemCounter).CreationTime
+                NewRow("EntryID") = items(ItemCounter).EntryID
+                NewRow("HTMLBody") = items(ItemCounter).HTMLBody
+                NewRow("Importance") = items(ItemCounter).Importance
+                NewRow("IsAppointment") = items(ItemCounter).IsAppointment
+                NewRow("LastModificationTime") = items(ItemCounter).LastModificationTime
+                NewRow("ObjectClassName") = items(ItemCounter).ObjectClassName
+                NewRow("ParentFolderID") = items(ItemCounter).ParentFolderID
+                NewRow("ReceivedByEntryID") = items(ItemCounter).ReceivedByEntryID
+                NewRow("ReceivedByName") = items(ItemCounter).ReceivedByName
+                NewRow("ReceivedTime") = items(ItemCounter).ReceivedTime
+                NewRow("RTFBody") = items(ItemCounter).RTFBody
+                NewRow("SenderEmailAddress") = items(ItemCounter).SenderEmailAddress
+                NewRow("SenderEmailType") = items(ItemCounter).SenderEmailType
+                NewRow("SenderName") = items(ItemCounter).SenderName
+                NewRow("Sensitivity") = items(ItemCounter).Sensitivity
+                NewRow("SentOn") = items(ItemCounter).SentOn
+                NewRow("Subject") = items(ItemCounter).Subject
+                NewRow("TaskSubject") = items(ItemCounter).TaskSubject
+                NewRow("To") = items(ItemCounter).To
+                NewRow("UnRead") = items(ItemCounter).UnRead
+                'NewRow("Recipients") = items(ItemCounter).Recipients
+                'NewRow("ItemProperties") = items(ItemCounter).ItemProperties
+                Result.Rows.Add(NewRow)
+            Next
+
+            Return Result
         End Function
+
+        '''' <summary>
+        '''' List available items of a folder
+        '''' </summary>
+        '''' <returns></returns>
+        '''' <remarks></remarks>
+        'Public Shared Function ItemsAsDataTable(items As Item()) As System.Data.DataTable
+        'Dim Result As New DataTable("items")
+        'Dim ProcessedSchemas As New ArrayList
+        'Dim Columns As New Hashtable
+        ''Add all items into the result table with all of their properties as complete as possible
+        'For Each MyItem As Item In items
+        '    'Add required additional columns if not yet done
+        '    If ProcessedSchemas.Contains(MyItem.ExchangeItem.Schema) = False Then
+        '        For Each prop As NetOffice.OutlookApi.PropertyAccessor In MyItem.ExchangeItem.Schema
+        '            Dim ColName As String = prop.Name
+        '            If prop.Version <> 0 Then ColName &= "_V" & prop.Version
+        '            If Not Result.Columns.Contains(ColName) Then
+        '                If prop.Type.ToString.StartsWith("System.Nullable") Then
+        '                    'Dataset doesn't support System.Nullable --> use System.Object
+        '                    Columns.Add(ColName, New FolderItemPropertyToColumn(prop, Result.Columns.Add(ColName, GetType(Object))))
+        '                Else
+        '                    'Use the property type as regular
+        '                    Columns.Add(ColName, New FolderItemPropertyToColumn(prop, Result.Columns.Add(ColName, prop.Type)))
+        '                End If
+        '            End If
+        '        Next
+        '    End If
+        '    'Add item as new data row
+        '    Dim row As System.Data.DataRow = Result.NewRow
+        '    For Each key As Object In Columns.Keys
+        '        Dim MyColumn As FolderItemPropertyToColumn = CType(Columns(key), FolderItemPropertyToColumn)
+        '        If Not MyColumn.SchemaProperty Is Nothing Then
+        '            Try
+        '                If MyItem.ExchangeItem.Item(MyColumn.SchemaProperty) Is Nothing Then
+        '                    row(MyColumn.Column) = DBNull.Value
+        '                Else
+        '                    Select Case MyItem.ExchangeItem.Item(MyColumn.SchemaProperty).GetType.ToString
+        '                        Case GetType(Microsoft.Exchange.WebServices.Data.ExtendedPropertyCollection).ToString
+        '                            Dim value As Microsoft.Exchange.WebServices.Data.ExtendedPropertyCollection
+        '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.ExtendedPropertyCollection)
+        '                            'Dim comp As String = MyItem.Item(CType(Columns("Subject"), FolderItemPropertyToColumn).SchemaProperty).ToString
+        '                            'If comp.IndexOf("Wezel") > -1 Then
+        '                            '    Debug.Print(value.ToString)
+        '                            'End If
+        '                            'For Each valueKey As ExtendedProperty In value
+        '                            '    Debug.Print(valueKey.PropertyDefinition.Name & "=" & valueKey.Value.ToString)
+        '                            'Next
+        '                        Case GetType(Microsoft.Exchange.WebServices.Data.CompleteName).ToString
+        '                            Dim value As Microsoft.Exchange.WebServices.Data.CompleteName
+        '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.CompleteName)
+        '                            ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value.Title, row, MyColumn.Column.ColumnName & "_Title")
+        '                        Case GetType(Microsoft.Exchange.WebServices.Data.EmailAddressDictionary).ToString
+        '                            Dim value As Microsoft.Exchange.WebServices.Data.EmailAddressDictionary
+        '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.EmailAddressDictionary)
+        '                            If value.Contains(EmailAddressKey.EmailAddress1) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(EmailAddressKey.EmailAddress1).Address, row, MyColumn.Column.ColumnName & "_Email1")
+        '                            If value.Contains(EmailAddressKey.EmailAddress2) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(EmailAddressKey.EmailAddress2).Address, row, MyColumn.Column.ColumnName & "_Email2")
+        '                            If value.Contains(EmailAddressKey.EmailAddress3) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(EmailAddressKey.EmailAddress3).Address, row, MyColumn.Column.ColumnName & "_Email3")
+        '                        Case GetType(Microsoft.Exchange.WebServices.Data.PhysicalAddressDictionary).ToString
+        '                            Dim value As Microsoft.Exchange.WebServices.Data.PhysicalAddressDictionary
+        '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.PhysicalAddressDictionary)
+        '                            If value.Contains(PhysicalAddressKey.Business) Then
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).Street, row, MyColumn.Column.ColumnName & "_Business_Street")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).PostalCode, row, MyColumn.Column.ColumnName & "_Business_PostalCode")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).City, row, MyColumn.Column.ColumnName & "_Business_City")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).State, row, MyColumn.Column.ColumnName & "_Business_State")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Business).CountryOrRegion, row, MyColumn.Column.ColumnName & "_Business_CountryOrRegion")
+        '                            End If
+        '                            If value.Contains(PhysicalAddressKey.Home) Then
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).Street, row, MyColumn.Column.ColumnName & "_Home_Street")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).PostalCode, row, MyColumn.Column.ColumnName & "_Home_PostalCode")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).City, row, MyColumn.Column.ColumnName & "_Home_City")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).State, row, MyColumn.Column.ColumnName & "_Home_State")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Home).CountryOrRegion, row, MyColumn.Column.ColumnName & "_Home_CountryOrRegion")
+        '                            End If
+        '                            If value.Contains(PhysicalAddressKey.Other) Then
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).Street, row, MyColumn.Column.ColumnName & "_Other_Street")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).PostalCode, row, MyColumn.Column.ColumnName & "_Other_PostalCode")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).City, row, MyColumn.Column.ColumnName & "_Other_City")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).State, row, MyColumn.Column.ColumnName & "_Other_State")
+        '                                ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhysicalAddressKey.Other).CountryOrRegion, row, MyColumn.Column.ColumnName & "_Other_CountryOrRegion")
+        '                            End If
+        '                        Case GetType(Microsoft.Exchange.WebServices.Data.PhoneNumberDictionary).ToString
+        '                            Dim value As Microsoft.Exchange.WebServices.Data.PhoneNumberDictionary
+        '                            value = CType(MyItem.ExchangeItem.Item(MyColumn.SchemaProperty), Microsoft.Exchange.WebServices.Data.PhoneNumberDictionary)
+        '                            If value.Contains(PhoneNumberKey.BusinessPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.BusinessPhone), row, MyColumn.Column.ColumnName & "_BusinessPhone")
+        '                            If value.Contains(PhoneNumberKey.BusinessPhone2) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.BusinessPhone2), row, MyColumn.Column.ColumnName & "_BusinessPhone2")
+        '                            If value.Contains(PhoneNumberKey.BusinessFax) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.BusinessFax), row, MyColumn.Column.ColumnName & "_BusinessFax")
+        '                            If value.Contains(PhoneNumberKey.CompanyMainPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.CompanyMainPhone), row, MyColumn.Column.ColumnName & "_CompanyMainPhone")
+        '                            If value.Contains(PhoneNumberKey.CarPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.CarPhone), row, MyColumn.Column.ColumnName & "_CarPhone")
+        '                            If value.Contains(PhoneNumberKey.Callback) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.Callback), row, MyColumn.Column.ColumnName & "_Callback")
+        '                            If value.Contains(PhoneNumberKey.AssistantPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.AssistantPhone), row, MyColumn.Column.ColumnName & "_AssistantPhone")
+        '                            If value.Contains(PhoneNumberKey.HomeFax) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.HomeFax), row, MyColumn.Column.ColumnName & "_HomeFax")
+        '                            If value.Contains(PhoneNumberKey.HomePhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.HomePhone), row, MyColumn.Column.ColumnName & "_HomePhone")
+        '                            If value.Contains(PhoneNumberKey.HomePhone2) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.HomePhone2), row, MyColumn.Column.ColumnName & "_HomePhone2")
+        '                            If value.Contains(PhoneNumberKey.MobilePhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.MobilePhone), row, MyColumn.Column.ColumnName & "_MobilePhone")
+        '                            If value.Contains(PhoneNumberKey.OtherFax) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.OtherFax), row, MyColumn.Column.ColumnName & "_OtherFax")
+        '                            If value.Contains(PhoneNumberKey.OtherTelephone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.OtherTelephone), row, MyColumn.Column.ColumnName & "_OtherTelephone")
+        '                            If value.Contains(PhoneNumberKey.PrimaryPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.PrimaryPhone), row, MyColumn.Column.ColumnName & "_PrimaryPhone")
+        '                            If value.Contains(PhoneNumberKey.RadioPhone) Then ItemsAsDataTable_AssignValueToColumnOrJitCreateColumn(value(PhoneNumberKey.RadioPhone), row, MyColumn.Column.ColumnName & "_RadioPhone")
+        '                        Case Else
+        '                            row(MyColumn.Column) = MyItem.ExchangeItem.Item(MyColumn.SchemaProperty)
+        '                    End Select
+        '                End If
+        '            Catch ex As Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '                'Mark this column to be killed at the end because it only contains non-sense
+        '                MyColumn.SchemaProperty = Nothing
+        '            Catch ex As Microsoft.Exchange.WebServices.Data.ServiceVersionException
+        '                'Mark this column to be killed at the end because it only contains non-sense
+        '                MyColumn.SchemaProperty = Nothing
+        '            End Try
+        '        End If
+        '    Next
+        '    Result.Rows.Add(row)
+        'Next
+        ''Remove all columns which are marked to be deleted
+        'For Each key As Object In Columns.Keys
+        '    If CType(Columns(key), FolderItemPropertyToColumn).SchemaProperty Is Nothing Then
+        '        'Missing data indicates a column to be deleted
+        '        Result.Columns.Remove(CType(Columns(key), FolderItemPropertyToColumn).Column)
+        '    End If
+        'Next
+        'Result.Columns("ID").Unique = True
+        'Return Result
+        'End Function
 
         ''' <summary>
         ''' Schema information to a column
