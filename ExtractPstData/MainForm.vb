@@ -17,12 +17,19 @@ Public Class MainForm
             Dim f As New System.Windows.Forms.OpenFileDialog()
             f.CheckFileExists = True
             f.Filter = "Outlook Mailboxes (*.pst; *.ost)|*.pst;*.ost"
-            f.InitialDirectory = My.Application.Info.DirectoryPath
+            If My.Settings.LastOpenedPstOstFile <> Nothing Then
+                f.InitialDirectory = System.IO.Path.GetDirectoryName(My.Settings.LastOpenedPstOstFile)
+                f.FileName = System.IO.Path.GetFileName(My.Settings.LastOpenedPstOstFile)
+            Else
+                f.InitialDirectory = My.Application.Info.DirectoryPath
+            End If
             If f.ShowDialog() = DialogResult.OK Then
                 Me.Cursor = Cursors.WaitCursor
                 Me.OutlookPstOstAccess.OutlookPstOstFile = f.FileName
                 Me.FillOutlookFolderListForOperationTargets()
                 Me.UpdateSelectedFolderOperationTarget(Me.OutlookPstOstAccess.OutlookPstOstRootFolder)
+                My.Settings.LastOpenedPstOstFile = f.FileName
+                My.Settings.Save()
                 Me.Cursor = Cursors.Default
             End If
         Catch ex As Exception
