@@ -138,4 +138,11 @@ Public Class MainForm
         Return Result
     End Function
 
+    Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Try
+            Me.OutlookPstOstAccess.QuitOutlookApp()
+        Catch
+        End Try
+    End Sub
+
 End Class
