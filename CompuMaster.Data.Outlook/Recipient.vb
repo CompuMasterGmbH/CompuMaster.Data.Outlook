@@ -1,9 +1,6 @@
 ﻿Option Strict On
 Option Explicit On
 
-Imports Microsoft.Exchange.WebServices.Data
-Imports System.Net
-
 Namespace CompuMaster.Data.Outlook
 
     ''' <summary>
