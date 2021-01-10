@@ -11,7 +11,7 @@ based on NetOffice.OutlookApi (requires installed MS Outlook)
 ![Screenshot of sample application](ExtractionSampleApp.png)
 * Sample extraction of MS Outlook calendar entries into Microsoft Excel XLSX file (works for CSV files, too)
 ![Screenshot of sample application](ExtractionSampleExcelTable.png)
-* First example code for accessing outlook folder items (also see sample console/debug app)
+* First example code for accessing outlook folder items (also see sample console/debug app)  
 ```vb.net
 Sub Main()
     Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
