@@ -6,3 +6,5 @@
 *.user
 /.vs
 /CompuMaster.Data.Outlook/New-NuGetPackages
+/ExtractPstData/obj
+/ExtractPstData/bin

@@ -106,6 +106,14 @@ Namespace CompuMaster.Data.Outlook
             row(columnName) = value
         End Sub
 
+        Public Function ItemsRangeAsDataTable(startIndex As Integer, length As Integer) As DataTable
+            Return ItemsAsDataTable(Me.ItemsRange(startIndex, length))
+        End Function
+
+        Public Function ItemsAllAsDataTable() As System.Data.DataTable
+            Return ItemsAsDataTable(Me.ItemsAll)
+        End Function
+
         ''' <summary>
         ''' List available items of a folder
         ''' </summary>
@@ -461,14 +469,13 @@ Namespace CompuMaster.Data.Outlook
             End Get
             Set(ByVal value As String)
                 _DisplayName = value
-                '_folder.DisplayName = value
                 Me.CachedFolderDisplayPath = Nothing
             End Set
         End Property
 
         Private CachedFolderDisplayPath As String = Nothing
         ''' <summary>
-        ''' The path of the user separated by back-slashes (\)
+        ''' The display path of the folder separated by back-slashes (\)
         ''' </summary>
         ''' <returns>Existing back-slashes in folder's display names might confuse here - in case that back-slahes are possible in display names</returns>
         Public ReadOnly Property DisplayPath As String
@@ -477,6 +484,25 @@ Namespace CompuMaster.Data.Outlook
                     Return Me.ParentDirectory.DisplayPath & "\" & Me.DisplayName
                 Else
                     Return Me.DisplayName
+                End If
+            End Get
+        End Property
+
+        Private CachedFolderPath As String = Nothing
+        ''' <summary>
+        ''' The path of the folder separated by back-slashes (\)
+        ''' </summary>
+        ''' <returns>Existing back-slashes in folder's display names might confuse here - in case that back-slahes are possible in display names</returns>
+        Public ReadOnly Property Path As String
+            Get
+                If Me.ParentDirectory IsNot Nothing Then
+                    If Me.ParentDirectory.Path = Nothing Then
+                        Return Me.DisplayName
+                    Else
+                        Return Me.ParentDirectory.Path & "\" & Me.DisplayName
+                    End If
+                Else
+                    Return "" 'This is the root folder
                 End If
             End Get
         End Property
@@ -591,6 +617,7 @@ Namespace CompuMaster.Data.Outlook
         ''' </summary>
         ''' <param name="subfolder">A string containing the relative folder path, e.g. &quot;Inbox\Done&quot;</param>
         ''' <param name="searchCaseInsensitive">Ignore upper/lower case differences</param>
+        ''' <param name="autoCreateFolder">Create folder if not yet existing</param>
         ''' <param name="directorySeparatorChar"></param>
         ''' <returns></returns>
         Private Function SelectSubFolder(subFolder As String, ByVal searchCaseInsensitive As Boolean, autoCreateFolder As Boolean, directorySeparatorChar As Char) As Directory

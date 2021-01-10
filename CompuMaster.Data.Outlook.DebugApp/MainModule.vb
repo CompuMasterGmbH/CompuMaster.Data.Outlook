@@ -16,18 +16,18 @@ Module MainModule
             Dim dirRoot As Directory = PstRootFolderPath.Directory
 
             ForDirectoryAndEachSubDirectory(
-            dirRoot,
-            Sub(dir As Directory)
-                Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)
-                'Console.Write(" [" & dir..FolderClass & "]")
-                Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
-                'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
-                Console.WriteLine()
-                CompuMaster.Console.CurrentIndentationLevel += 1
-                'ShowItems_FormatList(dir)
-                ShowItems_FormatTable(dir)
-                CompuMaster.Console.CurrentIndentationLevel -= 1
-            End Sub)
+                dirRoot,
+                Sub(dir As Directory)
+                    Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)
+                    'Console.Write(" [" & dir..FolderClass & "]")
+                    Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
+                    'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
+                    Console.WriteLine()
+                    CompuMaster.Console.CurrentIndentationLevel += 1
+                    'ShowItems_FormatList(dir)
+                    ShowItems_FormatTable(dir)
+                    CompuMaster.Console.CurrentIndentationLevel -= 1
+                End Sub)
             Console.WriteLine()
 
             'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, dir.OutlookApp.DirectorySeparatorChar)
