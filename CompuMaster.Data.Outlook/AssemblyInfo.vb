@@ -6,10 +6,10 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("CompuMaster GmbH")>
 <Assembly: AssemblyProduct("CompuMaster.Data.Outlook")>
-<Assembly: AssemblyCopyright("2017 CompuMaster GmbH")>
+<Assembly: AssemblyCopyright("2017,2021 CompuMaster GmbH")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(True)> 
 <Assembly: Guid("9b16fd1c-a4c3-410f-ba6c-230cceee31b5")>
 
-<Assembly: AssemblyVersion("2017.04.18.100")>
+<Assembly: AssemblyVersion("2021.01.10.100")>
