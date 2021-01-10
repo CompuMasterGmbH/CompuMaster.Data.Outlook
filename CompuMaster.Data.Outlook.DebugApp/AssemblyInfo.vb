@@ -2,7 +2,7 @@
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
-<Assembly: AssemblyTitle("CompuMaster.Data.Outlook.DebugApp")>
+<Assembly: AssemblyTitle("CompuMaster.Data.Outlook.DebugApp - MIT license edition")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("CompuMaster GmbH")>
 <Assembly: AssemblyProduct("CompuMaster.Data.Outlook.DebugApp")>
