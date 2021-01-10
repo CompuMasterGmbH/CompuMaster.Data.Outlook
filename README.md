@@ -5,13 +5,15 @@ based on NetOffice.OutlookApi (requires installed MS Outlook)
 [![Github Release](https://img.shields.io/github/release/CompuMasterGmbH/CompuMaster.Data.Outlook.svg?maxAge=2592000&label=GitHub%20Release)](https://github.com/CompuMasterGmbH/CompuMaster.Data.Outlook/releases) 
 [![NuGet CompuMaster.Data.Outlook](https://img.shields.io/nuget/v/CompuMaster.Data.Outlook.svg?label=NuGet%20CM.Data.Outlook)](https://www.nuget.org/packages/CompuMaster.Data.Outlook/) 
 
-## Samples
+## Sample application
 
 * Sample application for quick starting your own development  
 ![Screenshot of sample application](ExtractionSampleApp.png)
 * Sample extraction of MS Outlook calendar entries into Microsoft Excel XLSX file (works for CSV files, too)
 ![Screenshot of sample application](ExtractionSampleExcelTable.png)
-* First example code for accessing outlook folder items (also see sample console/debug app)  
+
+## Sample code (VB.NET)
+It's easy to browse and access all folders of Outlook's PST fiels, it takes just a few lines of code (also see sample console/debug app)  
 ```vb.net
 Sub Main()
     Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
