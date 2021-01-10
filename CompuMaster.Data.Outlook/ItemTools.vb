@@ -113,6 +113,30 @@ Namespace CompuMaster.Data.Outlook
         Public Shared Function EndUtc(item As NetOffice.COMObject) As DateTime
             Return CType(CType(item, Object).EndUtc, DateTime)
         End Function
+        Public Shared Function Categories(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).Categories, String)
+        End Function
+        Public Shared Function Location(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).Location, String)
+        End Function
+        Public Shared Function Organizer(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).Organizer, String)
+        End Function
+        Public Shared Function Duration(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).Duration, String)
+        End Function
+        Public Shared Function BusyStatus(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).BusyStatus, String)
+        End Function
+        Public Shared Function RequiredAttendees(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).RequiredAttendees, String)
+        End Function
+        Public Shared Function ReminderMinutesBeforeStart(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).ReminderMinutesBeforeStart, String)
+        End Function
+        Public Shared Function MessageClass(item As NetOffice.COMObject) As String
+            Return CType(CType(item, Object).MessageClass, String)
+        End Function
 
         ''' <summary>
         ''' Extended properties

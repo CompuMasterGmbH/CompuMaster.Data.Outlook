@@ -107,11 +107,19 @@ Namespace CompuMaster.Data.Outlook
         End Sub
 
         Public Function ItemsRangeAsDataTable(startIndex As Integer, length As Integer) As DataTable
-            Return ItemsAsDataTable(Me.ItemsRange(startIndex, length))
+            Return ItemsAsDataTable(Me.ItemsRange(startIndex, length), False)
+        End Function
+
+        Public Function ItemsRangeAsDataTable(startIndex As Integer, length As Integer, includeExtendedItemProperties As Boolean) As DataTable
+            Return ItemsAsDataTable(Me.ItemsRange(startIndex, length), includeExtendedItemProperties)
         End Function
 
         Public Function ItemsAllAsDataTable() As System.Data.DataTable
-            Return ItemsAsDataTable(Me.ItemsAll)
+            Return ItemsAsDataTable(Me.ItemsAll, False)
+        End Function
+
+        Public Function ItemsAllAsDataTable(includeExtendedItemProperties As Boolean) As System.Data.DataTable
+            Return ItemsAsDataTable(Me.ItemsAll, includeExtendedItemProperties)
         End Function
 
         ''' <summary>
@@ -119,7 +127,7 @@ Namespace CompuMaster.Data.Outlook
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function ItemsAsDataTable(items As Item()) As System.Data.DataTable
+        Public Shared Function ItemsAsDataTable(items As Item(), includeExtendedItemProperties As Boolean) As System.Data.DataTable
             Dim Result As New System.Data.DataTable("Items")
 
             'Prepare table structure
@@ -149,6 +157,18 @@ Namespace CompuMaster.Data.Outlook
             Result.Columns.Add("To", GetType(String))
             Result.Columns.Add("UnRead", GetType(Boolean))
             Result.Columns.Add("Recipients", GetType(NetOffice.OutlookApi.Recipient()))
+            Result.Columns.Add("Start", GetType(Date))
+            Result.Columns.Add("End", GetType(Date))
+            Result.Columns.Add("StartUtc", GetType(Date))
+            Result.Columns.Add("EndUtc", GetType(Date))
+            Result.Columns.Add("Categories", GetType(String))
+            Result.Columns.Add("Location", GetType(String))
+            Result.Columns.Add("Organizer", GetType(String))
+            Result.Columns.Add("Duration", GetType(String))
+            Result.Columns.Add("BusyStatus", GetType(String))
+            Result.Columns.Add("RequiredAttendees", GetType(String))
+            Result.Columns.Add("ReminderMinutesBeforeStart", GetType(String))
+            Result.Columns.Add("MessageClass", GetType(String))
 
             'Fill items into table
             For ItemCounter As Integer = 0 To items.Length - 1
@@ -178,6 +198,18 @@ Namespace CompuMaster.Data.Outlook
                 NewRow("TaskSubject") = items(ItemCounter).TaskSubject
                 NewRow("To") = items(ItemCounter).To
                 NewRow("UnRead") = items(ItemCounter).UnRead
+                NewRow("Start") = items(ItemCounter).Start
+                NewRow("End") = items(ItemCounter).End
+                NewRow("StartUtc") = items(ItemCounter).StartUtc
+                NewRow("EndUtc") = items(ItemCounter).EndUtc
+                NewRow("Categories") = items(ItemCounter).Categories
+                NewRow("Location") = items(ItemCounter).Location
+                NewRow("Organizer") = items(ItemCounter).Organizer
+                NewRow("Duration") = items(ItemCounter).Duration
+                NewRow("BusyStatus") = items(ItemCounter).BusyStatus
+                NewRow("RequiredAttendees") = items(ItemCounter).RequiredAttendees
+                NewRow("ReminderMinutesBeforeStart") = items(ItemCounter).ReminderMinutesBeforeStart
+                NewRow("MessageClass") = items(ItemCounter).MessageClass
                 If items(ItemCounter).Recipients IsNot Nothing Then
                     Dim Recipients As New List(Of NetOffice.OutlookApi.Recipient)
                     For RecipientsCounter As Integer = 1 To items(ItemCounter).Recipients.Count
@@ -186,24 +218,26 @@ Namespace CompuMaster.Data.Outlook
                     NewRow("Recipients") = Recipients.ToArray
                 End If
 
-                For Each ExtendedPropertyName As String In items(ItemCounter).ItemPropertyNames
-                    Dim ExtendedPropertyValue As Object = items(ItemCounter).ItemPropertyValues(ExtendedPropertyName)
-                    If ExtendedPropertyValue IsNot Nothing Then
-                        If NewRow.Table.Columns.Contains(ExtendedPropertyName) = False Then
-                            NewRow.Table.Columns.Add(ExtendedPropertyName, ExtendedPropertyValue.GetType)
-                            NewRow(ExtendedPropertyName) = ExtendedPropertyValue
-                        Else
-                            If IsDBNull(NewRow(ExtendedPropertyName)) Then 'never override major fields with extended property data
+                If includeExtendedItemProperties Then
+                    For Each ExtendedPropertyName As String In items(ItemCounter).ItemPropertyNames
+                        Dim ExtendedPropertyValue As Object = items(ItemCounter).ItemPropertyValues(ExtendedPropertyName)
+                        If ExtendedPropertyValue IsNot Nothing Then
+                            If NewRow.Table.Columns.Contains(ExtendedPropertyName) = False Then
+                                NewRow.Table.Columns.Add(ExtendedPropertyName, ExtendedPropertyValue.GetType)
                                 NewRow(ExtendedPropertyName) = ExtendedPropertyValue
+                            Else
+                                If IsDBNull(NewRow(ExtendedPropertyName)) Then 'never override major fields with extended property data
+                                    NewRow(ExtendedPropertyName) = ExtendedPropertyValue
+                                End If
                             End If
                         End If
-                    End If
-                Next
+                    Next
+                End If
 
                 Result.Rows.Add(NewRow)
-                Next
+            Next
 
-                Return Result
+            Return Result
         End Function
 
         '''' <summary>

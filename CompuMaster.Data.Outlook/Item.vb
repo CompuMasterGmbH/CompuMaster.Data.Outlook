@@ -283,6 +283,87 @@ Namespace CompuMaster.Data.Outlook
             End Get
         End Property
 
+
+        Public ReadOnly Property Categories As String
+            Get
+                Try
+                    Return ItemTools.Categories(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property Location As String
+            Get
+                Try
+                    Return ItemTools.Location(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property Organizer As String
+            Get
+                Try
+                    Return ItemTools.Organizer(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property Duration As String
+            Get
+                Try
+                    Return ItemTools.Duration(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property BusyStatus As String
+            Get
+                Try
+                    Return ItemTools.BusyStatus(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property RequiredAttendees As String
+            Get
+                Try
+                    Return ItemTools.RequiredAttendees(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property ReminderMinutesBeforeStart As String
+            Get
+                Try
+                    Return ItemTools.ReminderMinutesBeforeStart(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property MessageClass As String
+            Get
+                Try
+                    Return ItemTools.MessageClass(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
         Public ReadOnly Property ItemProperties As ItemProperties
             Get
                 Try
