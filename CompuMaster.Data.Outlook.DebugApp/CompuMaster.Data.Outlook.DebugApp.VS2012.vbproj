@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7E55F4E4-7B60-4DD3-B686-0DDDCF52B69F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>CompuMaster.Data.OutlookDebugApp.Module1</StartupObject>
+    <StartupObject>CompuMaster.Data.OutlookDebugApp.MainModule</StartupObject>
     <RootNamespace>CompuMaster.Data.OutlookDebugApp</RootNamespace>
     <AssemblyName>CompuMaster.Data.Outlook.DebugApp</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -100,7 +100,8 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
+    <Compile Include="TestAndDevModule.vb" />
+    <Compile Include="MainModule.vb" />
     <Compile Include="AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

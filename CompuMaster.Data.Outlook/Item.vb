@@ -74,7 +74,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.SentOn(Me._outlookItem)
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -83,7 +83,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.ReceivedTime(Me._outlookItem)
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -92,7 +92,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.LastModificationTime(Me._outlookItem)
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -101,7 +101,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.UnRead(Me._outlookItem)
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -110,7 +110,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.ReceivedByName(Me._outlookItem)
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -119,7 +119,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.BodyFormat(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -128,7 +128,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.HTMLBody(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -137,7 +137,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.Body(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -146,7 +146,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.CC(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -155,7 +155,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.BCC(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -164,7 +164,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.To(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -173,7 +173,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.TaskSubject(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -182,7 +182,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.SenderEmailAddress(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -191,7 +191,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.SenderName(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -200,7 +200,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.SenderEmailType(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -209,7 +209,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.EntryID(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -218,7 +218,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.Importance(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -227,7 +227,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.Sensitivity(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -237,7 +237,47 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.Recipients(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property Start As Date
+            Get
+                Try
+                    Return ItemTools.Start(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property [End] As Date
+            Get
+                Try
+                    Return ItemTools.End(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property StartUtc As Date
+            Get
+                Try
+                    Return ItemTools.StartUtc(Me._outlookItem)
+                Catch
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
+        Public ReadOnly Property EndUtc As Date
+            Get
+                Try
+                    Return ItemTools.EndUtc(Me._outlookItem)
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -247,7 +287,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.ItemProperties(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -284,7 +324,7 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.ItemPropertyValues(Me._outlookItem, propertyName, throwExceptionIfPropertyMissing)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
@@ -294,20 +334,22 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.RTFBody(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
         End Property
+
         Public ReadOnly Property ReceivedByEntryID As String
             Get
                 Try
                     Return ItemTools.ReceivedByEntryID(Me._outlookItem)
-                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
         End Property
+
         Public Sub Move(destinationFolder As MAPIFolder)
             ItemTools.Move(Me._outlookItem, destinationFolder)
         End Sub
@@ -316,39 +358,22 @@ Namespace CompuMaster.Data.Outlook
             Get
                 Try
                     Return ItemTools.CreationTime(Me._outlookItem)
-                Catch ex As system.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                Catch
                     Return Nothing
                 End Try
             End Get
         End Property
 
-        '    Public ReadOnly Property CalendarEntryBegin As DateTime
-        '        Get
-        '            If Me.IsAppointment = False OrElse ExtendedData.ContainsKey("Start") = False OrElse ExtendedData.Item("Start") Is Nothing Then
-        '                Return Nothing
-        '            Else
-        '                Return CType(ExtendedData.Item("Start"), DateTime)
-        '            End If
-        '        End Get
-        '    End Property
-        '    Public ReadOnly Property CalendarEntryEnd As DateTime
-        '        Get
-        '            If Me.IsAppointment = False OrElse ExtendedData.ContainsKey("End") = False OrElse ExtendedData.Item("End") Is Nothing Then
-        '                Return Nothing
-        '            Else
-        '                Return CType(ExtendedData.Item("End"), DateTime)
-        '            End If
-        '        End Get
-        '    End Property
         Public ReadOnly Property IsAppointment As Boolean
             Get
                 If Me.ObjectClass = NetOffice.OutlookApi.Enums.OlObjectClass.olAppointment Then
                     Return True
                 Else
                     Return False
-                    End If
+                End If
             End Get
         End Property
+
         '    'Public ReadOnly Property IsDraft As Boolean
         '    '    Get
         '    '        Return ItemTools.IsDraft
@@ -359,7 +384,7 @@ Namespace CompuMaster.Data.Outlook
         '    '    Get
         '    '        Try
         '    '            Return System.Text.Encoding.GetEncoding(_exchangeItem.MimeContent.CharacterSet).GetString(_exchangeItem.MimeContent.Content)
-        '    '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '        Catch ex As Exception 
         '    '            Return Nothing
         '    '        End Try
         '    '    End Get
@@ -368,7 +393,7 @@ Namespace CompuMaster.Data.Outlook
         '    '    Get
         '    '        Try
         '    '            Return ItemTools.Body.BodyType.ToString
-        '    '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '        Catch ex As Exception 
         '    '            Return Nothing
         '    '        End Try
         '    '    End Get
@@ -377,7 +402,7 @@ Namespace CompuMaster.Data.Outlook
         '    '    Get
         '    '        Try
         '    '            Return ItemTools.Body
-        '    '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '        Catch ex As Exception 
         '    '            Return Nothing
         '    '        End Try
         '    '    End Get
@@ -389,7 +414,7 @@ Namespace CompuMaster.Data.Outlook
         '    '            Try
         '    '                Dim message As Microsoft.Exchange.WebServices.Data.EmailMessage = SenderRecipientsDataAndPlainTextBody()
         '    '                _Result = message.Body.Text
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = ""
         '    '            End Try
         '    '        End If
@@ -406,7 +431,7 @@ Namespace CompuMaster.Data.Outlook
         '    '                propSet.RequestedBodyType = Microsoft.Exchange.WebServices.Data.BodyType.HTML
         '    '                Dim message As Microsoft.Exchange.WebServices.Data.EmailMessage = Microsoft.Exchange.WebServices.Data.EmailMessage.Bind(_service.CreateConfiguredExchangeService, _exchangeItem.Id, propSet)
         '    '                _Result = message.Body.Text
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = ""
         '    '            End Try
         '    '        End If
@@ -448,7 +473,7 @@ Namespace CompuMaster.Data.Outlook
         '    '                Else
         '    '                    _Result = New System.Net.Mail.MailAddress(message.From.Address, message.From.Name)
         '    '                End If
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = Nothing
         '    '            End Try
         '    '        End If
@@ -466,7 +491,7 @@ Namespace CompuMaster.Data.Outlook
         '    '                For Each addr As EmailAddress In message.ReplyTo
         '    '                    _Result.Add(New System.Net.Mail.MailAddress(addr.Address, addr.Name))
         '    '                Next
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = Nothing
         '    '            End Try
         '    '        End If
@@ -506,7 +531,7 @@ Namespace CompuMaster.Data.Outlook
         '    '                For Each addr As EmailAddress In message.ToRecipients
         '    '                    _Result.Add(New System.Net.Mail.MailAddress(addr.Address, addr.Name))
         '    '                Next
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = Nothing
         '    '            End Try
         '    '        End If
@@ -524,7 +549,7 @@ Namespace CompuMaster.Data.Outlook
         '    '                For Each addr As EmailAddress In message.CcRecipients
         '    '                    _Result.Add(New System.Net.Mail.MailAddress(addr.Address, addr.Name))
         '    '                Next
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = Nothing
         '    '            End Try
         '    '        End If
@@ -542,7 +567,7 @@ Namespace CompuMaster.Data.Outlook
         '    '                For Each addr As EmailAddress In message.BccRecipients
         '    '                    _Result.Add(New System.Net.Mail.MailAddress(addr.Address, addr.Name))
         '    '                Next
-        '    '            Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '    '            Catch ex As Exception 
         '    '                _Result = Nothing
         '    '            End Try
         '    '        End If
@@ -634,7 +659,7 @@ Namespace CompuMaster.Data.Outlook
         '            '                        _ExtendedData.Add(ColName, Me.ExchangeItem.Item(prop))
         '            '                End Select
         '            '            End If
-        '            '        Catch ex As Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+        '            '        Catch ex As Exception 
         '            '            'Mark this column to be killed at the end because it only contains non-sense
         '            '            'DEBUG NOTE: This exception might appear several times in debug sessions but can't be stopped from throwing -> JUST IGNORE THEM!
         '            '        Catch ex As Microsoft.Exchange.WebServices.Data.ServiceVersionException

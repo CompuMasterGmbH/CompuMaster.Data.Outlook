@@ -101,6 +101,18 @@ Namespace CompuMaster.Data.Outlook
         Public Shared Function Recipients(item As NetOffice.COMObject) As NetOffice.OutlookApi.Recipients
             Return CType(CType(item, Object).Recipients, NetOffice.OutlookApi.Recipients)
         End Function
+        Public Shared Function Start(item As NetOffice.COMObject) As DateTime
+            Return CType(CType(item, Object).Start, DateTime)
+        End Function
+        Public Shared Function [End](item As NetOffice.COMObject) As DateTime
+            Return CType(CType(item, Object).[End], DateTime)
+        End Function
+        Public Shared Function StartUtc(item As NetOffice.COMObject) As DateTime
+            Return CType(CType(item, Object).StartUtc, DateTime)
+        End Function
+        Public Shared Function EndUtc(item As NetOffice.COMObject) As DateTime
+            Return CType(CType(item, Object).EndUtc, DateTime)
+        End Function
 
         ''' <summary>
         ''' Extended properties

@@ -140,8 +140,7 @@ Namespace CompuMaster.Data.Outlook
             Result.Columns.Add("TaskSubject", GetType(String))
             Result.Columns.Add("To", GetType(String))
             Result.Columns.Add("UnRead", GetType(Boolean))
-            'Result.Columns.Add("Recipients", GetType(String))
-            'Result.Columns.Add("ItemProperties", GetType(String))
+            Result.Columns.Add("Recipients", GetType(NetOffice.OutlookApi.Recipient()))
 
             'Fill items into table
             For ItemCounter As Integer = 0 To items.Length - 1
@@ -171,8 +170,13 @@ Namespace CompuMaster.Data.Outlook
                 NewRow("TaskSubject") = items(ItemCounter).TaskSubject
                 NewRow("To") = items(ItemCounter).To
                 NewRow("UnRead") = items(ItemCounter).UnRead
-                'NewRow("Recipients") = items(ItemCounter).Recipients
-                'NewRow("ItemProperties") = items(ItemCounter).ItemProperties
+                If items(ItemCounter).Recipients IsNot Nothing Then
+                    Dim Recipients As New List(Of NetOffice.OutlookApi.Recipient)
+                    For RecipientsCounter As Integer = 1 To items(ItemCounter).Recipients.Count
+                        Recipients.Add(items(ItemCounter).Recipients(RecipientsCounter))
+                    Next
+                    NewRow("Recipients") = Recipients.ToArray
+                End If
 
                 For Each ExtendedPropertyName As String In items(ItemCounter).ItemPropertyNames
                     Dim ExtendedPropertyValue As Object = items(ItemCounter).ItemPropertyValues(ExtendedPropertyName)
@@ -356,31 +360,6 @@ Namespace CompuMaster.Data.Outlook
         '''' All items of a folder (might be limited due to exchange default to e.g. 1,000 items)
         '''' </summary>
         '''' <returns></returns>
-        'Public Function ItemsAsExchangeItem(searchFilter As Microsoft.Exchange.WebServices.Data.SearchFilter, itemView As Microsoft.Exchange.WebServices.Data.ItemView) As List(Of Microsoft.Exchange.WebServices.Data.Item)
-        '    Dim FoundItems As New List(Of Microsoft.Exchange.WebServices.Data.Item)
-        '    Dim MaxQueryItems As Integer = itemView.PageSize
-        '    Dim MoreResultsAvailable As Boolean = True
-
-        '    'Repeatedly query all partly results and combine them
-        '    Do While MoreResultsAvailable
-        '        Dim ItemViewWithOffset As Microsoft.Exchange.WebServices.Data.ItemView = itemView
-        '        If MaxQueryItems = Integer.MaxValue Then
-        '            ItemViewWithOffset.Offset = FoundItems.Count
-        '        End If
-        '        Dim QueryResult As FindItemsResults(Of Microsoft.Exchange.WebServices.Data.Item) = Me.OutlookFolder.FindItems(searchFilter, ItemViewWithOffset)
-        '        For Each item As Microsoft.Exchange.WebServices.Data.Item In QueryResult.Items
-        '            FoundItems.Add(item)
-        '        Next
-        '        MoreResultsAvailable = QueryResult.MoreAvailable AndAlso FoundItems.Count < MaxQueryItems
-        '    Loop
-
-        '    Return FoundItems
-        'End Function
-
-        '''' <summary>
-        '''' All items of a folder (might be limited due to exchange default to e.g. 1,000 items)
-        '''' </summary>
-        '''' <returns></returns>
         'Public Function Items(searchFilter As Microsoft.Exchange.WebServices.Data.SearchFilter, itemView As Microsoft.Exchange.WebServices.Data.ItemView) As Item()
         '    Dim Result As New List(Of Item)
         '    For Each ExchangeItem As Microsoft.Exchange.WebServices.Data.Item In ItemsAsExchangeItem(searchFilter, itemView)
@@ -413,11 +392,6 @@ Namespace CompuMaster.Data.Outlook
         ''' <returns></returns>
         Public Function ItemUnreadCount() As Integer
             Return Me.OutlookFolder.UnReadItemCount
-            'Try
-            '    Return Me.OutlookFolder.UnReadItemCount
-            'Catch ex As Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
-            '    Return 0
-            'End Try
         End Function
 
         Private _ParentFolderID As String

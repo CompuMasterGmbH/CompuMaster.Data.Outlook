@@ -5,44 +5,7 @@ Imports CompuMaster
 Imports CompuMaster.Data.Outlook
 Imports CompuMaster.Data.Outlook.OutlookApp
 
-Module Module1
-
-    Sub Main()
-        Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
-        Dim PstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
-
-        Console.WriteLine("## Folder list of PST")
-        Dim dirRoot As Directory = PstRootFolderPath.Directory
-
-        ForDirectoryAndEachSubDirectory(
-            dirRoot,
-            Sub(dir As Directory)
-                Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)
-                'Console.Write(" [" & dir..FolderClass & "]")
-                Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
-                'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
-                Console.WriteLine()
-                CompuMaster.Console.CurrentIndentationLevel += 1
-                'ShowItems_FormatList(dir)
-                ShowItems_FormatTable(dir)
-                CompuMaster.Console.CurrentIndentationLevel -= 1
-            End Sub)
-        Console.WriteLine()
-
-        'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, dir.OutlookApp.DirectorySeparatorChar)
-        'Console.WriteLine()
-        'Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang", True)
-        'Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
-        'ShowItems(dirInbox, oApp)
-
-        'Console.WriteLine("## Item list of Inbox")
-        'Dim InboxFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
-        'Dim InboxItems As DataTable = Directory.ItemsAsDataTable(InboxFolder.ItemsAll)
-        'CompuMaster.Data.DataTables.RemoveColumns(InboxItems, New String() {"Body"}) 'Do not show multi-line field "body" in following steps
-        'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(InboxItems))
-        'Console.WriteLine()
-
-    End Sub
+Module TestAndDevModule
 
     Sub MainDev()
         'Try
@@ -226,29 +189,6 @@ Module Module1
     '    Return itemView
     'End Function
 
-    Private Sub ShowItems_FormatList(dir As Directory)
-        Dim items As NetOffice.OutlookApi._Items = dir.OutlookFolder.Items
-        ShowItems_FormatList(Convert2Items(dir, items))
-    End Sub
-
-    Private Sub ShowItems_FormatTable(dir As Directory)
-        Dim FolderItems As DataTable = Directory.ItemsAsDataTable(dir.ItemsAll)
-        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"Body", "HTMLBody", "RTFBody"}) 'Do not show multi-line field "body" in following steps
-        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"ParentFolderID", "EntryID", "RTFBody"}) 'Do not show multi-line field "body" in following steps
-        Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(FolderItems))
-    End Sub
-
-    Private Function Convert2Items(dir As Directory, items As NetOffice.OutlookApi._Items) As Item()
-        Dim Result As New List(Of Item)
-        For Each item As Object In items
-            Result.Add(New Item(dir.OutlookApp, CType(item, NetOffice.COMObject), dir))
-        Next
-        'For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
-        '    Result.Add(New Item(dir.OutlookApp, CType(items(MyItemCounter), NetOffice.COMObject), dir))
-        'Next
-        Return Result.ToArray
-    End Function
-
     'Private Function Convert2Items(dir As Directory, items As List(Of Microsoft.Exchange.WebServices.Data.Item)) As Item()
     '    '    Dim Result As New List(Of Item)
     '    '    For MyItemCounter As Integer = 0 To System.Math.Min(1, items.Count) - 1
@@ -256,45 +196,6 @@ Module Module1
     '    '    Next
     '    '    Return Result.ToArray
     'End Function
-
-    Private Sub ShowItems_FormatList(items As Item())
-
-        Console.WriteLine("---")
-        For MyItemCounter As Integer = 0 To System.Math.Min(3, items.Length) - 1
-            Dim entryItem As Item = items(MyItemCounter)
-            Console.WriteLine("" & entryItem.Subject) '& " / DC:" & entryItem.DateTimeCreated '& " / DR:" & entryItem.DateTimeReceived & " / DS:" & entryItem.DateTimeSent)
-            'Console.WriteLine("TYPE:" & entryItem.ExchangeItem.ItemClass)
-            'Console.WriteLine("CalBeg:" & entryItem.CalendarEntryBegin)
-            'Console.WriteLine("CalEnd:" & entryItem.CalendarEntryEnd)
-            'Console.WriteLine("Co:" & entryItem.MimeContent)
-            Console.WriteLine("BT: " & entryItem.BodyFormat.ToString)
-            Console.WriteLine("BC: " & entryItem.Body)
-            'Console.WriteLine("Fr: " & Utils.ObjectNotNothingOrEmptyString(entryItem.FromSender).ToString)
-
-            'Console.WriteLine("Fr: " & entryItem.FromExchangeSender)
-            Console.WriteLine("To: " & entryItem.To)
-            Console.WriteLine("Cc: " & entryItem.CC)
-            Console.WriteLine("Pa: " & entryItem.ParentDirectory.DisplayPath)
-            Console.WriteLine("Cl: " & entryItem.ObjectClassName)
-            Console.WriteLine("---")
-        Next
-    End Sub
-
-    Private Delegate Sub DirectoryAction(dir As Directory)
-
-    Private Sub ForDirectoryAndEachSubDirectory(dir As Directory, actions As DirectoryAction)
-        actions(dir)
-        For Each dirItem As Directory In dir.SubFolders
-            ForDirectoryAndEachSubDirectory(dirItem, actions)
-        Next
-    End Sub
-
-    Private Sub ForEachSubDirectory(dir As Directory, actions As DirectoryAction)
-        For Each dirItem As Directory In dir.SubFolders
-            actions(dir)
-            ForEachSubDirectory(dirItem, actions)
-        Next
-    End Sub
 
     'Private Sub ForEachSubDirectory(dir As Directory)
 
@@ -385,11 +286,4 @@ Module Module1
 
     'End Sub
 
-    Public Function FirstDifferentChar(ByVal value1 As String, ByVal value2 As String) As Integer
-        Dim charCounter As Integer
-        For charCounter = 0 To value1.Length
-            If value1(charCounter) <> value2(charCounter) Then Return charCounter
-        Next
-        Return charCounter
-    End Function
 End Module
