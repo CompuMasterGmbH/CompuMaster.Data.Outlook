@@ -173,10 +173,25 @@ Namespace CompuMaster.Data.Outlook
                 NewRow("UnRead") = items(ItemCounter).UnRead
                 'NewRow("Recipients") = items(ItemCounter).Recipients
                 'NewRow("ItemProperties") = items(ItemCounter).ItemProperties
-                Result.Rows.Add(NewRow)
-            Next
 
-            Return Result
+                For Each ExtendedPropertyName As String In items(ItemCounter).ItemPropertyNames
+                    Dim ExtendedPropertyValue As Object = items(ItemCounter).ItemPropertyValues(ExtendedPropertyName)
+                    If ExtendedPropertyValue IsNot Nothing Then
+                        If NewRow.Table.Columns.Contains(ExtendedPropertyName) = False Then
+                            NewRow.Table.Columns.Add(ExtendedPropertyName, ExtendedPropertyValue.GetType)
+                            NewRow(ExtendedPropertyName) = ExtendedPropertyValue
+                        Else
+                            If IsDBNull(NewRow(ExtendedPropertyName)) Then 'never override major fields with extended property data
+                                NewRow(ExtendedPropertyName) = ExtendedPropertyValue
+                            End If
+                        End If
+                    End If
+                Next
+
+                Result.Rows.Add(NewRow)
+                Next
+
+                Return Result
         End Function
 
         '''' <summary>

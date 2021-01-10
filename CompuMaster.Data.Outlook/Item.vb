@@ -253,6 +253,43 @@ Namespace CompuMaster.Data.Outlook
             End Get
         End Property
 
+        ''' <summary>
+        ''' A list of available property names of the extended property list ItemProperties
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ItemPropertyNames As List(Of String)
+            Get
+                Return ItemTools.ItemPropertyNames(Me._outlookItem)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Extract extended property values from ItemProperties list
+        ''' </summary>
+        ''' <param name="propertyName">The name of the required property</param>
+        ''' <returns>The requested property value or null (Nothing in Visual Basic) if the property doesn't exist</returns>
+        Public ReadOnly Property ItemPropertyValues(propertyName As String) As Object
+            Get
+                Return ItemTools.ItemPropertyValues(Me._outlookItem, propertyName, False)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Extract extended property values from ItemProperties list
+        ''' </summary>
+        ''' <param name="propertyName">The name of the required property</param>
+        ''' <param name="throwExceptionIfPropertyMissing">If the property doesn't exist, throw an exception or return null (Nothing in VisualBasic)</param>
+        ''' <returns>The requested property value</returns>
+        Public ReadOnly Property ItemPropertyValues(propertyName As String, throwExceptionIfPropertyMissing As Boolean) As Object
+            Get
+                Try
+                    Return ItemTools.ItemPropertyValues(Me._outlookItem, propertyName, throwExceptionIfPropertyMissing)
+                Catch ex As System.Exception ' Microsoft.Exchange.WebServices.Data.ServiceObjectPropertyException
+                    Return Nothing
+                End Try
+            End Get
+        End Property
+
         Public ReadOnly Property RTFBody As Object
             Get
                 Try

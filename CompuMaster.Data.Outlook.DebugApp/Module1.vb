@@ -23,11 +23,8 @@ Module Module1
                 'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
                 Console.WriteLine()
                 CompuMaster.Console.CurrentIndentationLevel += 1
-                'ShowItems(dir)
-                Dim FolderItems As DataTable = Directory.ItemsAsDataTable(dir.ItemsAll)
-                CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"Body", "HTMLBody", "RTFBody"}) 'Do not show multi-line field "body" in following steps
-                CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"ParentFolderID", "EntryID", "RTFBody"}) 'Do not show multi-line field "body" in following steps
-                Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(FolderItems))
+                'ShowItems_FormatList(dir)
+                ShowItems_FormatTable(dir)
                 CompuMaster.Console.CurrentIndentationLevel -= 1
             End Sub)
         Console.WriteLine()
@@ -229,9 +226,16 @@ Module Module1
     '    Return itemView
     'End Function
 
-    Private Sub ShowItems(dir As Directory)
+    Private Sub ShowItems_FormatList(dir As Directory)
         Dim items As NetOffice.OutlookApi._Items = dir.OutlookFolder.Items
-        ShowItems(Convert2Items(dir, items))
+        ShowItems_FormatList(Convert2Items(dir, items))
+    End Sub
+
+    Private Sub ShowItems_FormatTable(dir As Directory)
+        Dim FolderItems As DataTable = Directory.ItemsAsDataTable(dir.ItemsAll)
+        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"Body", "HTMLBody", "RTFBody"}) 'Do not show multi-line field "body" in following steps
+        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"ParentFolderID", "EntryID", "RTFBody"}) 'Do not show multi-line field "body" in following steps
+        Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(FolderItems))
     End Sub
 
     Private Function Convert2Items(dir As Directory, items As NetOffice.OutlookApi._Items) As Item()
@@ -253,7 +257,7 @@ Module Module1
     '    '    Return Result.ToArray
     'End Function
 
-    Private Sub ShowItems(items As Item())
+    Private Sub ShowItems_FormatList(items As Item())
 
         Console.WriteLine("---")
         For MyItemCounter As Integer = 0 To System.Math.Min(3, items.Length) - 1
