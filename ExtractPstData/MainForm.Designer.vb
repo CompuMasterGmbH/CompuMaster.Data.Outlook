@@ -24,7 +24,7 @@ Partial Class MainForm
     Private Sub InitializeComponent()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OpenOutlookPSTOSTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OpenOutlookPstToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.OutlookPSTOSTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -48,16 +48,16 @@ Partial Class MainForm
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenOutlookPSTOSTToolStripMenuItem, Me.ToolStripSeparator1, Me.QuitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OpenOutlookPstToolStripMenuItem, Me.ToolStripSeparator1, Me.QuitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "&File"
         '
         'OpenOutlookPSTOSTToolStripMenuItem
         '
-        Me.OpenOutlookPSTOSTToolStripMenuItem.Name = "OpenOutlookPSTOSTToolStripMenuItem"
-        Me.OpenOutlookPSTOSTToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
-        Me.OpenOutlookPSTOSTToolStripMenuItem.Text = "&Open Outlook PST/OST"
+        Me.OpenOutlookPstToolStripMenuItem.Name = "OpenOutlookPSTOSTToolStripMenuItem"
+        Me.OpenOutlookPstToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
+        Me.OpenOutlookPstToolStripMenuItem.Text = "&Open Outlook PST/OST"
         '
         'ToolStripSeparator1
         '
@@ -134,7 +134,7 @@ Partial Class MainForm
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents FileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents QuitToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents OpenOutlookPSTOSTToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenOutlookPstToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents OutlookPSTOSTToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectedOutlookFolderForOperationsToolStripMenuItem As ToolStripMenuItem

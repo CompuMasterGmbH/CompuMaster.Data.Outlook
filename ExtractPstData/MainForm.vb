@@ -2,7 +2,7 @@
 
 Public Class MainForm
 
-    Private OutlookPstOstAccess As New OutlookPstOstAccess()
+    Private OutlookPst As New OutlookPstDatabase()
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = My.Application.Info.Title
@@ -12,64 +12,64 @@ Public Class MainForm
         Me.Close()
     End Sub
 
-    Private Sub OpenOutlookPSTOSTToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenOutlookPSTOSTToolStripMenuItem.Click
+    Private Sub OpenOutlookPstToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenOutlookPstToolStripMenuItem.Click
         Try
             Dim f As New System.Windows.Forms.OpenFileDialog()
             f.CheckFileExists = True
-            f.Filter = "Outlook Mailboxes (*.pst; *.ost)|*.pst;*.ost"
-            If My.Settings.LastOpenedPstOstFile <> Nothing Then
-                f.InitialDirectory = System.IO.Path.GetDirectoryName(My.Settings.LastOpenedPstOstFile)
-                f.FileName = System.IO.Path.GetFileName(My.Settings.LastOpenedPstOstFile)
+            f.Filter = "Outlook Mailboxes (*.pst)|*.pst"
+            If My.Settings.LastOpenedPstFile <> Nothing Then
+                f.InitialDirectory = System.IO.Path.GetDirectoryName(My.Settings.LastOpenedPstFile)
+                f.FileName = System.IO.Path.GetFileName(My.Settings.LastOpenedPstFile)
             Else
                 f.InitialDirectory = My.Application.Info.DirectoryPath
             End If
             If f.ShowDialog() = DialogResult.OK Then
                 Me.Cursor = Cursors.WaitCursor
-                Me.OutlookPstOstAccess.OutlookPstOstFile = f.FileName
+                Me.OutlookPst.OutlookPstFile = f.FileName
                 Me.FillOutlookFolderListForOperationTargets()
-                Me.UpdateSelectedFolderOperationTarget(Me.OutlookPstOstAccess.OutlookPstOstRootFolder)
-                My.Settings.LastOpenedPstOstFile = f.FileName
+                Me.UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder)
+                My.Settings.LastOpenedPstFile = f.FileName
                 My.Settings.Save()
                 Me.Cursor = Cursors.Default
             End If
         Catch ex As Exception
             Me.Cursor = Cursors.Default
-            MessageBox.Show("ERROR: " & ex.ToString, "Open Outlook PST/OST file", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("ERROR: " & ex.ToString, "Open Outlook PST file", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
     Private Sub UpdateSelectedFolderOperationTarget(folder As CompuMaster.Data.Outlook.Directory)
-        Me.OutlookPstOstAccess.OutlookPstOstOperationFolder = folder
+        Me.OutlookPst.OutlookPstOperationFolder = folder
         Me.ToolStripComboBoxOutlookFolderOperationTarget.SelectedItem = folder.Path
-        Me.Text = My.Application.Info.Title & " - " & System.IO.Path.GetFileName(Me.OutlookPstOstAccess.OutlookPstOstFile)
-        If Me.OutlookPstOstAccess.OutlookPstOstOperationFolderPath <> Nothing Then Me.Text &= ":" & Me.OutlookPstOstAccess.OutlookPstOstOperationFolderPath
+        Me.Text = My.Application.Info.Title & " - " & System.IO.Path.GetFileName(Me.OutlookPst.OutlookPstFile)
+        If Me.OutlookPst.OutlookPstOperationFolderPath <> Nothing Then Me.Text &= ":" & Me.OutlookPst.OutlookPstOperationFolderPath
         Me.LoadFolderItems()
     End Sub
 
     Private Sub FillOutlookFolderListForOperationTargets()
         Me.ToolStripComboBoxOutlookFolderOperationTarget.Items.Clear()
-        For Each FolderName As String In Me.OutlookPstOstAccess.AvailableOutlookFolderPaths
+        For Each FolderName As String In Me.OutlookPst.AvailableOutlookFolderPaths
             Me.ToolStripComboBoxOutlookFolderOperationTarget.Items.Add(FolderName)
         Next
     End Sub
 
     Private Sub MainForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Try
-            Me.OutlookPstOstAccess.QuitOutlookApp
+            Me.OutlookPst.QuitOutlookApp()
         Catch
         End Try
     End Sub
 
     Private Sub ToolStripComboBoxOutlookFolderOperationTarget_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBoxOutlookFolderOperationTarget.SelectedIndexChanged
         Me.Cursor = Cursors.WaitCursor
-        UpdateSelectedFolderOperationTarget(Me.OutlookPstOstAccess.OutlookPstOstRootFolder.SelectSubFolder(CType(Me.ToolStripComboBoxOutlookFolderOperationTarget.SelectedItem, String), False, False))
+        UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder.SelectSubFolder(CType(Me.ToolStripComboBoxOutlookFolderOperationTarget.SelectedItem, String), False, False))
         Me.Cursor = Cursors.Default
     End Sub
 
     Private CurrentFolderItems As DataTable = Nothing
 
     Private Sub LoadFolderItems()
-        Me.CurrentFolderItems = Me.OutlookPstOstAccess.OutlookPstOstOperationFolder.ItemsAllAsDataTable()
+        Me.CurrentFolderItems = Me.OutlookPst.OutlookPstOperationFolder.ItemsAllAsDataTable()
         Me.DataGridView.DataSource = CurrentFolderItems
     End Sub
 
@@ -79,7 +79,7 @@ Public Class MainForm
             f.DefaultExt = ".xlsx"
             f.Filter = "Microsoft Excel (*.xlsx)|*.xlsx"
             f.InitialDirectory = My.Application.Info.DirectoryPath
-            f.FileName = Me.OutlookPstOstAccess.OutlookPstOstOperationFolder.DisplayName
+            f.FileName = Me.OutlookPst.OutlookPstOperationFolder.DisplayName
             If f.ShowDialog() = DialogResult.OK Then
                 Me.Cursor = Cursors.WaitCursor
                 If System.IO.File.Exists(f.FileName) Then System.IO.File.Delete(f.FileName)
@@ -89,7 +89,7 @@ Public Class MainForm
             End If
         Catch ex As Exception
             Me.Cursor = Cursors.Default
-            MessageBox.Show("ERROR: " & ex.ToString, "Open Outlook PST/OST file", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("ERROR: " & ex.ToString, "Save to Microsoft Excel XLSX file", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -99,7 +99,7 @@ Public Class MainForm
             f.DefaultExt = ".csv"
             f.Filter = "Text/Csv (*.csv; *.txt)|*.csv;*.txt"
             f.InitialDirectory = My.Application.Info.DirectoryPath
-            f.FileName = Me.OutlookPstOstAccess.OutlookPstOstOperationFolder.DisplayName
+            f.FileName = Me.OutlookPst.OutlookPstOperationFolder.DisplayName
             If f.ShowDialog() = DialogResult.OK Then
                 Me.Cursor = Cursors.WaitCursor
                 If System.IO.File.Exists(f.FileName) Then System.IO.File.Delete(f.FileName)
@@ -108,7 +108,7 @@ Public Class MainForm
             End If
         Catch ex As Exception
             Me.Cursor = Cursors.Default
-            MessageBox.Show("ERROR: " & ex.ToString, "Open Outlook PST/OST file", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("ERROR: " & ex.ToString, "Save to CSV file", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -147,7 +147,7 @@ Public Class MainForm
 
     Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Try
-            Me.OutlookPstOstAccess.QuitOutlookApp()
+            Me.OutlookPst.QuitOutlookApp()
         Catch
         End Try
     End Sub

@@ -3,7 +3,7 @@ Option Strict On
 
 Imports CompuMaster.Data.Outlook
 
-Public Class OutlookPstOstAccess
+Public Class OutlookPstDatabase
 
     Private _OutlookApp As CompuMaster.Data.Outlook.OutlookApp = Nothing
     Public ReadOnly Property OutlookApp As CompuMaster.Data.Outlook.OutlookApp
@@ -15,45 +15,45 @@ Public Class OutlookPstOstAccess
         End Get
     End Property
 
-    Private _OutlookPstOstFile As String
-    Public Property OutlookPstOstFile As String
+    Private _OutlookPstFile As String
+    Public Property OutlookPstFile As String
         Get
-            Return _OutlookPstOstFile
+            Return _OutlookPstFile
         End Get
         Set(value As String)
-            _OutlookPstOstFile = value
-            Me.OutlookPstOstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(System.Environment.CurrentDirectory, value))
-            Me.OutlookPstOstOperationFolder = Me.OutlookPstOstRootFolder
+            _OutlookPstFile = value
+            Me.OutlookPstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(System.Environment.CurrentDirectory, value))
+            Me.OutlookPstOperationFolder = Me.OutlookPstRootFolder
         End Set
     End Property
 
-    Public Property OutlookPstOstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation = Nothing
+    Public Property OutlookPstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation = Nothing
 
-    Public ReadOnly Property OutlookPstOstRootFolder As CompuMaster.Data.Outlook.Directory
+    Public ReadOnly Property OutlookPstRootFolder As CompuMaster.Data.Outlook.Directory
         Get
-            Return Me.OutlookPstOstRootFolderPath.Directory
+            Return Me.OutlookPstRootFolderPath.Directory
         End Get
     End Property
 
-    Private _OutlookPstOstOperationFolderName As String
-    Public Property OutlookPstOstOperationFolderPath As String
+    Private _OutlookPstOperationFolderName As String
+    Public Property OutlookPstOperationFolderPath As String
         Get
-            Return _OutlookPstOstOperationFolderName
+            Return _OutlookPstOperationFolderName
         End Get
         Set(value As String)
-            _OutlookPstOstOperationFolderName = value
-            _OutlookPstOstOperationFolder = Me.OutlookPstOstRootFolder.SelectSubFolder(value, False, False)
+            _OutlookPstOperationFolderName = value
+            _OutlookPstOperationFolder = Me.OutlookPstRootFolder.SelectSubFolder(value, False, False)
         End Set
     End Property
 
-    Private _OutlookPstOstOperationFolder As CompuMaster.Data.Outlook.Directory
-    Public Property OutlookPstOstOperationFolder As CompuMaster.Data.Outlook.Directory
+    Private _OutlookPstOperationFolder As CompuMaster.Data.Outlook.Directory
+    Public Property OutlookPstOperationFolder As CompuMaster.Data.Outlook.Directory
         Get
-            Return _OutlookPstOstOperationFolder
+            Return _OutlookPstOperationFolder
         End Get
         Set(value As CompuMaster.Data.Outlook.Directory)
-            _OutlookPstOstOperationFolder = value
-            _OutlookPstOstOperationFolderName = value.Path
+            _OutlookPstOperationFolder = value
+            _OutlookPstOperationFolderName = value.Path
         End Set
     End Property
 
@@ -64,7 +64,7 @@ Public Class OutlookPstOstAccess
     Public Function AvailableOutlookFolderPaths() As List(Of String)
         Dim Result As New List(Of String)
         ForDirectoryAndEachSubDirectory(
-                Me.OutlookPstOstRootFolder,
+                Me.OutlookPstRootFolder,
                 Sub(dir As Directory)
                     Result.Add(dir.Path)
                 End Sub)
