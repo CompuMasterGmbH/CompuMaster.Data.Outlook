@@ -27,19 +27,19 @@ Partial Class MainForm
         Me.OpenOutlookPstToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.QuitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.OutlookPSTOSTToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.OutlookPstToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SelectedOutlookFolderForOperationsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripComboBoxOutlookFolderOperationTarget = New System.Windows.Forms.ToolStripComboBox()
-        Me.DataGridView = New System.Windows.Forms.DataGridView()
         Me.ExportToExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExportToCSVToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DataGridView = New System.Windows.Forms.DataGridView()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.DataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OutlookPSTOSTToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.OutlookPstToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(800, 24)
@@ -53,9 +53,9 @@ Partial Class MainForm
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "&File"
         '
-        'OpenOutlookPSTOSTToolStripMenuItem
+        'OpenOutlookPstToolStripMenuItem
         '
-        Me.OpenOutlookPstToolStripMenuItem.Name = "OpenOutlookPSTOSTToolStripMenuItem"
+        Me.OpenOutlookPstToolStripMenuItem.Name = "OpenOutlookPstToolStripMenuItem"
         Me.OpenOutlookPstToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.OpenOutlookPstToolStripMenuItem.Text = "&Open Outlook PST/OST"
         '
@@ -70,12 +70,13 @@ Partial Class MainForm
         Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.QuitToolStripMenuItem.Text = "&Quit"
         '
-        'OutlookPSTOSTToolStripMenuItem
+        'OutlookPstToolStripMenuItem
         '
-        Me.OutlookPSTOSTToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedOutlookFolderForOperationsToolStripMenuItem, Me.ToolStripComboBoxOutlookFolderOperationTarget, Me.ExportToExcelToolStripMenuItem, Me.ExportToCSVToolStripMenuItem})
-        Me.OutlookPSTOSTToolStripMenuItem.Name = "OutlookPSTOSTToolStripMenuItem"
-        Me.OutlookPSTOSTToolStripMenuItem.Size = New System.Drawing.Size(110, 20)
-        Me.OutlookPSTOSTToolStripMenuItem.Text = "Out&look PST/OST"
+        Me.OutlookPstToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectedOutlookFolderForOperationsToolStripMenuItem, Me.ToolStripComboBoxOutlookFolderOperationTarget, Me.ExportToExcelToolStripMenuItem, Me.ExportToCSVToolStripMenuItem})
+        Me.OutlookPstToolStripMenuItem.Name = "OutlookPstToolStripMenuItem"
+        Me.OutlookPstToolStripMenuItem.Size = New System.Drawing.Size(127, 20)
+        Me.OutlookPstToolStripMenuItem.Text = "Out&look PST Actions"
+        Me.OutlookPstToolStripMenuItem.Visible = False
         '
         'SelectedOutlookFolderForOperationsToolStripMenuItem
         '
@@ -87,6 +88,18 @@ Partial Class MainForm
         '
         Me.ToolStripComboBoxOutlookFolderOperationTarget.Name = "ToolStripComboBoxOutlookFolderOperationTarget"
         Me.ToolStripComboBoxOutlookFolderOperationTarget.Size = New System.Drawing.Size(500, 23)
+        '
+        'ExportToExcelToolStripMenuItem
+        '
+        Me.ExportToExcelToolStripMenuItem.Name = "ExportToExcelToolStripMenuItem"
+        Me.ExportToExcelToolStripMenuItem.Size = New System.Drawing.Size(560, 22)
+        Me.ExportToExcelToolStripMenuItem.Text = "Export folder items to Excel"
+        '
+        'ExportToCSVToolStripMenuItem
+        '
+        Me.ExportToCSVToolStripMenuItem.Name = "ExportToCSVToolStripMenuItem"
+        Me.ExportToCSVToolStripMenuItem.Size = New System.Drawing.Size(560, 22)
+        Me.ExportToCSVToolStripMenuItem.Text = "Export folder items to CSV"
         '
         'DataGridView
         '
@@ -100,18 +113,6 @@ Partial Class MainForm
         Me.DataGridView.ReadOnly = True
         Me.DataGridView.Size = New System.Drawing.Size(800, 426)
         Me.DataGridView.TabIndex = 1
-        '
-        'ExportToExcelToolStripMenuItem
-        '
-        Me.ExportToExcelToolStripMenuItem.Name = "ExportToExcelToolStripMenuItem"
-        Me.ExportToExcelToolStripMenuItem.Size = New System.Drawing.Size(560, 22)
-        Me.ExportToExcelToolStripMenuItem.Text = "Export folder items to Excel"
-        '
-        'ExportToCSVToolStripMenuItem
-        '
-        Me.ExportToCSVToolStripMenuItem.Name = "ExportToCSVToolStripMenuItem"
-        Me.ExportToCSVToolStripMenuItem.Size = New System.Drawing.Size(560, 22)
-        Me.ExportToCSVToolStripMenuItem.Text = "Export folder items to CSV"
         '
         'MainForm
         '
@@ -136,7 +137,7 @@ Partial Class MainForm
     Friend WithEvents QuitToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenOutlookPstToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-    Friend WithEvents OutlookPSTOSTToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OutlookPstToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SelectedOutlookFolderForOperationsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripComboBoxOutlookFolderOperationTarget As ToolStripComboBox
     Friend WithEvents DataGridView As DataGridView

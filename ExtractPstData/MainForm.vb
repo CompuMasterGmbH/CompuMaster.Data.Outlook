@@ -30,6 +30,7 @@ Public Class MainForm
                 Me.UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder)
                 My.Settings.LastOpenedPstFile = f.FileName
                 My.Settings.Save()
+                Me.OutlookPstToolStripMenuItem.Available = True
                 Me.Cursor = Cursors.Default
             End If
         Catch ex As Exception
