@@ -790,6 +790,30 @@ Namespace CompuMaster.Data.Outlook
         '    Return _ExtendedData
         'End Function
 
+        Public Delegate Sub DirectoryAction(dir As Directory)
+
+        Public Sub ForDirectoryAndEachSubDirectory(actions As DirectoryAction)
+            ForDirectoryAndEachSubDirectory(Me, actions)
+        End Sub
+
+        Public Shared Sub ForDirectoryAndEachSubDirectory(dir As Directory, actions As DirectoryAction)
+            actions(dir)
+            For Each dirItem As Directory In dir.SubFolders
+                ForDirectoryAndEachSubDirectory(dirItem, actions)
+            Next
+        End Sub
+
+        Public Sub ForEachSubDirectory(actions As DirectoryAction)
+            ForEachSubDirectory(Me, actions)
+        End Sub
+
+        Public Shared Sub ForEachSubDirectory(dir As Directory, actions As DirectoryAction)
+            For Each dirItem As Directory In dir.SubFolders
+                actions(dir)
+                ForEachSubDirectory(dirItem, actions)
+            Next
+        End Sub
+
     End Class
 
 End Namespace

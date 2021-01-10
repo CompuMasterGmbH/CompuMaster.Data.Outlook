@@ -10,46 +10,26 @@ Module MainModule
     Sub Main()
         Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
         Try
-            Dim PstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
-
-            Console.WriteLine("## Folder list of PST")
-            Dim dirRoot As Directory = PstRootFolderPath.Directory
-
-            ForDirectoryAndEachSubDirectory(
-                dirRoot,
-                Sub(dir As Directory)
-                    Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)
-                    'Console.Write(" [" & dir..FolderClass & "]")
-                    Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
-                    'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
-                    Console.WriteLine()
-                    CompuMaster.Console.CurrentIndentationLevel += 1
-                    'ShowItems_FormatList(dir)
-                    ShowItems_FormatTable(dir)
-                    CompuMaster.Console.CurrentIndentationLevel -= 1
-                End Sub)
+            Dim PstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation
+            PstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
+            PstRootFolderPath.Directory.ForDirectoryAndEachSubDirectory(
+            Sub(dir As CompuMaster.Data.Outlook.Directory)
+                Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)
+                'Console.Write(" [" & dir..FolderClass & "]")
+                Console.Write(" (SubFolders:" & dir.SubFolderCount & " / UnReadItems:" & dir.ItemUnreadCount & " / TotalItems:" & dir.ItemCount & ")")
+                'Console.Write(" (SubFolders:" & dir.SubFolderCount & " / TotalItems:" & dir.ItemCount & ")")
+                Console.WriteLine()
+                CompuMaster.Console.CurrentIndentationLevel += 1
+                'ShowItems_FormatList(dir)
+                ShowItems_FormatTable(dir)
+                CompuMaster.Console.CurrentIndentationLevel -= 1
+            End Sub)
             Console.WriteLine()
-
-            'Dim dirInbox As Directory = dirRoot.InitialRootDirectory.SelectSubFolder("Oberste Ebene des Informationsspeichers\Inbox", False, dir.OutlookApp.DirectorySeparatorChar)
-            'Console.WriteLine()
-            'Dim dirInbox As Directory = dirRoot.SelectSubFolder("Posteingang", True)
-            'Console.WriteLine("Inbox(manual lookup)=" & dirInbox.DisplayPath)
-            'ShowItems(dirInbox, oApp)
-
-            'Console.WriteLine("## Item list of Inbox")
-            'Dim InboxFolder As Directory = dirRoot.SelectSubFolder("Inbox", False)
-            'Dim InboxItems As DataTable = Directory.ItemsAsDataTable(InboxFolder.ItemsAll)
-            'CompuMaster.Data.DataTables.RemoveColumns(InboxItems, New String() {"Body"}) 'Do not show multi-line field "body" in following steps
-            'Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(InboxItems))
-            'Console.WriteLine()
-
         Finally
             OutlookApp.Application.Quit()
         End Try
 
     End Sub
-
-
 
     Private Sub ShowItems_FormatList(dir As Directory)
         Dim items As NetOffice.OutlookApi._Items = dir.OutlookFolder.Items
@@ -57,9 +37,9 @@ Module MainModule
     End Sub
 
     Private Sub ShowItems_FormatTable(dir As Directory)
-        Dim FolderItems As DataTable = Directory.ItemsAsDataTable(dir.ItemsAll)
-        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"Body", "HTMLBody", "RTFBody"}) 'Do not show multi-line field "body" in following steps
-        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"ParentFolderID", "EntryID", "RTFBody"}) 'Do not show multi-line field "body" in following steps
+        Dim FolderItems As DataTable = dir.ItemsAllAsDataTable
+        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"Body", "HTMLBody", "RTFBody"}) 'Do not show multi-line fields following steps
+        CompuMaster.Data.DataTables.RemoveColumns(FolderItems, New String() {"ParentFolderID", "EntryID"}) 'Do not show ID fields in following steps
         Console.WriteLine(CompuMaster.Data.DataTables.ConvertToPlainTextTableFixedColumnWidths(FolderItems))
     End Sub
 
@@ -92,22 +72,6 @@ Module MainModule
             Console.WriteLine("Pa: " & entryItem.ParentDirectory.DisplayPath)
             Console.WriteLine("Cl: " & entryItem.ObjectClassName)
             Console.WriteLine("---")
-        Next
-    End Sub
-
-    Private Delegate Sub DirectoryAction(dir As Directory)
-
-    Private Sub ForDirectoryAndEachSubDirectory(dir As Directory, actions As DirectoryAction)
-        actions(dir)
-        For Each dirItem As Directory In dir.SubFolders
-            ForDirectoryAndEachSubDirectory(dirItem, actions)
-        Next
-    End Sub
-
-    Private Sub ForEachSubDirectory(dir As Directory, actions As DirectoryAction)
-        For Each dirItem As Directory In dir.SubFolders
-            actions(dir)
-            ForEachSubDirectory(dirItem, actions)
         Next
     End Sub
 

@@ -63,28 +63,11 @@ Public Class OutlookPstDatabase
 
     Public Function AvailableOutlookFolderPaths() As List(Of String)
         Dim Result As New List(Of String)
-        ForDirectoryAndEachSubDirectory(
-                Me.OutlookPstRootFolder,
+        Me.OutlookPstRootFolder.ForDirectoryAndEachSubDirectory(
                 Sub(dir As Directory)
                     Result.Add(dir.Path)
                 End Sub)
         Return Result
     End Function
-
-    Private Delegate Sub DirectoryAction(dir As Directory)
-
-    Private Sub ForDirectoryAndEachSubDirectory(dir As Directory, actions As DirectoryAction)
-        actions(dir)
-        For Each dirItem As Directory In dir.SubFolders
-            ForDirectoryAndEachSubDirectory(dirItem, actions)
-        Next
-    End Sub
-
-    Private Sub ForEachSubDirectory(dir As Directory, actions As DirectoryAction)
-        For Each dirItem As Directory In dir.SubFolders
-            actions(dir)
-            ForEachSubDirectory(dirItem, actions)
-        Next
-    End Sub
 
 End Class
