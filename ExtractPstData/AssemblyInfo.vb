@@ -11,5 +11,5 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(False)>
 <Assembly: Guid("5546bd52-0070-4bee-93a9-f434d82737e5")>
 
-<Assembly: AssemblyVersion("2021.01.12.100")>
+<Assembly: AssemblyVersion("2021.01.12.101")>
 

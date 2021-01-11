@@ -59,6 +59,7 @@ Public Class MainForm
             End If
         Next
         Me.LoadFolderItems()
+        Me.ExportToolStripMenuItem.Available = True
     End Sub
 
     Private Sub FillOutlookFolderListForOperationTargets()
