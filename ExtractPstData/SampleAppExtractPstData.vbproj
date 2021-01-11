@@ -47,6 +47,9 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CompuMaster.Data, Version=2.8.2020.625, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CompuMaster.Data.2.8.2020.625\lib\net20\CompuMaster.Data.dll</HintPath>
@@ -137,6 +140,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="SampleMailbox.pst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

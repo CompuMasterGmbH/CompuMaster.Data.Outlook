@@ -22,6 +22,7 @@ Partial Class MainForm
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ConnectToOutlookToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -63,18 +64,18 @@ Partial Class MainForm
         'OpenOutlookPSTStoreToolStripMenuItem
         '
         Me.OpenOutlookPSTStoreToolStripMenuItem.Name = "OpenOutlookPSTStoreToolStripMenuItem"
-        Me.OpenOutlookPSTStoreToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.OpenOutlookPSTStoreToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
         Me.OpenOutlookPSTStoreToolStripMenuItem.Text = "Open Outlook &PST Store"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(198, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(211, 6)
         '
         'QuitToolStripMenuItem
         '
         Me.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem"
-        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.QuitToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
         Me.QuitToolStripMenuItem.Text = "&Quit"
         '
         'OpenOutlookStoreToolStripMenuItem
@@ -131,6 +132,7 @@ Partial Class MainForm
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.DataGridView)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "MainForm"
         Me.Text = "Outlook Store"
