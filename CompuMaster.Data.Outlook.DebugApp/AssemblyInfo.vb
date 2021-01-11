@@ -2,10 +2,10 @@
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
-<Assembly: AssemblyTitle("CompuMaster.Data.Outlook.DebugApp - MIT license edition")>
+<Assembly: AssemblyTitle("CompuMaster.Data.Outlook.SampleConsoleApp VB.NET - MIT license edition")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("CompuMaster GmbH")>
-<Assembly: AssemblyProduct("CompuMaster.Data.Outlook.DebugApp")>
+<Assembly: AssemblyProduct("CompuMaster.Data.Outlook")>
 <Assembly: AssemblyCopyright("2017,2021 CompuMaster GmbH")>
 <Assembly: AssemblyTrademark("")>
 <Assembly: ComVisible(False)>

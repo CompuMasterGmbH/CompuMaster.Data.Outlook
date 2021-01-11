@@ -9,6 +9,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SampleConsoleApp", "CompuMa
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SampleAppExtractPstData", "ExtractPstData\SampleAppExtractPstData.vbproj", "{8633179B-DD86-4B06-90E0-7CAD316A19FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleConsoleAppCSharp", "SampleConsoleAppCSharp\SampleConsoleAppCSharp.csproj", "{3831DF49-1134-49A8-A869-AE69A9905BCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8633179B-DD86-4B06-90E0-7CAD316A19FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8633179B-DD86-4B06-90E0-7CAD316A19FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8633179B-DD86-4B06-90E0-7CAD316A19FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3831DF49-1134-49A8-A869-AE69A9905BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3831DF49-1134-49A8-A869-AE69A9905BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3831DF49-1134-49A8-A869-AE69A9905BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3831DF49-1134-49A8-A869-AE69A9905BCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

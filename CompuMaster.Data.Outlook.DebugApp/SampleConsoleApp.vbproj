@@ -61,6 +61,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CompuMaster.Calendar, Version=2020.11.24.101, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CompuMaster.Calendar.2020.11.24.101\lib\net20\CompuMaster.Calendar.dll</HintPath>
@@ -138,6 +141,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <Content Include="favicon.ico" />
     <Content Include="SampleData\Mailbox.pst">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
