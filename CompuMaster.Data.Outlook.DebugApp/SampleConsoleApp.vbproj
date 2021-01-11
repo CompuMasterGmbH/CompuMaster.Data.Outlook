@@ -160,9 +160,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook.VS2012.vbproj">
+    <ProjectReference Include="..\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook.vbproj">
       <Project>{115518b1-00a0-4adb-8d3d-2ddd338966a1}</Project>
-      <Name>CompuMaster.Data.Outlook.VS2012</Name>
+      <Name>CompuMaster.Data.Outlook</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

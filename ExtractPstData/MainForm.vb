@@ -12,7 +12,7 @@ Public Class MainForm
         Me.Close()
     End Sub
 
-    Private Sub OpenOutlookPstToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenOutlookPstToolStripMenuItem.Click
+    Private Sub OpenOutlookPSTStoreToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenOutlookPSTStoreToolStripMenuItem.Click
         Try
             Dim f As New System.Windows.Forms.OpenFileDialog()
             f.CheckFileExists = True
@@ -30,7 +30,8 @@ Public Class MainForm
                 Me.UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder)
                 My.Settings.LastOpenedPstFile = f.FileName
                 My.Settings.Save()
-                Me.OutlookPstToolStripMenuItem.Available = True
+                Me.FolderToolStripMenuItem.Available = True
+                Me.OpenOutlookStoreToolStripMenuItem.Available = False
                 Me.Cursor = Cursors.Default
             End If
         Catch ex As Exception
@@ -41,16 +42,33 @@ Public Class MainForm
 
     Private Sub UpdateSelectedFolderOperationTarget(folder As CompuMaster.Data.Outlook.Directory)
         Me.OutlookPst.OutlookPstOperationFolder = folder
-        Me.ToolStripComboBoxOutlookFolderOperationTarget.SelectedItem = folder.Path
-        Me.Text = My.Application.Info.Title & " - " & System.IO.Path.GetFileName(Me.OutlookPst.OutlookPstFile)
+        Me.Text = My.Application.Info.Title & " - "
+        If Me.OutlookPst.OutlookPstFile <> Nothing Then
+            Me.Text &= System.IO.Path.GetFileName(Me.OutlookPst.OutlookPstFile)
+        ElseIf Me.OutlookPst.OutlookStore.FilePath <> Nothing Then
+            Me.Text &= System.IO.Path.GetFileName(Me.OutlookPst.OutlookStore.FilePath)
+        Else
+            Me.Text &= Me.OutlookPst.OutlookStore.DisplayName
+        End If
         If Me.OutlookPst.OutlookPstOperationFolderPath <> Nothing Then Me.Text &= ":" & Me.OutlookPst.OutlookPstOperationFolderPath
+        For MyCounter As Integer = 0 To Me.FolderToolStripMenuItem.DropDownItems.Count - 1
+            If Me.FolderToolStripMenuItem.DropDownItems(MyCounter).Name = "FolderName:" & folder.Path Then
+                CType(Me.FolderToolStripMenuItem.DropDownItems(MyCounter), ToolStripMenuItem).CheckState = CheckState.Checked
+            Else
+                CType(Me.FolderToolStripMenuItem.DropDownItems(MyCounter), ToolStripMenuItem).CheckState = CheckState.Unchecked
+            End If
+        Next
         Me.LoadFolderItems()
     End Sub
 
     Private Sub FillOutlookFolderListForOperationTargets()
-        Me.ToolStripComboBoxOutlookFolderOperationTarget.Items.Clear()
+        Me.FolderToolStripMenuItem.DropDownItems.Clear()
         For Each FolderName As String In Me.OutlookPst.AvailableOutlookFolderPaths
-            Me.ToolStripComboBoxOutlookFolderOperationTarget.Items.Add(FolderName)
+            If FolderName = "" Then
+                Me.FolderToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem("{Root}", Nothing, AddressOf OpenOutlookFolderToolStripMenuItem_Click, "FolderName:" & FolderName))
+            Else
+                Me.FolderToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem(FolderName, Nothing, AddressOf OpenOutlookFolderToolStripMenuItem_Click, "FolderName:" & FolderName))
+            End If
         Next
     End Sub
 
@@ -59,12 +77,6 @@ Public Class MainForm
             Me.OutlookPst.QuitOutlookApp()
         Catch
         End Try
-    End Sub
-
-    Private Sub ToolStripComboBoxOutlookFolderOperationTarget_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ToolStripComboBoxOutlookFolderOperationTarget.SelectedIndexChanged
-        Me.Cursor = Cursors.WaitCursor
-        UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder.SelectSubFolder(CType(Me.ToolStripComboBoxOutlookFolderOperationTarget.SelectedItem, String), False, False))
-        Me.Cursor = Cursors.Default
     End Sub
 
     Private CurrentFolderItems As DataTable = Nothing
@@ -151,6 +163,53 @@ Public Class MainForm
             Me.OutlookPst.QuitOutlookApp()
         Catch
         End Try
+    End Sub
+
+    Private Sub ConnectToOutlookToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConnectToOutlookToolStripMenuItem.Click
+        Me.Cursor = Cursors.WaitCursor
+        Me.OpenOutlookStoreToolStripMenuItem.DropDownItems.Clear()
+        For Each OStore As NetOffice.OutlookApi.Store In Me.OutlookPst.OutlookApp.Stores
+            Me.OpenOutlookStoreToolStripMenuItem.DropDownItems.Add(New ToolStripMenuItem(OStore.DisplayName, Nothing, AddressOf OpenOutlookStoreToolStripMenuItem_Click, "OutlookStore:" & OStore.StoreID))
+        Next
+        Me.OpenOutlookStoreToolStripMenuItem.Available = True
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    Public Sub OpenOutlookStoreToolStripMenuItem_Click(sender As Object, e As EventArgs)
+        Me.Cursor = Cursors.WaitCursor
+        Dim MenuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim SelectedOutlookStore As NetOffice.OutlookApi.Store = Nothing
+        For Each OStore As NetOffice.OutlookApi.Store In Me.OutlookPst.OutlookApp.Stores
+            If MenuItem.Name = "OutlookStore:" & OStore.StoreID Then
+                SelectedOutlookStore = OStore
+            End If
+        Next
+        If SelectedOutlookStore Is Nothing Then Throw New NullReferenceException("Outlook store not found")
+        For MyCounter As Integer = 0 To Me.OpenOutlookStoreToolStripMenuItem.DropDownItems.Count - 1
+            If Me.OpenOutlookStoreToolStripMenuItem.DropDownItems(MyCounter).Name = "OutlookStore:" & SelectedOutlookStore.StoreID Then
+                CType(Me.OpenOutlookStoreToolStripMenuItem.DropDownItems(MyCounter), ToolStripMenuItem).CheckState = CheckState.Checked
+            Else
+                CType(Me.OpenOutlookStoreToolStripMenuItem.DropDownItems(MyCounter), ToolStripMenuItem).CheckState = CheckState.Unchecked
+            End If
+        Next
+        Me.OutlookPst.OutlookStore = SelectedOutlookStore
+        Me.FillOutlookFolderListForOperationTargets()
+        Me.UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder)
+        'Me.UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookApp.LookupFolder(Me.OutlookPst.OutlookStore, CompuMaster.Data.Outlook.OutlookApp.WellKnownFolderName.Calendar).Directory)
+        Me.FolderToolStripMenuItem.Available = True
+        Me.Cursor = Cursors.Default
+    End Sub
+
+    Public Sub OpenOutlookFolderToolStripMenuItem_Click(sender As Object, e As EventArgs)
+        Me.Cursor = Cursors.WaitCursor
+        Dim MenuItem As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+        Dim SelectedFolderPath As String = Nothing
+        If MenuItem.Name.StartsWith("FolderName:") Then
+            SelectedFolderPath = MenuItem.Name.Substring("FolderName:".Length)
+        End If
+        If SelectedFolderPath Is Nothing Then Throw New NullReferenceException("Outlook folder not found")
+        UpdateSelectedFolderOperationTarget(Me.OutlookPst.OutlookPstRootFolder.SelectSubFolder(SelectedFolderPath, False, False))
+        Me.Cursor = Cursors.Default
     End Sub
 
 End Class

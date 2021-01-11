@@ -22,8 +22,26 @@ Public Class OutlookPstDatabase
         End Get
         Set(value As String)
             _OutlookPstFile = value
-            Me.OutlookPstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(System.Environment.CurrentDirectory, value))
-            Me.OutlookPstOperationFolder = Me.OutlookPstRootFolder
+            If value <> Nothing Then
+                Me.OutlookStore = Nothing
+                Me.OutlookPstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(System.Environment.CurrentDirectory, value))
+                Me.OutlookPstOperationFolder = Me.OutlookPstRootFolder
+            End If
+        End Set
+    End Property
+
+    Private _OutlookStore As NetOffice.OutlookApi.Store
+    Public Property OutlookStore As NetOffice.OutlookApi.Store
+        Get
+            Return _OutlookStore
+        End Get
+        Set(value As NetOffice.OutlookApi.Store)
+            _OutlookStore = value
+            If value <> Nothing Then
+                Me.OutlookPstFile = Nothing
+                Me.OutlookPstRootFolderPath = OutlookApp.LookupRootFolder(value)
+                Me.OutlookPstOperationFolder = Me.OutlookPstRootFolder
+            End If
         End Set
     End Property
 

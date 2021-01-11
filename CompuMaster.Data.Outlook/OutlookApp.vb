@@ -40,33 +40,28 @@ Namespace CompuMaster.Data.Outlook
         ''' </summary>
         ''' <remarks></remarks>
         Public Enum WellKnownFolderName As Integer
-            'ArchiveDeletedItems = 22
-            'ArchiveMsgFolderRoot = 21
-            'ArchiveRecoverableItemsDeletions = 24
-            'ArchiveRecoverableItemsPurges = 26
-            'ArchiveRecoverableItemsRoot = 23
-            'ArchiveRecoverableItemsVersions = 25
-            'ArchiveRoot = 20
-            'Calendar = 0
-            'Contacts = 1
-            'DeletedItems = 2
-            'Drafts = 3
-            'Inbox = 4
-            'Journal = 5
-            'JunkEmail = 13
-            'MsgFolderRoot = 10
-            'Notes = 6
-            'Outbox = 7
-            'PublicFoldersRoot = 11
-            'RecoverableItemsDeletions = 17
-            'RecoverableItemsPurges = 19
-            'RecoverableItemsRoot = 16
-            'RecoverableItemsVersions = 18
-            Root = 12
-            'SearchFolders = 14
-            'SentItems = 8
-            'Tasks = 9
-            'VoiceMail = 15
+            Root = -10
+            'Following enums copied from NetOffice.OutlookApi.Enums.OlDefaultFolders
+            DeletedItems = 3
+            Outbox = 4
+            SentMail = 5
+            Inbox = 6
+            Calendar = 9
+            Contacts = 10
+            Journal = 11
+            Notes = 12
+            Tasks = 13
+            Drafts = 16
+            PublicFoldersAllPublicFolders = 18
+            Conflicts = 19
+            SyncIssues = 20
+            LocalFailures = 21
+            ServerFailures = 22
+            Junk = 23
+            RssFeeds = 25
+            ToDo = 28
+            ManagedEmail = 29
+            SuggestedContacts = 30
         End Enum
 
         '''' <summary>
@@ -459,6 +454,12 @@ Namespace CompuMaster.Data.Outlook
             Return Nothing
         End Function
 
+        Public ReadOnly Property OutlookStoresLoaded() As NetOffice.OutlookApi.Stores
+            Get
+                Return NamespaceMapi.Stores
+            End Get
+        End Property
+
         Private ReadOnly Property NamespaceMapi As NetOffice.OutlookApi._NameSpace
             Get
                 Static _Result As NetOffice.OutlookApi._NameSpace
@@ -479,6 +480,18 @@ Namespace CompuMaster.Data.Outlook
             Else
                 Return SourceStore
             End If
+        End Function
+
+        Public Function LookupDefaultFolder(folder As WellKnownFolderName) As FolderPathRepresentation
+            If folder = WellKnownFolderName.Root Then Throw New ArgumentException("Root folders exist for each mailbox, there is no default for a root folder", NameOf(folder))
+            Dim MapiFolder As MAPIFolder
+            MapiFolder = NamespaceMapi.GetDefaultFolder(CType(folder, NetOffice.OutlookApi.Enums.OlDefaultFolders))
+            Return LookupFolder(MapiFolder.Store, folder)
+        End Function
+
+        Public Function LookupRootFolder(outlookStore As NetOffice.OutlookApi.Store) As FolderPathRepresentation
+            Dim SourceStore As NetOffice.OutlookApi.Store = outlookStore
+            Return LookupFolder(SourceStore, WellKnownFolderName.Root)
         End Function
 
         Public Function LookupRootFolder(pstFilePath As String) As FolderPathRepresentation
@@ -502,10 +515,11 @@ Namespace CompuMaster.Data.Outlook
             Select Case baseFolder
                 Case WellKnownFolderName.Root
                     folder = store.GetRootFolder()
+                Case WellKnownFolderName.Calendar, WellKnownFolderName.Inbox
+                    folder = store.GetDefaultFolder(CType(baseFolder, NetOffice.OutlookApi.Enums.OlDefaultFolders))
                 Case Else
                     Throw New ArgumentException("Invalid baseFolder: " & GetType(WellKnownFolderName).GetEnumName(baseFolder))
             End Select
-            '= Microsoft.Exchange.WebServices.Data.Folder.Bind(Me.CreateConfiguredExchangeService, CType(baseFolder, Microsoft.Exchange.WebServices.Data.WellKnownFolderName))
             Return New FolderPathRepresentation(Me, store, folder)
         End Function
 
