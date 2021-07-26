@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<RootNamespace>SampleConsoleAppCSharp</RootNamespace>
 		<AssemblyName>SampleConsoleAppCSharp</AssemblyName>
@@ -12,7 +13,7 @@
 		<PackageIcon>logo_64x64.png</PackageIcon>
 		<RepositoryUrl>https://github.com/CompuMasterGmbH/CompuMaster.Data.Outlook.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags> CompuMaster Common Utils Data OutlookApi Outlook Microsoft NetOffice </PackageTags>
+		<PackageTags> CompuMaster camm Smtp CompuMaster.Net.Smtp </PackageTags>
 		<Configurations>Debug;Release;CI_CD</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -61,6 +62,9 @@
 	<PropertyGroup>
 		<OptionStrict>Off</OptionStrict>
 	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="favicon.ico" />
+	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="favicon.ico" />
 	</ItemGroup>

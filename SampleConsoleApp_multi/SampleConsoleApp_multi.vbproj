@@ -1,23 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
-		<RootNamespace>SampleConsoleAppCSharp</RootNamespace>
-		<AssemblyName>SampleConsoleAppCSharp</AssemblyName>
+		<RootNamespace>CompuMaster.Data.OutlookDebugApp</RootNamespace>
+		<AssemblyName>CompuMaster.Data.Outlook.DebugApp</AssemblyName>
 		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net48;net45</TargetFrameworks>
 		<Version>2021.07.26.100</Version>
 		<Authors>Jochen Wezel</Authors>
 		<Company>CompuMaster GmbH</Company>
 		<Copyright>2010-2021 CompuMaster GmbH</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/CompuMasterGmbH/CompuMaster.Data.Outlook</PackageProjectUrl>
-		<PackageIcon>logo_64x64.png</PackageIcon>
-		<RepositoryUrl>https://github.com/CompuMasterGmbH/CompuMaster.Data.Outlook.git</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-		<PackageTags> CompuMaster Common Utils Data OutlookApi Outlook Microsoft NetOffice </PackageTags>
 		<Configurations>Debug;Release;CI_CD</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{75264EA2-6E56-4FD1-9B92-B91BD8143A92}</ProjectGuid>
+		<ProjectGuid>{A7078307-87AC-4367-897A-C947AB4B7BFD}</ProjectGuid>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>SampleConsoleAppCSharp</RootNamespace>
 		<AssemblyName>SampleConsoleAppCSharp</AssemblyName>
@@ -31,7 +27,6 @@
 		<DebugType>full</DebugType>
 		<Optimize>false</Optimize>
 		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
@@ -40,7 +35,6 @@
 		<DebugType>pdbonly</DebugType>
 		<Optimize>true</Optimize>
 		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
@@ -62,14 +56,25 @@
 		<OptionStrict>Off</OptionStrict>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Include="favicon.ico" />
+	  <None Remove="favicon.ico" />
+	  <None Remove="SampleData\Mailbox.pst" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Include="favicon.ico" />
+	  <Content Include="SampleData\Mailbox.pst">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="CompuMaster.Calendar" Version="2021.6.23.102" />
+	  <PackageReference Include="CompuMaster.Console" Version="2021.4.21.100" />
 	  <PackageReference Include="CompuMaster.Data" Version="3.0.2021.714" />
-	  <PackageReference Include="NetOffice.Outlook" Version="1.7.4.11" />
+		<PackageReference Include="NetOffice.Outlook" Version="1.7.4.11" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook.vbproj" />
+	</ItemGroup>
+	<ItemGroup>
 		<Reference Include="OutlookApi, Version=1.8.0.0, Culture=neutral, PublicKeyToken=b118031aaa1097f3, processorArchitecture=MSIL">
 			<HintPath>..\packages\NetOfficeFw.Outlook.1.8.0\lib\net40\OutlookApi.dll</HintPath>
 			<EmbedInteropTypes>False</EmbedInteropTypes>
@@ -79,4 +84,5 @@
 			<EmbedInteropTypes>False</EmbedInteropTypes>
 		</Reference>
 	</ItemGroup>
+
 </Project>
