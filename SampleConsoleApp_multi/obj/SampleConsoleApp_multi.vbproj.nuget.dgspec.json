@@ -18,7 +18,7 @@
       "version": "2021.7.26.100",
       "restore": {
         "projectUniqueName": "D:\\git_local_repository\\software-projects\\CompuMaster.Data.Outlook\\SampleConsoleApp_multi\\SampleConsoleApp_multi.vbproj",
-        "projectName": "SampleConsoleAppCSharp",
+        "projectName": "CompuMaster.Data.Outlook.DebugApp",
         "projectPath": "D:\\git_local_repository\\software-projects\\CompuMaster.Data.Outlook\\SampleConsoleApp_multi\\SampleConsoleApp_multi.vbproj",
         "packagesPath": "C:\\Users\\schaedler\\.nuget\\packages\\",
         "outputPath": "D:\\git_local_repository\\software-projects\\CompuMaster.Data.Outlook\\SampleConsoleApp_multi\\obj\\",

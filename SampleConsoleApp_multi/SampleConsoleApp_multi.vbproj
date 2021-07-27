@@ -15,11 +15,10 @@
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProjectGuid>{A7078307-87AC-4367-897A-C947AB4B7BFD}</ProjectGuid>
 		<OutputType>Exe</OutputType>
-		<RootNamespace>SampleConsoleAppCSharp</RootNamespace>
-		<AssemblyName>SampleConsoleAppCSharp</AssemblyName>
+		<StartupObject>CompuMaster.Data.OutlookDebugApp.MainModule</StartupObject>
+		<RootNamespace>CompuMaster.Data.OutlookDebugApp</RootNamespace>
+		<AssemblyName>CompuMaster.Data.Outlook.DebugApp</AssemblyName>
 		<FileAlignment>512</FileAlignment>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<Deterministic>true</Deterministic>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +53,9 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<OptionStrict>Off</OptionStrict>
+	</PropertyGroup>
+	<PropertyGroup>
+		<MyType>Empty</MyType>
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="favicon.ico" />
