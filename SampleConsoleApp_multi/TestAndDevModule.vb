@@ -32,7 +32,7 @@ Module TestAndDevModule
         'End Try
 
         Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
-        Dim SourceRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
+        Dim SourceRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(System.Environment.CurrentDirectory, "SampleData", "Mailbox.pst"))
         Dim SourceRootDir As CompuMaster.Data.Outlook.Directory = SourceRootFolderPath.Directory
         'Dim DestinationRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "TargetMailbox.pst"))
         'Dim DestinationRootDir As CompuMaster.Data.Outlook.Directory = DestinationRootFolderPath.Directory

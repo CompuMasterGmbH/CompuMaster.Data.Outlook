@@ -1,0 +1,131 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "CompuMaster.Data.Outlook/2021.07.29.100": {
+        "dependencies": {
+          "CompuMaster.VisualBasicCompatibility": "1.0.6",
+          "Microsoft.VisualBasic": "10.3.0",
+          "NETStandard.Library": "2.0.3",
+          "NetOffice.Outlook": "1.7.4.11",
+          "OfficeApi": "1.8.0.0"
+        },
+        "runtime": {
+          "CompuMaster.Data.Outlook.dll": {}
+        }
+      },
+      "CompuMaster.VisualBasicCompatibility/1.0.6": {
+        "runtime": {
+          "lib/netstandard2.0/CompuMaster.VisualBasicCompatibility.dll": {
+            "assemblyVersion": "1.0.6.0",
+            "fileVersion": "1.0.6.0"
+          }
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "Microsoft.VisualBasic/10.3.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.VisualBasic.dll": {
+            "assemblyVersion": "10.0.4.0",
+            "fileVersion": "4.6.26515.6"
+          }
+        }
+      },
+      "NetOffice.Core/1.7.4.11": {
+        "runtime": {
+          "lib/net45/NetOffice.dll": {
+            "assemblyVersion": "1.7.4.11",
+            "fileVersion": "1.7.3.0"
+          },
+          "lib/net45/VBIDEApi.dll": {
+            "assemblyVersion": "1.7.4.11",
+            "fileVersion": "1.7.3.0"
+          }
+        }
+      },
+      "NetOffice.Outlook/1.7.4.11": {
+        "dependencies": {
+          "NetOffice.Core": "1.7.4.11"
+        },
+        "runtime": {
+          "lib/net45/OutlookApi.dll": {
+            "assemblyVersion": "1.7.4.11",
+            "fileVersion": "1.7.3.0"
+          }
+        }
+      },
+      "NETStandard.Library/2.0.3": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "OfficeApi/1.8.0.0": {
+        "runtime": {
+          "OfficeApi.dll": {
+            "assemblyVersion": "1.8.0.0",
+            "fileVersion": "1.8.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CompuMaster.Data.Outlook/2021.07.29.100": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CompuMaster.VisualBasicCompatibility/1.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-t7UwYDYuJctoU2VXT2UGgtNR3Jvdl1QgR7zn9GpdKcgBoRVBbVGOTRm6cuKIf5p46YoO8M7V3uRzKMEg9oUcUw==",
+      "path": "compumaster.visualbasiccompatibility/1.0.6",
+      "hashPath": "compumaster.visualbasiccompatibility.1.0.6.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.VisualBasic/10.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AvMDjmJHjz9bdlvxiSdEHHcWP+sZtp7zwule5ab6DaUbgoBnwCsd7nymj69vSz18ypXuEv3SI7ZUNwbIKrvtMA==",
+      "path": "microsoft.visualbasic/10.3.0",
+      "hashPath": "microsoft.visualbasic.10.3.0.nupkg.sha512"
+    },
+    "NetOffice.Core/1.7.4.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-voWeYFBjBET6y0kugZ7LUCJHBtT/ox/JFEscRdyqDXyooVdY246d19wVMr1ftXXD+30k5ZiClIGZbpOxHLFp0A==",
+      "path": "netoffice.core/1.7.4.11",
+      "hashPath": "netoffice.core.1.7.4.11.nupkg.sha512"
+    },
+    "NetOffice.Outlook/1.7.4.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TWmNmRaSrUIeXJDTbwUzU5H8MDk6GAW+Yp9UZg0d232Z9PBiHGqPTdltaPGmIwKZJOOnlorlA35JJoaSMOTQyg==",
+      "path": "netoffice.outlook/1.7.4.11",
+      "hashPath": "netoffice.outlook.1.7.4.11.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "OfficeApi/1.8.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

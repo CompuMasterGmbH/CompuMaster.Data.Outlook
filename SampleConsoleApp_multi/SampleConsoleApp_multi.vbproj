@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<RootNamespace>CompuMaster.Data.OutlookDebugApp</RootNamespace>
 		<AssemblyName>CompuMaster.Data.Outlook.DebugApp</AssemblyName>
-		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net48;net45</TargetFrameworks>
+		<TargetFrameworks>net5.0;net48</TargetFrameworks>
 		<Version>2021.07.26.100</Version>
 		<Authors>Jochen Wezel</Authors>
 		<Company>CompuMaster GmbH</Company>
@@ -15,7 +15,7 @@
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProjectGuid>{A7078307-87AC-4367-897A-C947AB4B7BFD}</ProjectGuid>
 		<OutputType>Exe</OutputType>
-		<StartupObject>CompuMaster.Data.OutlookDebugApp.MainModule</StartupObject>
+		<StartupObject>Sub Main</StartupObject>
 		<RootNamespace>CompuMaster.Data.OutlookDebugApp</RootNamespace>
 		<AssemblyName>CompuMaster.Data.Outlook.DebugApp</AssemblyName>
 		<FileAlignment>512</FileAlignment>

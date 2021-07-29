@@ -11,7 +11,7 @@ Module MainModule
         Dim OutlookApp As New CompuMaster.Data.Outlook.OutlookApp(12)
         Try
             Dim PstRootFolderPath As CompuMaster.Data.Outlook.FolderPathRepresentation
-            PstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(My.Application.Info.DirectoryPath, "SampleData", "Mailbox.pst"))
+            PstRootFolderPath = OutlookApp.LookupRootFolder(System.IO.Path.Combine(System.Environment.CurrentDirectory, "SampleData", "Mailbox.pst"))
             PstRootFolderPath.Directory.ForDirectoryAndEachSubDirectory(
             Sub(dir As CompuMaster.Data.Outlook.Directory)
                 Console.Write(dir.DisplayPath) 'Console.Write(dir.ToString)

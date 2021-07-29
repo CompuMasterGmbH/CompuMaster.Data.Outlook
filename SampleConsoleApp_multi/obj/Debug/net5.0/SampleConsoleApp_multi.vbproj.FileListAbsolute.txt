@@ -1,5 +1,0 @@
-D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\SampleConsoleApp_multi\obj\Debug\net5.0\SampleConsoleApp_multi.vbproj.AssemblyReference.cache
-D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\SampleConsoleApp_multi\obj\Debug\net5.0\SampleConsoleApp_multi.GeneratedMSBuildEditorConfig.editorconfig
-D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\SampleConsoleApp_multi\obj\Debug\net5.0\SampleConsoleApp_multi.AssemblyInfoInputs.cache
-D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\SampleConsoleApp_multi\obj\Debug\net5.0\SampleConsoleApp_multi.AssemblyInfo.vb
-D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\SampleConsoleApp_multi\obj\Debug\net5.0\SampleConsoleApp_multi.vbproj.CoreCompileInputs.cache

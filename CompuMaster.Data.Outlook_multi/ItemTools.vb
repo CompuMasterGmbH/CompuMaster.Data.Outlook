@@ -96,7 +96,8 @@ Namespace CompuMaster.Data.Outlook
             Return CType(CType(item, Object).Importance, NetOffice.OutlookApi.Enums.OlImportance)
         End Function
         Public Shared Sub Move(item As NetOffice.COMObject, destinationFolder As MAPIFolder)
-            CType(item, Object).Move(destinationFolder)
+            Dim f As Object = destinationFolder
+            CType(item, Object).Move(f)
         End Sub
         Public Shared Function Recipients(item As NetOffice.COMObject) As NetOffice.OutlookApi.Recipients
             Return CType(CType(item, Object).Recipients, NetOffice.OutlookApi.Recipients)

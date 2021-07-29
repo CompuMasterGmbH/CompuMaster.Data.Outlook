@@ -17,23 +17,11 @@
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgNetOffice_Core Condition=" '$(PkgNetOffice_Core)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.core\1.7.4.11</PkgNetOffice_Core>
-    <PkgNetOffice_Outlook Condition=" '$(PkgNetOffice_Outlook)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.outlook\1.7.4.11</PkgNetOffice_Outlook>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' AND '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgNetOffice_Core Condition=" '$(PkgNetOffice_Core)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.core\1.7.4.11</PkgNetOffice_Core>
     <PkgNetOffice_Outlook Condition=" '$(PkgNetOffice_Outlook)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.outlook\1.7.4.11</PkgNetOffice_Outlook>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgNetOffice_Core Condition=" '$(PkgNetOffice_Core)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.core\1.7.4.11</PkgNetOffice_Core>
-    <PkgNetOffice_Outlook Condition=" '$(PkgNetOffice_Outlook)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.outlook\1.7.4.11</PkgNetOffice_Outlook>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' AND '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgNetOffice_Core Condition=" '$(PkgNetOffice_Core)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.core\1.7.4.11</PkgNetOffice_Core>
-    <PkgNetOffice_Outlook Condition=" '$(PkgNetOffice_Outlook)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.outlook\1.7.4.11</PkgNetOffice_Outlook>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' AND '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgNetOffice_Core Condition=" '$(PkgNetOffice_Core)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.core\1.7.4.11</PkgNetOffice_Core>
     <PkgNetOffice_Outlook Condition=" '$(PkgNetOffice_Outlook)' == '' ">C:\Users\schaedler\.nuget\packages\netoffice.outlook\1.7.4.11</PkgNetOffice_Outlook>
   </PropertyGroup>
