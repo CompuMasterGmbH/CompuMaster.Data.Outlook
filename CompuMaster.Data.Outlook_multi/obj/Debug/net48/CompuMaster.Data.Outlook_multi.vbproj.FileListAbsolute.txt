@@ -1,0 +1,15 @@
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\CompuMaster.Data.Outlook.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\CompuMaster.Data.Outlook.pdb
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\CompuMaster.VisualBasicCompatibility.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\NetOffice.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\VBIDEApi.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\OutlookApi.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\OfficeApi.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\bin\Debug\net48\OfficeApi.xml
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook_multi.AssemblyInfoInputs.cache
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook_multi.AssemblyInfo.vb
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook_multi.vbproj.CoreCompileInputs.cache
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook_multi.vbproj.CopyComplete
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook.dll
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook.pdb
+D:\git_local_repository\software-projects\CompuMaster.Data.Outlook\CompuMaster.Data.Outlook_multi\obj\Debug\net48\CompuMaster.Data.Outlook_multi.vbproj.AssemblyReference.cache

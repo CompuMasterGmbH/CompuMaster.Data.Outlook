@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "dgSpecHash": "vCJM3f7uBAmJhmknQUAf5lQgkIfi0vrIHye3VPzNqi1YHWZ9otH9ooednqi5DaWjZT0UmDzJRA4c3jz54n2osg==",
+  "success": true,
+  "projectFilePath": "D:\\git_local_repository\\software-projects\\CompuMaster.Data.Outlook\\CompuMaster.Data.Outlook_multi\\CompuMaster.Data.Outlook_multi.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\schaedler\\.nuget\\packages\\compumaster.visualbasiccompatibility\\1.0.6\\compumaster.visualbasiccompatibility.1.0.6.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\schaedler\\.nuget\\packages\\microsoft.visualbasic\\10.3.0\\microsoft.visualbasic.10.3.0.nupkg.sha512",
+    "C:\\Users\\schaedler\\.nuget\\packages\\netoffice.core\\1.7.4.11\\netoffice.core.1.7.4.11.nupkg.sha512",
+    "C:\\Users\\schaedler\\.nuget\\packages\\netoffice.outlook\\1.7.4.11\\netoffice.outlook.1.7.4.11.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'NetOffice.Core 1.7.4.11' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "NetOffice.Core",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'NetOffice.Outlook 1.7.4.11' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "NetOffice.Outlook",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
+}
