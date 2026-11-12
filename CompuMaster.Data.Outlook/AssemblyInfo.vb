@@ -1,4 +1,4 @@
-﻿Imports System
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -12,4 +12,4 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(True)> 
 <Assembly: Guid("9b16fd1c-a4c3-410f-ba6c-230cceee31b5")>
 
-<Assembly: AssemblyVersion("2021.01.14.100")>
+<Assembly: AssemblyVersion("2026.11.12.100")>
