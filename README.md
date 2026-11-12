@@ -8,9 +8,9 @@ based on [NetOfficeFw.OutlookApi](https://github.com/NetOfficeFw/NetOffice) (req
 ## Sample application
 
 * Sample application for quick starting your own development  
-![Screenshot of sample application](ExtractionSampleApp.png)
+![Screenshot of sample application](https://raw.githubusercontent.com/CompuMasterGmbH/CompuMaster.Data.Outlook/master/ExtractionSampleApp.png)
 * Sample extraction of MS Outlook calendar entries into Microsoft Excel XLSX file (works for CSV files, too)
-![Screenshot of sample application](ExtractionSampleExcelTable.png)
+![Screenshot of sample application](https://raw.githubusercontent.com/CompuMasterGmbH/CompuMaster.Data.Outlook/master/ExtractionSampleExcelTable.png)
 
 ## Sample code
 
